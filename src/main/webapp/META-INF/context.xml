@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<Resource name="jdbc/university"
+		auth="Container"
+		type="javax.sql.DataSource"
+		factory="com.zaxxer.hikari.HikariJNDIFactory"
+		uniqueResourceName="MyUniversity"
+		minimumIdle="5"
+		maximumPoolSize="10"
+		connectionTimeout="30000"
+		idleTimeout="600000"
+		maxLifetime="1800000"
+		jdbcUrl="jdbc:mysql://localhost:3306/db_university?serverTimezone=Asia/Seoul"
+		driverClassName="com.mysql.cj.jdbc.Driver"
+		username="root"
+		password="asd123" />
+</Context>
