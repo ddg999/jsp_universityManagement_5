@@ -1,4 +1,4 @@
-package com.tenco.university.util;
+package com.university.util;
 
 import java.sql.Connection;
 import java.sql.SQLException;
