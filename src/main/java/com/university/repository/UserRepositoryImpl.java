@@ -175,13 +175,11 @@ public class UserRepositoryImpl implements UserRepository{
 			pstmt.setString(2, password);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
-//				user = User.builder()
-//						.id(rs.getInt("id"))
-//						.username(rs.getString("username"))
-//						.password(rs.getString("password"))
-//						.email(rs.getString("email"))
-//						.createdAt(rs.getTimestamp("created_at"))
-//						.build();
+				user = User.builder()
+						.id(rs.getInt("id"))
+						.password(rs.getString("password"))
+						.userRole(rs.getString("user_role"))
+						.build();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
