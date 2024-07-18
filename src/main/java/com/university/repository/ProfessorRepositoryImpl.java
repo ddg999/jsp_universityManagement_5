@@ -13,8 +13,8 @@ import com.university.util.DBUtil;
 public class ProfessorRepositoryImpl implements ProfessorRepository {
 
 	private static final String INSERT_PROFESSOR_SQL = " INSERT INTO professor_tb (id, name, birth_date, gender,address, tel, email,dept_id,hire_date) VALUES(? ,?, ?, ?, ?, ?, ?, ?, ? )  ";
-	private static final String DELETE_PROFESSOR_SQL = " DELETE FROM users WHERE id  = ? ";
-	private static final String SELECT_PROFESSOR_BY_PROFESSORNAME = " SELECT * FROM users WHERE username = ? ";
+	private static final String DELETE_PROFESSOR_SQL = " DELETE FROM  professor_tb WHERE id  = ? ";
+	private static final String SELECT_PROFESSOR_BY_PROFESSORNAME = " SELECT * FROM  professor_tb WHERE username = ? ";
 	private static final String SELECT_PROFESSOR_BY_PROFESSORID_AND_NAME = " SELECT * FROM professor_tb WHERE id = ? AND name = ? ";
 	private static final String SELECT_ALL_PROFESSOR = "  SELECT * FROM professor_tb";
 
