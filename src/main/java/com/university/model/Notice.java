@@ -11,8 +11,9 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @ToString
+@Builder
+
 public class Notice {
 	private int id;
 	private String category;

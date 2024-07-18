@@ -7,13 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@NoArgsConstructor
 @ToString
+@Builder
 public class Grade {
-	
 	private String grade;
-	private double gradeValue;
-
+	private float gradeValue;
 }

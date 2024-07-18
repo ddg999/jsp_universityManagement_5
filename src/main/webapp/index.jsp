@@ -8,5 +8,7 @@
 </head>
 <body>
 	안녕하세요
+
+    <%@ include file="WEB-INF/views/footer.jsp" %>
 </body>
 </html>
