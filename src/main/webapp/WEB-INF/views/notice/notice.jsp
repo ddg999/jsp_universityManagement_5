@@ -314,12 +314,12 @@ main h1:first-of-type {
 			<tbody>
 				<tr>
 					<td>
-						<a href="${pageContext.request.contextPath}/notice/list" class="selected--menu">공지사항</a>
+						<a href="/notice/list" class="selected--menu">공지사항</a>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<a href="${pageContext.request.contextPath}/notice/schedule">학사일정</a>
+						<a href="/notice/schedule">학사일정</a>
 					</td>
 				</tr>
 			</tbody>

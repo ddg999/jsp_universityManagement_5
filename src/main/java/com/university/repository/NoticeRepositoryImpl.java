@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.university.model.Notice;
+import com.university.model.Schedule;
 import com.university.repository.interfaces.NoticeRepository;
 import com.university.util.DBUtil;
 
 public class NoticeRepositoryImpl implements NoticeRepository {
 	private static final String SELECT_NOTICE_BY_ID = " SELECT * FROM notice_tb WHERE id = ? ";
 	private static final String SELECT_ALL_NOTICES = " SELECT * FROM notice_tb ORDER BY id DESC ";
+	private static final String SELECT_ALL_SCHEDULES = " SELECT * FROM schedule_tb ";
 
 	@Override
 	public Notice getNoticeById(int noticeId) {
@@ -47,5 +49,22 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 			e.printStackTrace();
 		}
 		return noticeList;
+	}
+
+	@Override
+	public List<Schedule> getAllSchedule() {
+		List<Schedule> scheduleList = new ArrayList<>();
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_ALL_SCHEDULES)) {
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				scheduleList.add(Schedule.builder().id(rs.getInt("id")).staffId(rs.getInt("staff_id"))
+						.startDay(rs.getDate("start_day")).endDay(rs.getDate("end_day"))
+						.information(rs.getString("information")).build());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return scheduleList;
 	}
 }

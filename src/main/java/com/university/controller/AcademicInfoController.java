@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.university.model.Notice;
+import com.university.model.Schedule;
 import com.university.repository.NoticeRepositoryImpl;
 import com.university.repository.interfaces.NoticeRepository;
 
@@ -38,6 +39,9 @@ public class AcademicInfoController extends HttpServlet {
 		case "/read":
 			showNoticeDetail(request, response);
 			break;
+		case "/schedule":
+			showSchedule(request, response);
+			break;
 		default:
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			break;
@@ -59,6 +63,14 @@ public class AcademicInfoController extends HttpServlet {
 
 		request.setAttribute("notice", notice);
 		request.getRequestDispatcher("/WEB-INF/views/notice/read.jsp").forward(request, response);
+	}
+
+	private void showSchedule(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		List<Schedule> scheduleList = noticeRepository.getAllSchedule();
+
+		request.setAttribute("scheduleList", scheduleList);
+		request.getRequestDispatcher("/WEB-INF/views/notice/schedule.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
