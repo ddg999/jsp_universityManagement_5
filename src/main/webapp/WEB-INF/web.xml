@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< Updated upstream
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" id="WebApp_ID" version="6.0">
   <display-name>jsp_universityManagement_5</display-name>
   <welcome-file-list>
@@ -20,7 +19,7 @@
     <servlet-name>AcademicInformationController</servlet-name>
     <url-pattern>/AcademicInformationController</url-pattern>
   </servlet-mapping>
-=======
+
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="https://jakarta.ee/xml/ns/jakartaee"
 	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
@@ -47,5 +46,4 @@
 		<servlet-name>AcademicInformationController</servlet-name>
 		<url-pattern>/AcademicInformationController</url-pattern>
 	</servlet-mapping>
->>>>>>> Stashed changes
 </web-app>
