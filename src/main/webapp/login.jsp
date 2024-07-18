@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +26,7 @@ input[type=number] {
 
 	<div class="login--div">
 		<div class="main--logo">
-			<a href="#"><img class="logo" alt="" src="/images/logo.png"></a>
+			<a href="#"><img class="logo" alt="" src="/resources/images/logo.png"></a>
 		</div>
 
 		<form action="/login" method="post" class="main--container">
