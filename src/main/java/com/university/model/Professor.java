@@ -11,13 +11,13 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @ToString
+@Builder
 public class Professor {
-
 	private int id;
 	private String name;
 	private Date birthDate;
+	private String gender;
 	private String address;
 	private String tel;
 	private String email;
