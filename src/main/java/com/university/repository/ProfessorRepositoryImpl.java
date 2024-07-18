@@ -6,128 +6,128 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.university.model.Evaluation;
 import com.university.model.Professor;
+import com.university.model.StuSubDetail;
+import com.university.model.Student;
+import com.university.model.Subject;
+import com.university.model.Syllabus;
 import com.university.repository.interfaces.ProfessorRepository;
 import com.university.util.DBUtil;
 
 public class ProfessorRepositoryImpl implements ProfessorRepository {
 
-	private static final String INSERT_PROFESSOR_SQL = " INSERT INTO professor_tb (id, name, birth_date, gender,address, tel, email,dept_id,hire_date) VALUES(? ,?, ?, ?, ?, ?, ?, ?, ? )  ";
-	private static final String DELETE_PROFESSOR_SQL = " DELETE FROM  professor_tb WHERE id  = ? ";
-	private static final String SELECT_PROFESSOR_BY_PROFESSORNAME = " SELECT * FROM  professor_tb WHERE username = ? ";
-	private static final String SELECT_PROFESSOR_BY_PROFESSORID_AND_NAME = " SELECT * FROM professor_tb WHERE id = ? AND name = ? ";
-	private static final String SELECT_ALL_PROFESSOR = "  SELECT * FROM professor_tb";
-
+	private static final String SELECT_PROFESSOR_SUBJECT_YEAR = " SELECT id, name, type, sub_year, semester, sub_day, num_of_student FROM subject where professor_id = ? AND sub_year = ? ";
+	private static final String SELECT_PROFESSOR_SUBJECT_YEAR_AND_SEMESTER = " SELECT id, name, type, sub_year, semester, sub_day, num_of_student FROM subject where professor_id = ? AND sub_year = ? AND semester = ? ";
+	private static final String SELECT_ALL_SUBSTUDENT = " SELECT * FROM stu_sub_detail_tb ";
+	//TODO 내 강의 학기별 조회(년도만)
 	@Override
-	public int addProfessor(Professor professor) {
-
-		int rowCount = 0;
-		try (Connection conn = DBUtil.getConnection()) {
-			try (PreparedStatement pstmt = conn.prepareStatement(INSERT_PROFESSOR_SQL)) {
-
-				conn.setAutoCommit(false);
-
-				pstmt.setInt(1, professor.getId());
-				pstmt.setString(2, professor.getName());
-				pstmt.setDate(3, professor.getBirthDate());
-				pstmt.setString(4, professor.getGender());
-				pstmt.setString(5, professor.getAddress());
-				pstmt.setString(6, professor.getTel());
-				pstmt.setString(7, professor.getEmail());
-				pstmt.setInt(8, professor.getDeptId());
-				pstmt.setDate(9, professor.getHireDate());
-
-				rowCount = pstmt.executeUpdate();
-				conn.commit();
-
-			} catch (Exception e) {
-				conn.rollback();
-				e.printStackTrace();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return rowCount;
-	}
-
-	@Override
-	public void deleteProfessor(int id) {
-		try (Connection conn = DBUtil.getConnection()) {
-			conn.setAutoCommit(false);
-			try (PreparedStatement pstmt = conn.prepareStatement(DELETE_PROFESSOR_SQL)) {
-				pstmt.setInt(1, id);
-				pstmt.executeUpdate();
-				conn.commit();
-			} catch (Exception e) {
-				conn.rollback();
-				e.printStackTrace();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	@Override
-	public Professor getProfessorByprofessorname(String name) {
-		Professor professor = null;
+	public Subject getProfessorSubjectbyYear(int professorID, int subYear) {
+		Subject subject = null;
 		try (Connection conn = DBUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(SELECT_PROFESSOR_BY_PROFESSORNAME)) {
-			pstmt.setString(1, name);
+			PreparedStatement pstmt = conn.prepareStatement(SELECT_PROFESSOR_SUBJECT_YEAR)){
+			pstmt.setInt(1, professorID);
+			pstmt.setInt(2, subYear);
 			ResultSet rs = pstmt.executeQuery();
-			if (rs.next()) {
-				professor = Professor.builder().id(rs.getInt("id")).name(rs.getString("name"))
-						.birthDate(rs.getDate("birth_date")).gender(rs.getString("gender"))
-						.address(rs.getString("address")).tel(rs.getString("tel")).email(rs.getString("email"))
-						.deptId(rs.getInt("dept_id")).hireDate(rs.getDate("hire_date")).build();
+			
+			if(rs.next()) {
+				subject = Subject.builder()
+						.id(rs.getInt("id"))
+						.name(rs.getString("name"))
+						.type(rs.getString("type"))
+						.subYear(rs.getInt("sub_year"))
+						.semester(rs.getInt("semester"))
+						.subDay(rs.getString("sub_day"))
+						.numOfStudent(rs.getInt("num_of_student"))
+						.build();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return professor;
+		
+		return subject;
 	}
-
+	
+	//TODO 내 강의 학기별 조회(년도 ,학기)
 	@Override
-	public Professor getProfessorByprofessorIdAndName(int id, String name) {
-		Professor professor = null;
+	public Subject getProfessorSubjectbyYearandSemester(int professorID, int subYear, int semester) {
+		Subject subject = null;
 		try (Connection conn = DBUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(SELECT_PROFESSOR_BY_PROFESSORID_AND_NAME)) {
-			pstmt.setInt(1, id);
-			pstmt.setString(2, name);
+			PreparedStatement pstmt = conn.prepareStatement(SELECT_PROFESSOR_SUBJECT_YEAR_AND_SEMESTER)){
+			pstmt.setInt(1, professorID);
+			pstmt.setInt(2, subYear);
+			pstmt.setInt(3, semester);
 			ResultSet rs = pstmt.executeQuery();
-			if (rs.next()) {
-				professor = Professor.builder().id(rs.getInt("id")).name(rs.getString("name"))
-						.birthDate(rs.getDate("birth_date")).gender(rs.getString("gender"))
-						.address(rs.getString("address")).tel(rs.getString("tel")).email(rs.getString("email"))
-						.deptId(rs.getInt("dept_id")).hireDate(rs.getDate("hire_date")).build();
+			
+			if(rs.next()) {
+				subject = Subject.builder()
+						.id(rs.getInt("id"))
+						.name(rs.getString("name"))
+						.type(rs.getString("type"))
+						.subYear(rs.getInt("sub_year"))
+						.semester(rs.getInt("semester"))
+						.subDay(rs.getString("sub_day"))
+						.numOfStudent(rs.getInt("num_of_student"))
+						.build();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return professor;
+		
+		return subject;
 	}
-
+	
+	// TODO 강의별 학생리스트 조회, 출결 및 성적 기입
+	
+	// 전체일경우
 	@Override
-	public List<Professor> getAllProfessors() {
-		List<Professor> professorList = new ArrayList<>();
+	public List<StuSubDetail> getAllStuSubDetails() {
+		List<StuSubDetail> studentList = new ArrayList<>();
 		try (Connection conn = DBUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(SELECT_ALL_PROFESSOR)
-
-		) {
+			PreparedStatement pstmt = conn.prepareStatement(SELECT_ALL_SUBSTUDENT)	){
 			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				Professor professor = Professor.builder().id(rs.getInt("id")).name(rs.getString("name"))
-						.birthDate(rs.getDate("birth_date")).gender(rs.getString("gender"))
-						.address(rs.getString("address")).tel(rs.getString("tel")).email(rs.getString("email"))
-						.deptId(rs.getInt("dept_id")).hireDate(rs.getDate("hire_date")).build();
-				professorList.add(professor);
+			while(rs.next()) {
+				StuSubDetail stuSubDetail = StuSubDetail.builder()
+						.id(rs.getInt("id"))
+						.studentId(rs.getInt("student_id"))
+						.subjectId(rs.getInt("subject_id"))
+						.absent(rs.getInt("absent"))
+						.lateness(rs.getInt("lateness"))
+						.homework(rs.getInt("homework"))
+						.midExam(rs.getInt("mid_exam"))
+						.finalExam(rs.getInt("final_exam"))
+						.convertedMark(rs.getInt("coverted_mark"))
+						.build();
+						studentList.add(stuSubDetail);
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return professorList;
+		return studentList;
+	}
+	
+	//특정 학생을 검색할경우
+	
+	@Override
+	public Syllabus getsyllabus(Subject subject) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	// TODO 강의별 학생리스트, 조회, 출결 및 성적기입
+	@Override
+	public StuSubDetail getStuSubDetail(Student student, Subject subject) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	// TODO 강의평가 확인
+	@Override
+	public Evaluation getEvaluation(Subject subject) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	
+
+	
+	
 }
