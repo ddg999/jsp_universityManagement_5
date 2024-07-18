@@ -46,14 +46,38 @@ public class UserController extends HttpServlet {
 		String action = request.getPathInfo();
 
 		switch (action) {
-		case "/signin":
+		case "/login":
 			// 로그인 기능 처리
 			handleSignin(request, response);
 			break;
+			
+		case "/findId":
+			handleFindId(request, response);
+			break;
+			
 
 		default:
 			break;
 		}
+	}
+
+	private void handleFindId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		String userRole = request.getParameter("userRole");
+		int userId = 0;
+		if(userRole.equals("student")) {
+			userId = userRepository.getStudentIdByNameAndEmail(name, email);
+		} else if (userRole.equals("staff")) {
+			userId = userRepository.getStaffIdByNameAndEmail(name, email);
+		} else if (userRole.equals("professor")) {
+			userId = userRepository.getProfessorIdByNameAndEmail(name, email);
+		}
+		System.out.println(userId);
+		request.setAttribute("userId", userId);
+		request.setAttribute("name", name);
+		request.getRequestDispatcher("/findidresult.jsp").forward(request, response);
+			
 	}
 
 	private void handleSignin(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -69,6 +93,7 @@ public class UserController extends HttpServlet {
 			request.setAttribute("errorMessage", "잘못된 요청입니다.");
 			request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
 		}
+		System.out.println("로그인 완료");
 	}
 
 }

@@ -62,7 +62,7 @@
 			<h2>아이디 찾기</h2>
 			<br>
 		</div>
-		<form action="/find/id" method="post">
+		<form action="/user/findId" method="post">
 			<table class="search--table">
 				<colgroup>
 					<col class="col1">
@@ -77,7 +77,8 @@
 					<td><input type="text" name="email" id="email"></td>
 				</tr>
 				<tr>
-					<td colspan="2"><label for="student">학생</label> <input type="radio" name="userRole" value="student" id="student"> &nbsp;&nbsp; <label for="professor">교수</label> <input
+					<td colspan="2"><label for="student">학생</label> 
+					<input type="radio" name="userRole" value="student" id="student"> &nbsp;&nbsp; <label for="professor">교수</label> <input
 						type="radio" name="userRole" value="professor" id="professor"> &nbsp;&nbsp; <label for="staff">직원</label> <input type="radio" name="userRole" value="staff" id="staff"></td>
 				</tr>
 
