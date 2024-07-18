@@ -13,6 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Builder
+
 public class Notice {
 	private int id;
 	private String category;
