@@ -9,4 +9,14 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>AcademicInformationController</display-name>
+    <servlet-name>AcademicInformationController</servlet-name>
+    <servlet-class>com.university.controller.AcademicInformationController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AcademicInformationController</servlet-name>
+    <url-pattern>/AcademicInformationController</url-pattern>
+  </servlet-mapping>
 </web-app>
