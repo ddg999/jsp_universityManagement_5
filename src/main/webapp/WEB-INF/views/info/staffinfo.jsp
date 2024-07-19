@@ -19,7 +19,7 @@
 					<td><a href="/info/staff" class="selected--menu">내 정보 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/password">비밀번호 변경</a></td>
+					<td><a href="/info/password">비밀번호 변경</a></td>
 				</tr>
 			</table>
 		</div>
