@@ -24,7 +24,7 @@
 				</tr>
 				<tr>
 					<td>
-						<a href="../schedule.jsp">학사일정 등록</a>
+						<a href="../scheduleList.jsp">학사일정 등록</a>
 					</td>
 				</tr>
 					</tbody>
