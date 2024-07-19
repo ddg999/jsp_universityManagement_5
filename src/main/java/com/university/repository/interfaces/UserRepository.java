@@ -31,8 +31,8 @@ public interface UserRepository {
 	
 	// 아이디로 이름찾기 로그인에 필요한거 ? 잠시 대기
 	Principal getStudent(User user);
-	Principal getProfessor(int id, String password);
-	Principal getStaff(int id, String password);
+	Principal getProfessor(User user);
+	Principal getStaff(User user);
 	
 	
 	

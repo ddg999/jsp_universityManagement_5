@@ -23,7 +23,7 @@ public class UserRepositoryImpl implements UserRepository {
 	private static final String SELECT_PROFESSOR = " select * from user_tb as u join professor_tb as p on u.id = p.id where u.id = ? and u.password = ? ";
 	private static final String SELECT_STAFF = " select * from user_tb as u join staff_tb as sf on u.id = sf.id where u.id = ? and u.password = ? ";
 
-//	private static final String SELECT_USER_BY_USERID_AND_PASSWORD = " select * from user_tb "
+	private static final String SELECT_USER_BY_USERID_AND_PASSWORD = " select * from user_tb where id = ? and password = ? ";
 	private static final String UPDATE_USER_PASSWORD = " update user_tb set password = ? where id = ?; ";
 
 	@Override
@@ -156,7 +156,7 @@ public class UserRepositoryImpl implements UserRepository {
 	public User getUserByIdAndPassword(int id, String password) {
 		User user = null;
 		try (Connection conn = DBUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(null)) {
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_USER_BY_USERID_AND_PASSWORD)) {
 			pstmt.setInt(1, id);
 			pstmt.setString(2, password);
 			ResultSet rs = pstmt.executeQuery();
@@ -192,12 +192,12 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	@Override
-	public Principal getProfessor(int id, String password) {
+	public Principal getProfessor(User user) {
 		Principal principal = null;
 		try (Connection conn = DBUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(SELECT_PROFESSOR)) {
-			pstmt.setInt(1, id);
-			pstmt.setString(2, password);
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_STUDENT)) {
+			pstmt.setInt(1, user.getId());
+			pstmt.setString(2, user.getPassword());
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				principal = Principal.builder().id(rs.getInt("id")).password(rs.getString("password"))
@@ -206,15 +206,16 @@ public class UserRepositoryImpl implements UserRepository {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return principal;	}
+		return principal;
+	}
 
 	@Override
-	public Principal getStaff(int id, String password) {
+	public Principal getStaff(User user) {
 		Principal principal = null;
 		try (Connection conn = DBUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(SELECT_STAFF)) {
-			pstmt.setInt(1, id);
-			pstmt.setString(2, password);
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_STUDENT)) {
+			pstmt.setInt(1, user.getId());
+			pstmt.setString(2, user.getPassword());
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				principal = Principal.builder().id(rs.getInt("id")).password(rs.getString("password"))
@@ -223,7 +224,8 @@ public class UserRepositoryImpl implements UserRepository {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return principal;	}
+		return principal;
+	}
 
 	//
 	@Override

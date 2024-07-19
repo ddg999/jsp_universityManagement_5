@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
@@ -12,18 +11,16 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <style type="text/css">
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 input[type=number] {
-  -moz-appearance: textfield;
+	-moz-appearance: textfield;
 }
-
 </style>
 </head>
 <body>
-
 	<div class="login--div">
 		<div class="main--logo">
 			<a href="#"><img class="logo" alt="" src="/resources/images/logo.png"></a>
@@ -33,12 +30,12 @@ input[type=number] {
 			<div class="login--container">
 				<div class="id--container">
 					<div class="login--id">
-						<label for="userId"><span class="material-symbols-outlined">person</span></label> <input type="number" max="2147483647" name="id" id="userId" placeholder="아이디를 입력하세요" required value="">
-						
-							
-								<div class="checkbox--id">
-									<input type="checkbox" name="rememberId">&nbsp;ID 저장
-								</div>
+						<label for="userId"><span class="material-symbols-outlined">person</span></label> <input type="number" max="2147483647" name="id" id="userId" placeholder="아이디를 입력하세요"
+							required value="">
+
+						<div class="checkbox--id">
+							<input type="checkbox" name="rememberId">&nbsp;ID 저장
+						</div>
 					</div>
 				</div>
 				<div class="pwd--container">
@@ -48,6 +45,17 @@ input[type=number] {
 
 				</div>
 			</div>
+						<%
+						String errorMessage = (String)request.getAttribute("errorMessage");
+						// String errorMessage = (String) request.getParameter("errorMessage");
+						if (errorMessage != null) {
+						%>
+						<p style="color: red">
+							<%=errorMessage%></p>
+
+						<%
+						}
+						%>
 			<div>
 				<input type="submit" value="로그인" id="input--submit">
 			</div>
