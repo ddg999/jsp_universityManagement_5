@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import com.university.model.Principal;
 import com.university.model.User;
 import com.university.repository.UserRepositoryImpl;
 import com.university.repository.interfaces.UserRepository;
@@ -79,7 +80,6 @@ public class UserController extends HttpServlet {
 			double rd = random.nextDouble();
 			index = (int) (charSet.length * rd);
 			password.append(charSet[index]);
-			System.out.println("index::" + index + "	charSet::"+ charSet[index]);
 		}
 		return password.toString(); 
 	}	
@@ -89,7 +89,6 @@ public class UserController extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		String email = request.getParameter("email");
 		String userRole = request.getParameter("userRole");
-		
 		String userPassword = null;
 		
 		if(userRole.equals("student")) {
@@ -99,10 +98,6 @@ public class UserController extends HttpServlet {
 		} else if (userRole.equals("professor")) {
 			userPassword = userRepository.getProfessorPasswordByNameAndIdAndEmail(name, id, email);
 		}
-		
-		System.out.println("userrole"+userRole);
-		System.out.println("userpass" +userPassword);
-		
 		userPassword = randomPassword(6);
 		userRepository.updateUserPassword(userPassword,id);
 		request.setAttribute("userPassword", userPassword);
@@ -133,17 +128,25 @@ public class UserController extends HttpServlet {
 	private void handleSignin(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		String password = request.getParameter("password");
-		User principal = userRepository.getUserByIdAndPassword(id, password);
+//		User user = 
+//		if(userRole.equals("student")) {
+//			Principal principal = userRepository.getStudent(id, password);
+//		} else if (userRole.equals("staff")) {
+//			Principal principal = userRepository.getStaff(id, password);
+//		} else if (userRole.equals("professor")) {
+//			Principal principal = userRepository.getProfessor(id, password);
+//		}
 		
-		if(principal != null && principal.getPassword().equals(password)) {
-			HttpSession session = request.getSession();
-			session.setAttribute("principal", principal);
-			response.sendRedirect(request.getContextPath() + "/home.jsp");
-		} else {
-			request.setAttribute("errorMessage", "잘못된 요청입니다.");
-			request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-		}
-		System.out.println("로그인 완료");
+		
+		
+//		if(principal != null && principal.getPassword().equals(password)) {
+//			HttpSession session = request.getSession();
+//			session.setAttribute("principal", principal);
+//			response.sendRedirect(request.getContextPath() + "/home.jsp");
+//		} else {
+//			request.setAttribute("errorMessage", "잘못된 요청입니다.");
+//			request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+//		}
 	}
 
 }

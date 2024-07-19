@@ -4,55 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <title>아이디 찾기</title>
-<style type="text/css">
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
-
-* {
-	margin: 0 auto;
-	padding: 0 auto;
-	font-family: 'Noto Sans KR', sans-serif;
-}
-
-.header--top {
-	width: 100%;
-	height: 40px;
-	background-color: #031734;
-}
-
-.section--header {
-	text-align: center;
-}
-
-.search--table {
-	width: 400px;
-}
-
-.search--table td {
-	padding: 4px;
-	text-align: left;
-}
-
-.col1 {
-	width: 20%;
-}
-
-.col2 {
-	width: 80%;
-}
-
-.submit--button {
-	margin-top: 20px;
-	margin-left: 200px;
-	padding: 10px 15px;
-	border: none;
-	border-radius: 10px;
-	color: white;
-	background-color: #142845;
-	cursor: pointer;
-}
-</style>
+<link rel="stylesheet" href="/resources/css/findUserInfo.css">
 </head>
-
 <body>
 	<header>
 		<div class="header--top"></div>

@@ -29,7 +29,7 @@ input[type=number] {
 			<a href="#"><img class="logo" alt="" src="/resources/images/logo.png"></a>
 		</div>
 
-		<form action="/login" method="post" class="main--container">
+		<form action="/user/login" method="post" class="main--container">
 			<div class="login--container">
 				<div class="id--container">
 					<div class="login--id">
