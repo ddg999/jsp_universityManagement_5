@@ -36,7 +36,11 @@ public class UserController extends HttpServlet {
 		String action = request.getPathInfo();
 
 		switch (action) {
-		case "/signin":
+		case "/findId":
+			request.getRequestDispatcher("/WEB-INF/views/find/findid.jsp").forward(request, response);
+			break;
+		case "/findPassword":
+			request.getRequestDispatcher("/WEB-INF/views/find/findpassword.jsp").forward(request, response);
 			break;
 		default:
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -87,8 +91,8 @@ public class UserController extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		String email = request.getParameter("email");
 		String userRole = request.getParameter("userRole");
+		
 		String userPassword = null;
-
 		if (userRole.equals("student")) {
 			userPassword = userRepository.getStudentPasswordByNameAndIdAndEmail(name, id, email);
 		} else if (userRole.equals("staff")) {
@@ -100,7 +104,7 @@ public class UserController extends HttpServlet {
 		userRepository.updateUserPassword(userPassword, id);
 		request.setAttribute("userPassword", userPassword);
 		request.setAttribute("name", name);
-		request.getRequestDispatcher("/findpasswordresult.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/find/findpasswordresult.jsp").forward(request, response);
 	}
 
 	private void handleFindId(HttpServletRequest request, HttpServletResponse response)
@@ -109,18 +113,24 @@ public class UserController extends HttpServlet {
 		String email = request.getParameter("email");
 		String userRole = request.getParameter("userRole");
 		int userId = 0;
-		if (userRole.equals("student")) {
-			userId = userRepository.getStudentIdByNameAndEmail(name, email);
-		} else if (userRole.equals("staff")) {
-			userId = userRepository.getStaffIdByNameAndEmail(name, email);
-		} else if (userRole.equals("professor")) {
-			userId = userRepository.getProfessorIdByNameAndEmail(name, email);
+		try {
+			if (userRole.equals("student")) {
+				userId = userRepository.getStudentIdByNameAndEmail(name, email);
+			} else if (userRole.equals("staff")) {
+				userId = userRepository.getStaffIdByNameAndEmail(name, email);
+			} else if (userRole.equals("professor")) {
+				userId = userRepository.getProfessorIdByNameAndEmail(name, email);
+			}  
+				request.setAttribute("errorMessage", "입력된 정보가 틀렸습니다.");
+				request.getRequestDispatcher("/WEB-INF/views/find/find.jsp").forward(request, response);
+				// 비번찾기 아이디 찾기 예외처리해야함......!!!!!!!
+			System.out.println(userId);
+			request.setAttribute("userId", userId);
+			request.setAttribute("name", name);
+			request.getRequestDispatcher("/WEB-INF/views/find/findidresult.jsp").forward(request, response);
+		} catch (Exception e) {
+			request.getRequestDispatcher("/WEB-INF/views/find/find.jsp").forward(request, response);
 		}
-
-		System.out.println(userId);
-		request.setAttribute("userId", userId);
-		request.setAttribute("name", name);
-		request.getRequestDispatcher("/findidresult.jsp").forward(request, response);
 
 	}
 

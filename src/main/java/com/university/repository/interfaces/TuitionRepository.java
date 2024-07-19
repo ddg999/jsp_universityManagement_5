@@ -1,5 +1,10 @@
 package com.university.repository.interfaces;
 
-public interface TuitionRepository {
+import java.util.List;
 
+import com.university.model.Tuition;
+
+public interface TuitionRepository {
+	//
+	List<Tuition> getAllTuition();
 }

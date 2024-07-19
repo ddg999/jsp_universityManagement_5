@@ -35,6 +35,11 @@ public class AdminRepositoryImpl implements AdminRepository {
 	private static final String UPDATE_SUBJECT_SQL = " UPDATE subject_tb SET name = ?, professor_id = ?, room_id = ?, sub_day = ?, start_time = ?, end_time = ?, capacity = ?  WHERE id = ? ";
 	private static final String DELETE_SUBJECT_SQL = " DELETE FROM subject_tb WHERE id = ? ";
 
+	private static final String INSERT_COLLTUIT_SQL = " INSERT INTO coll_tuit_tb (college_id, amount) VALUES (?, ?) ";
+	private static final String SELECT_ALL_COLLTUIT = " SELECT * FROM coll_tuit_tb ";
+	private static final String UPDATE_COLLTUIT_SQL = " UPDATE coll_tuit_tb SET amount = ? WHERE college_id = ? ";
+	private static final String DELETE_COLLTUIT_SQL = " DELETE FROM coll_tuit_tb WHERE college_id = ? ";
+
 	@Override
 	public void addCollege(College college) {
 		try (Connection conn = DBUtil.getConnection()) {
@@ -317,7 +322,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 		try (Connection conn = DBUtil.getConnection()) {
 			conn.setAutoCommit(false);
 			try (PreparedStatement pstmt = conn.prepareStatement(DELETE_SUBJECT_SQL)) {
-//				pstmt.setString(1, subjectId);
+				pstmt.setInt(1, subjectId);
 				pstmt.executeUpdate();
 				conn.commit();
 			} catch (Exception e) {
@@ -331,26 +336,70 @@ public class AdminRepositoryImpl implements AdminRepository {
 
 	@Override
 	public void addCollTuit(CollTuit collTuit) {
-		// TODO Auto-generated method stub
-
+		try (Connection conn = DBUtil.getConnection()) {
+			conn.setAutoCommit(false);
+			try (PreparedStatement pstmt = conn.prepareStatement(INSERT_COLLTUIT_SQL)) {
+				pstmt.setInt(1, collTuit.getCollegeId());
+				pstmt.setInt(2, collTuit.getAmount());
+				pstmt.executeUpdate();
+				conn.commit();
+			} catch (Exception e) {
+				conn.rollback();
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public List<CollTuit> getAllCollTuits() {
-		// TODO Auto-generated method stub
-		return null;
+		List<CollTuit> collTuitList = new ArrayList<>();
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_ALL_COLLTUIT)) {
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				collTuitList
+						.add(CollTuit.builder().collegeId(rs.getInt("college_id")).amount(rs.getInt("amount")).build());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return collTuitList;
 	}
 
 	@Override
-	public void updateCollTuit() {
-		// TODO Auto-generated method stub
-
+	public void updateCollTuit(CollTuit collTuit, int collegeId) {
+		try (Connection conn = DBUtil.getConnection()) {
+			conn.setAutoCommit(false);
+			try (PreparedStatement pstmt = conn.prepareStatement(UPDATE_COLLTUIT_SQL)) {
+				pstmt.setInt(1, collTuit.getCollegeId());
+				pstmt.setInt(2, collegeId);
+				pstmt.executeUpdate();
+				conn.commit();
+			} catch (Exception e) {
+				conn.rollback();
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void deleteCollTuit() {
-		// TODO Auto-generated method stub
-
+	public void deleteCollTuit(int collegeId) {
+		try (Connection conn = DBUtil.getConnection()) {
+			conn.setAutoCommit(false);
+			try (PreparedStatement pstmt = conn.prepareStatement(DELETE_COLLTUIT_SQL)) {
+				pstmt.setInt(1, collegeId);
+				pstmt.executeUpdate();
+				conn.commit();
+			} catch (Exception e) {
+				conn.rollback();
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-
 }

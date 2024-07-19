@@ -29,12 +29,21 @@
 					<td><label for="email">이메일</label></td>
 					<td><input type="text" name="email" id="email"></td>
 				</tr>
+				<%
+				String errorMessage = (String) request.getAttribute("errorMessage");
+				// String errorMessage = (String) request.getParameter("errorMessage");
+				if (errorMessage != null) {
+				%>
+				<p style="color: red">
+					<%=errorMessage%></p>
+
+				<%
+				}
+				%>
 				<tr>
-					<td colspan="2"><label for="student">학생</label> 
-					<input type="radio" name="userRole" value="student" id="student"> &nbsp;&nbsp; <label for="professor">교수</label> <input
+					<td colspan="2"><label for="student">학생</label> <input type="radio" name="userRole" value="student" id="student"> &nbsp;&nbsp; <label for="professor">교수</label> <input
 						type="radio" name="userRole" value="professor" id="professor"> &nbsp;&nbsp; <label for="staff">직원</label> <input type="radio" name="userRole" value="staff" id="staff"></td>
 				</tr>
-
 			</table>
 			<div class="button--container">
 				<button type="submit" class="submit--button">아이디 찾기</button>

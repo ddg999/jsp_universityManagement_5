@@ -20,5 +20,4 @@ public interface SugangRepository {
 	
 	// 학생 수강 신청 내역 조회
 	List<Subject> selectSubStudent(int limit, int offset);
-	
 }
