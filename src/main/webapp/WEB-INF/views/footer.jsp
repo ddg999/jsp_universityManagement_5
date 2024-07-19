@@ -3,7 +3,7 @@
 
 
   		<footer>
-			COPYRIGHT(C) 2024 <a href="https://github.com/ddg999/jsp_universityManagement_5/tree/main">GREAN UNIVERSITY</a>. ALL RIGHTS RESERVED.
+			COPYRIGHT(C) 2024 <a href="https://github.com/ddg999/jsp_universityManagement_5/tree/main" target="_blank">GREAN UNIVERSITY</a>. ALL RIGHTS RESERVED.
 		</footer>
 
 </body>

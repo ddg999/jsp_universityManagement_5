@@ -2,13 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ include file="/WEB-INF/views/header.jsp" %>
+
 	<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
 		<div class="sub--menu">
 			<div class="sub--menu--top">
@@ -18,20 +13,25 @@
 				<table class="sub--menu--table" border="1">
 					<tbody>
 						<tr>
-							<td>
-								<a href="/notice/list">공지사항</a>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<a href="/notice/schedule" class="selected--menu">학사일정</a>
-							</td>
-						</tr>
+					<td>
+						<a href="../notice.jsp">공지사항</a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<a href="../schedule.jsp" class="selected--menu">학사일정</a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<a href="../schedule.jsp">학사일정 등록</a>
+					</td>
+				</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
-	</div>
+		
 	<main>
 		<h1>학사일정</h1>
 		<div class="container">
@@ -48,5 +48,5 @@
 			</table>
 		</div>
 	</main>
-</body>
-</html>
+	</div>
+<%@ include file="/WEB-INF/views/footer.jsp" %>

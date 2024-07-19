@@ -9,7 +9,8 @@
 <title>그린대학교 학사관리시스템</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="/resources/css/main.css">
-<link rel="stylesheet" href="/resources/css/academicInfo.css">
+<link rel="stylesheet" href="/resources/css/notice.css">
+<link rel="stylesheet" href="/resources/css/schedule.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -40,7 +41,7 @@
 						<li><a href="/subject/list/1">수업</a>
 						<li><a href="/sugang/subjectList/1">수강신청</a>
 						<li><a href="/grade/thisSemester">성적</a>
-						<li><a href="/notice/list">학사정보</a>
+						<li><a href="/notice.jsp">학사정보</a>
 					</ul>
 				</c:when>
 
@@ -49,7 +50,7 @@
 						<li><a href="/">홈</a>
 						<li><a href="/info/professor">MY</a>
 						<li><a href="/subject/list/1">수업</a>
-						<li><a href="/notice/list">학사정보</a>
+						<li><a href="/notice.jsp">학사정보</a>
 					</ul>
 				</c:when>
 				<c:otherwise>
@@ -58,7 +59,7 @@
 						<li><a href="/info/staff">MY</a>
 						<li><a href="/user/studentList">학사관리</a>
 						<li><a href="/admin/college">등록</a>
-						<li><a href="/notice/list">학사정보</a>
+						<li><a href="/notice.jsp">학사정보</a>
 					</ul>
 				</c:otherwise>
 			</c:choose>
