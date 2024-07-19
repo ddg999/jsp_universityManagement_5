@@ -1,8 +1,5 @@
 package com.university.repository.interfaces;
 
-import com.university.model.Professor;
-import com.university.model.Staff;
-import com.university.model.Student;
 import com.university.model.User;
 
 public interface UserRepository {
@@ -25,18 +22,11 @@ public interface UserRepository {
 	String getStaffPasswordByNameAndIdAndEmail(String name, int id, String email);
 	
 	
-	// 학생 회원가입
-	void addStudentUser(User user, Student student);
-	
-	// 교수 회원가입
-	void addProfessorUser(User user, Professor professor);
-	
-	// 직원 회원가입
-	void addStaffUser(User user, Staff staff);
-	
-	
 	// 로그인?
 	User getUserByIdAndPassword(int id, String password);
+	
+	// 임시 비밀번호 발급
+	void updateUserPassword(String userPassword, int id);
 	
 	
 }

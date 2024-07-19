@@ -1,6 +1,8 @@
 package com.university.controller;
 
 import java.io.IOException;
+import java.security.SecureRandom;
+import java.util.Random;
 
 import com.university.model.User;
 import com.university.repository.UserRepositoryImpl;
@@ -55,10 +57,57 @@ public class UserController extends HttpServlet {
 			handleFindId(request, response);
 			break;
 			
+		case "/findPassword":
+			handleFindPassword(request,response);
+			
 
 		default:
 			break;
 		}
+	}
+
+	public static String randomPassword(int leng){
+		int index = 0;
+		char[] charSet = new char[] {
+				'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+		};
+
+		StringBuffer password = new StringBuffer();
+		Random random = new Random();
+
+		for (int i = 0; i < leng ; i++) {
+			double rd = random.nextDouble();
+			index = (int) (charSet.length * rd);
+			password.append(charSet[index]);
+			System.out.println("index::" + index + "	charSet::"+ charSet[index]);
+		}
+		return password.toString(); 
+	}	
+	
+	private void handleFindPassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String name = request.getParameter("name");
+		int id = Integer.parseInt(request.getParameter("id"));
+		String email = request.getParameter("email");
+		String userRole = request.getParameter("userRole");
+		
+		String userPassword = null;
+		
+		if(userRole.equals("student")) {
+			userPassword = userRepository.getStudentPasswordByNameAndIdAndEmail(name, id, email);
+		} else if (userRole.equals("staff")) {
+			userPassword = userRepository.getStaffPasswordByNameAndIdAndEmail(name, id, email);
+		} else if (userRole.equals("professor")) {
+			userPassword = userRepository.getProfessorPasswordByNameAndIdAndEmail(name, id, email);
+		}
+		
+		System.out.println("userrole"+userRole);
+		System.out.println("userpass" +userPassword);
+		
+		userPassword = randomPassword(6);
+		userRepository.updateUserPassword(userPassword,id);
+		request.setAttribute("userPassword", userPassword);
+		request.setAttribute("name", name);
+		request.getRequestDispatcher("/findpasswordresult.jsp").forward(request, response);
 	}
 
 	private void handleFindId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -73,6 +122,7 @@ public class UserController extends HttpServlet {
 		} else if (userRole.equals("professor")) {
 			userId = userRepository.getProfessorIdByNameAndEmail(name, email);
 		}
+		
 		System.out.println(userId);
 		request.setAttribute("userId", userId);
 		request.setAttribute("name", name);

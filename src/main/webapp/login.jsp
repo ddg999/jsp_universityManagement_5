@@ -39,9 +39,6 @@ input[type=number] {
 								<div class="checkbox--id">
 									<input type="checkbox" name="rememberId">&nbsp;ID 저장
 								</div>
-							
-							
-						
 					</div>
 				</div>
 				<div class="pwd--container">
