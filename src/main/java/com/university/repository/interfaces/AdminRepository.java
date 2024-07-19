@@ -45,7 +45,7 @@ public interface AdminRepository {
 
 	List<CollTuit> getAllCollTuits();
 
-	void updateCollTuit();
+	void updateCollTuit(CollTuit collTuit, int collegeId);
 
-	void deleteCollTuit();
+	void deleteCollTuit(int collegeId);
 }

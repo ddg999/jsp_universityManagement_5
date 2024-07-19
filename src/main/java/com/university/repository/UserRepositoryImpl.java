@@ -195,7 +195,7 @@ public class UserRepositoryImpl implements UserRepository {
 	public Principal getProfessor(User user) {
 		Principal principal = null;
 		try (Connection conn = DBUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(SELECT_STUDENT)) {
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_PROFESSOR)) {
 			pstmt.setInt(1, user.getId());
 			pstmt.setString(2, user.getPassword());
 			ResultSet rs = pstmt.executeQuery();
@@ -213,7 +213,7 @@ public class UserRepositoryImpl implements UserRepository {
 	public Principal getStaff(User user) {
 		Principal principal = null;
 		try (Connection conn = DBUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(SELECT_STUDENT)) {
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_STAFF)) {
 			pstmt.setInt(1, user.getId());
 			pstmt.setString(2, user.getPassword());
 			ResultSet rs = pstmt.executeQuery();
