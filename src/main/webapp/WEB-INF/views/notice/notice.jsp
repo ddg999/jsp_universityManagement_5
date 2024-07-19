@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ include file="/WEB-INF/views/header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -360,5 +361,5 @@ main h1:first-of-type {
 	</table>
 </main>
 </div>
-</body>
-</html>
+
+<%@ include file="/WEB-INF/views/footer.jsp" %>
