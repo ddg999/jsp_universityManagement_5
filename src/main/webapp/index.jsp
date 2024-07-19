@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
 </head>
 <body>
-	안녕하세요
+	
 
     <%@ include file="WEB-INF/views/footer.jsp" %>
 </body>
