@@ -62,7 +62,7 @@
 			<h2>비밀번호 찾기</h2>
 			<br>
 		</div>
-		<form action="/find/password" method="post">
+		<form action="/user/findPassword" method="post">
 			<table class="search--table">
 				<colgroup>
 					<col class="col1">
