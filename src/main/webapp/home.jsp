@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="WEB-INF/views/header.jsp" %>
+<%@ include file="WEB-INF/views/layout/header.jsp" %>
 <!-- 세부 메뉴 + 메인 -->
 <div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
 
@@ -133,4 +133,4 @@
 		</div>
 	</div>
 </div>
-<%@ include file="WEB-INF/views/footer.jsp" %>
+<%@ include file="WEB-INF/views/layout/header.jsp" %>
