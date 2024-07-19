@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/notice/*")
-public class AcademicInfoController extends HttpServlet {
+public class NoticeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private NoticeRepository noticeRepository;
 
