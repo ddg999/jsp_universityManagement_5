@@ -34,7 +34,7 @@ public class InfoController extends HttpServlet {
 			Staff staff = Staff.builder()
 			.id(1)
 			.name("형정쓰")
-			//.birthDate(request.getParameter("birthDate"))
+			// .birthDate(request.getParameter("birthDate"))
 			.gender("여자")
 			.gender("부산광역시")
 			.tel("010-1111-1111")
