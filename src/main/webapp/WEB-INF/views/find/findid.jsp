@@ -38,17 +38,17 @@
 						&nbsp;&nbsp; <label for="staff">직원</label> <input type="radio"
 						name="userRole" value="staff" id="staff"></td>
 				</tr>
+			</table>
 				<%
 				String errorMessage = (String) request.getAttribute("errorMessage");
 				if (errorMessage != null) {
 				%>
-				<p style= "color: red" >
+				<p style= "color: red; margin-left: 55px;">
 					<%=errorMessage%></p>
 
 				<%
 				}
 				%>
-			</table>
 			<div class="button--container">
 				<button type="submit" class="submit--button">아이디 찾기</button>
 			</div>

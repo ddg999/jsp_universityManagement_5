@@ -12,6 +12,7 @@ import com.university.repository.interfaces.UserRepository;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,7 +35,6 @@ public class UserController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getPathInfo();
-
 		switch (action) {
 		case "/findId":
 			request.getRequestDispatcher("/WEB-INF/views/find/findid.jsp").forward(request, response);
@@ -50,6 +50,26 @@ public class UserController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+//		String checkbox = request.getParameter("rememberId");
+//		String id = request.getParameter("id");
+//		response.setCharacterEncoding("UTF-8");
+//		PrintWriter out = response.getWriter();
+//		Cookie cookie = new Cookie("userId", id);
+//		
+//		request.setAttribute("checkbox", checkbox);
+//		
+//
+//		if (checkbox != null) { // 체크박스 체크여부에 따라 쿠키 저장 확인
+//			// 체크박스 체크 되었을 때
+//			// 쿠키 저장
+//			response.addCookie(cookie);
+//		} else {
+//			// 체크박스 체크 해제되었을 때
+//			// 쿠키 유효시간 0으로 해서 브라우저에서 삭제하게 한다.
+//			cookie.setMaxAge(0);
+//			response.addCookie(cookie);
+//		}
+		
 		String action = request.getPathInfo();
 
 		switch (action) {
@@ -70,6 +90,7 @@ public class UserController extends HttpServlet {
 		}
 	}
 
+	// 임시 비밀번호 발급
 	public static String randomPassword(int leng) {
 		int index = 0;
 		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
@@ -88,11 +109,30 @@ public class UserController extends HttpServlet {
 	private void handleFindPassword(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String name = request.getParameter("name");
-		int id = Integer.parseInt(request.getParameter("id"));
+		String idStr = request.getParameter("id");
 		String email = request.getParameter("email");
 		String userRole = request.getParameter("userRole");
 		String userPassword = null;
 		
+		// 방어적 코드 작성 및 예외처리
+		if(name == null || name.trim().isEmpty()) {
+			request.setAttribute("errorMessage", "이름을 입력해주세요.");
+			request.getRequestDispatcher("/WEB-INF/views/find/findpassword.jsp").forward(request, response);
+			return;
+		} else if (idStr == null || idStr.trim().isEmpty()){
+			request.setAttribute("errorMessage", "아이디를 입력해주세요.");
+			request.getRequestDispatcher("/WEB-INF/views/find/findpassword.jsp").forward(request, response);
+			return;
+		} else if (email == null || email.trim().isEmpty()){
+			request.setAttribute("errorMessage", "이메일을 입력해주세요.");
+			request.getRequestDispatcher("/WEB-INF/views/find/findpassword.jsp").forward(request, response);
+			return;
+		} else if (userRole == null) {
+			request.setAttribute("errorMessage", "직위를 선택해주세요");
+			request.getRequestDispatcher("/WEB-INF/views/find/findid.jsp").forward(request, response);
+		}
+		
+		int id = Integer.parseInt(request.getParameter("id"));
 		try {
 			if (userRole.equals("student")) {
 				userPassword = userRepository.getStudentPasswordByNameAndIdAndEmail(name, id, email);
@@ -118,6 +158,21 @@ public class UserController extends HttpServlet {
 		String email = request.getParameter("email");
 		String userRole = request.getParameter("userRole");
 		int userId = 0;
+		
+		// 방어적 코드 및 예외처리
+		if(name == null || name.trim().isEmpty()) {
+			request.setAttribute("errorMessage", "이름을 입력해주세요.");
+			request.getRequestDispatcher("/WEB-INF/views/find/findid.jsp").forward(request, response);
+			return;
+		} else if (email == null || email.trim().isEmpty()){
+			request.setAttribute("errorMessage", "이메일을 입력해주세요.");
+			request.getRequestDispatcher("/WEB-INF/views/find/findid.jsp").forward(request, response);
+			return;
+		} else if (userRole == null) {
+			request.setAttribute("errorMessage", "직위를 선택해주세요");
+			request.getRequestDispatcher("/WEB-INF/views/find/findid.jsp").forward(request, response);
+		}
+		
 		try {
 			if (userRole.equals("student")) {
 				userId = userRepository.getStudentIdByNameAndEmail(name, email);
@@ -125,8 +180,7 @@ public class UserController extends HttpServlet {
 				userId = userRepository.getStaffIdByNameAndEmail(name, email);
 			} else if (userRole.equals("professor")) {
 				userId = userRepository.getProfessorIdByNameAndEmail(name, email);
-			}  
-			System.out.println(userId);
+			} 
 			request.setAttribute("userId", userId);
 			request.setAttribute("name", name);
 			request.getRequestDispatcher("/WEB-INF/views/find/findidresult.jsp").forward(request, response);
@@ -139,8 +193,22 @@ public class UserController extends HttpServlet {
 
 	private void handleSignin(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		int id = Integer.parseInt(request.getParameter("id"));
 		String password = request.getParameter("password");
+		String idStr = request.getParameter("id");
+		
+		// 방어적 코드 및 예외 처리
+		// JSP에 required 때문에 필요없을지도
+//		if(password == null || password.trim().isEmpty()) {
+//			request.setAttribute("errorMessage", "비밀번호을 입력해주세요.");
+//			request.getRequestDispatcher("/login.jsp").forward(request, response);
+//			return;
+//		} else if (idStr == null || idStr.trim().isEmpty()){
+//			request.setAttribute("errorMessage", "아이디를 입력해주세요.");
+//			request.getRequestDispatcher("/login.jsp").forward(request, response);
+//			return;
+//		}
+		
+		int id = Integer.parseInt(request.getParameter("id"));
 		User user = userRepository.getUserByIdAndPassword(id, password);
 		Principal principal = null;
 		try {
@@ -155,7 +223,7 @@ public class UserController extends HttpServlet {
 				if (principal != null && principal.getPassword().equals(password)) {
 					HttpSession session = request.getSession();
 					session.setAttribute("principal", principal);
-					response.sendRedirect(request.getContextPath() + "/home.jsp");
+					response.sendRedirect("/home.jsp");
 				}
 			} else {
 				request.setAttribute("errorMessage", "아이디 비밀번호가 틀렸습니다.");
