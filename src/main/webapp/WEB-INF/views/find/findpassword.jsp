@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,11 +36,24 @@
 					<td><input type="text" name="email"></td>
 				</tr>
 				<tr>
-					<td colspan="2"><label for="student">학생</label> <input type="radio" name="userRole" value="student" id="student"> &nbsp;&nbsp; <label for="professor">교수</label> <input
-						type="radio" name="userRole" value="professor" id="professor"> &nbsp;&nbsp; <label for="staff">직원</label> <input type="radio" name="userRole" value="staff" id="staff">
-					</td>
+					<td colspan="2"><label for="student">학생</label> <input
+						type="radio" name="userRole" value="student" id="student">
+						&nbsp;&nbsp; <label for="professor">교수</label> <input type="radio"
+						name="userRole" value="professor" id="professor">
+						&nbsp;&nbsp; <label for="staff">직원</label> <input type="radio"
+						name="userRole" value="staff" id="staff"></td>
 				</tr>
 			</table>
+			<%
+			String errorMessage = (String) request.getAttribute("errorMessage");
+			if (errorMessage != null) {
+			%>
+			<p style="color: red">
+				<%=errorMessage%></p>
+
+			<%
+			}
+			%>
 			<div class="button--container">
 				<button type="submit" class="submit--button">임시 비밀번호 발급받기</button>
 			</div>

@@ -91,20 +91,25 @@ public class UserController extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		String email = request.getParameter("email");
 		String userRole = request.getParameter("userRole");
-		
 		String userPassword = null;
-		if (userRole.equals("student")) {
-			userPassword = userRepository.getStudentPasswordByNameAndIdAndEmail(name, id, email);
-		} else if (userRole.equals("staff")) {
-			userPassword = userRepository.getStaffPasswordByNameAndIdAndEmail(name, id, email);
-		} else if (userRole.equals("professor")) {
-			userPassword = userRepository.getProfessorPasswordByNameAndIdAndEmail(name, id, email);
+		
+		try {
+			if (userRole.equals("student")) {
+				userPassword = userRepository.getStudentPasswordByNameAndIdAndEmail(name, id, email);
+			} else if (userRole.equals("staff")) {
+				userPassword = userRepository.getStaffPasswordByNameAndIdAndEmail(name, id, email);
+			} else if (userRole.equals("professor")) {
+				userPassword = userRepository.getProfessorPasswordByNameAndIdAndEmail(name, id, email);
+			}
+			userPassword = randomPassword(6);
+			userRepository.updateUserPassword(userPassword, id);
+			request.setAttribute("userPassword", userPassword);
+			request.setAttribute("name", name);
+			request.getRequestDispatcher("/WEB-INF/views/find/findpasswordresult.jsp").forward(request, response);
+		} catch (Exception e) {
+			request.setAttribute("errorMessage", "입력된 정보가 틀렸습니다.");
+			request.getRequestDispatcher("/WEB-INF/views/find/findpassword.jsp").forward(request, response);
 		}
-		userPassword = randomPassword(6);
-		userRepository.updateUserPassword(userPassword, id);
-		request.setAttribute("userPassword", userPassword);
-		request.setAttribute("name", name);
-		request.getRequestDispatcher("/WEB-INF/views/find/findpasswordresult.jsp").forward(request, response);
 	}
 
 	private void handleFindId(HttpServletRequest request, HttpServletResponse response)
@@ -121,15 +126,13 @@ public class UserController extends HttpServlet {
 			} else if (userRole.equals("professor")) {
 				userId = userRepository.getProfessorIdByNameAndEmail(name, email);
 			}  
-				request.setAttribute("errorMessage", "입력된 정보가 틀렸습니다.");
-				request.getRequestDispatcher("/WEB-INF/views/find/find.jsp").forward(request, response);
-				// 비번찾기 아이디 찾기 예외처리해야함......!!!!!!!
 			System.out.println(userId);
 			request.setAttribute("userId", userId);
 			request.setAttribute("name", name);
 			request.getRequestDispatcher("/WEB-INF/views/find/findidresult.jsp").forward(request, response);
 		} catch (Exception e) {
-			request.getRequestDispatcher("/WEB-INF/views/find/find.jsp").forward(request, response);
+			request.setAttribute("errorMessage", "입력된 정보가 틀렸습니다.");
+			request.getRequestDispatcher("/WEB-INF/views/find/findid.jsp").forward(request, response);
 		}
 
 	}

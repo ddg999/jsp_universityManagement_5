@@ -47,7 +47,6 @@ input[type=number] {
 			</div>
 						<%
 						String errorMessage = (String)request.getAttribute("errorMessage");
-						// String errorMessage = (String) request.getParameter("errorMessage");
 						if (errorMessage != null) {
 						%>
 						<p style="color: red">
