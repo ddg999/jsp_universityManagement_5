@@ -8,5 +8,4 @@ public interface InfoRepository {
 	
 	int updateStaff(Staff staff, int principalId);
 	
-
 }
