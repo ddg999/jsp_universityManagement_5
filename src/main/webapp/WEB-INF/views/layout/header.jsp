@@ -41,7 +41,7 @@
 						<li><a href="/subject/list/1">수업</a>
 						<li><a href="/sugang/subjectList/1">수강신청</a>
 						<li><a href="/grade/thisSemester">성적</a>
-						<li><a href="/notice.jsp">학사정보</a>
+						<li><a href="${pageContext.request.contextPath}/notice/list">학사정보</a>
 					</ul>
 				</c:when>
 
@@ -50,7 +50,7 @@
 						<li><a href="/">홈</a>
 						<li><a href="/info/professor">MY</a>
 						<li><a href="/subject/list/1">수업</a>
-						<li><a href="/notice.jsp">학사정보</a>
+						<li><a href="${pageContext.request.contextPath}/notice/list">학사정보</a>
 					</ul>
 				</c:when>
 				<c:otherwise>
@@ -59,7 +59,7 @@
 						<li><a href="/info/staff">MY</a>
 						<li><a href="/user/studentList">학사관리</a>
 						<li><a href="/college.jsp">등록</a>
-						<li><a href="/notice.jsp">학사정보</a>
+						<li><a href="${pageContext.request.contextPath}/notice/list">학사정보</a>
 					</ul>
 				</c:otherwise>
 			</c:choose>

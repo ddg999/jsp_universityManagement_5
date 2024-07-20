@@ -36,6 +36,9 @@ public class NoticeController extends HttpServlet {
 		case "/list":
 			showNoticeBoard(request, response);
 			break;
+		case "/search":
+			showNoticeSearch(request, response);
+			break;
 		case "/read":
 			showNoticeDetail(request, response);
 			break;
@@ -48,14 +51,38 @@ public class NoticeController extends HttpServlet {
 		}
 	}
 
+	// 공지사항 페이지, 전체 공지사항 불러오기
 	private void showNoticeBoard(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		List<Notice> noitceList = noticeRepository.getAllNotices();
-
-		request.setAttribute("noticeList", noitceList);
+		List<Notice> noticeList = noticeRepository.getAllNotices();
+		request.setAttribute("noticeList", noticeList);
 		request.getRequestDispatcher("/WEB-INF/views/notice/notice.jsp").forward(request, response);
 	}
 
+	// 공지사항 검색
+	// TODO 페이징
+	private void showNoticeSearch(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			String type = request.getParameter("type");
+			String keyword = request.getParameter("keyword");
+			if (type.equals("title")) {
+				List<Notice> noticeList = noticeRepository.getNoticesByTitle(keyword);
+				request.setAttribute("noticeList", noticeList);
+				request.getRequestDispatcher("/WEB-INF/views/notice/notice.jsp").forward(request, response);
+			} else if (type.equals("keyword")) {
+				List<Notice> noticeList = noticeRepository.getNoticesByTitleOrContent(keyword);
+				request.setAttribute("noticeList", noticeList);
+				request.getRequestDispatcher("/WEB-INF/views/notice/notice.jsp").forward(request, response);
+			} else {
+				// TODO type이 잘못쓰였을때 에러처리
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// 공지사항 상세보기
 	private void showNoticeDetail(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		int noticeId = Integer.parseInt(request.getParameter("id"));
@@ -70,7 +97,7 @@ public class NoticeController extends HttpServlet {
 		List<Schedule> scheduleList = noticeRepository.getAllSchedule();
 
 		request.setAttribute("scheduleList", scheduleList);
-		request.getRequestDispatcher("/WEB-INF/views/notice/schedule.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/schedule/schedule.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -12,13 +12,13 @@
 			<table class="sub--menu--table" border="1">
 				<tbody>
 					<tr>
-						<td><a href="../notice.jsp" class="selected--menu">공지사항</a></td>
+						<td><a href="${pageContext.request.contextPath}/notice/list" class="selected--menu">공지사항</a></td>
 					</tr>
 					<tr>
-						<td><a href="../schedule.jsp">학사일정</a></td>
+						<td><a href="${pageContext.request.contextPath}/notice/schedule">학사일정</a></td>
 					</tr>
 					<tr>
-						<td><a href="../scheduleList.jsp">학사일정 등록</a></td>
+						<td><a href="${pageContext.request.contextPath}/scheduleList.jsp">학사일정 등록</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -48,7 +48,7 @@
 						<td>${notice.id}</td>
 						<td>${notice.category}</td>
 						<td>${notice.title}</td>
-						<td>${notice.createdTime}</td>
+						<td><fmt:formatDate value="${notice.createdTime}" pattern=""/> </td>
 						<td>${notice.views}</td>
 					</tr>
 				</c:forEach>

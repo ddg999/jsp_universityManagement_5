@@ -14,6 +14,8 @@ import com.university.util.DBUtil;
 public class NoticeRepositoryImpl implements NoticeRepository {
 	private static final String SELECT_NOTICE_BY_ID = " SELECT * FROM notice_tb WHERE id = ? ";
 	private static final String SELECT_ALL_NOTICES = " SELECT * FROM notice_tb ORDER BY id DESC ";
+	private static final String SELECT_NOTICES_BY_TITLE = " SELECT * FROM notice_tb WHERE title LIKE ? ";
+	private static final String SELECT_NOTICES_BY_TITLE_OR_CONTENT = " SELECT * FROM notice_tb WHERE title LIKE ? OR content LIKE ? ";
 	private static final String SELECT_ALL_SCHEDULES = " SELECT * FROM schedule_tb ";
 
 	@Override
@@ -52,6 +54,43 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 	}
 
 	@Override
+	public List<Notice> getNoticesByTitle(String keyword) {
+		List<Notice> noticeList = new ArrayList<>();
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_NOTICES_BY_TITLE)) {
+			pstmt.setString(1, "%" + keyword + "%");
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				noticeList.add(Notice.builder().id(rs.getInt("id")).category(rs.getString("category"))
+						.title(rs.getString("title")).content(rs.getString("content"))
+						.createdTime(rs.getTimestamp("created_time")).views(rs.getInt("views")).build());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return noticeList;
+	}
+
+	@Override
+	public List<Notice> getNoticesByTitleOrContent(String keyword) {
+		List<Notice> noticeList = new ArrayList<>();
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_NOTICES_BY_TITLE_OR_CONTENT)) {
+			pstmt.setString(1, "%" + keyword + "%");
+			pstmt.setString(2, "%" + keyword + "%");
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				noticeList.add(Notice.builder().id(rs.getInt("id")).category(rs.getString("category"))
+						.title(rs.getString("title")).content(rs.getString("content"))
+						.createdTime(rs.getTimestamp("created_time")).views(rs.getInt("views")).build());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return noticeList;
+	}
+
+	@Override
 	public List<Schedule> getAllSchedule() {
 		List<Schedule> scheduleList = new ArrayList<>();
 		try (Connection conn = DBUtil.getConnection();
@@ -67,4 +106,5 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 		}
 		return scheduleList;
 	}
+
 }

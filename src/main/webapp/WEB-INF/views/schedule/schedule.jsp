@@ -12,10 +12,10 @@
 			<table class="sub--menu--table" border="1">
 				<tbody>
 					<tr>
-						<td><a href="../notice.jsp">공지사항</a></td>
+						<td><a href="/notice/list">공지사항</a></td>
 					</tr>
 					<tr>
-						<td><a href="../schedule.jsp" class="selected--menu">학사일정</a></td>
+						<td><a href="/notice/schedule" class="selected--menu">학사일정</a></td>
 					</tr>
 					<tr>
 						<td><a href="../scheduleList.jsp">학사일정 등록</a></td>
@@ -33,7 +33,7 @@
 					<c:forEach var="schedule" items="${scheduleList}">
 						<tr>
 							<td class="line"><fmt:formatDate value="${schedule.startDay}" pattern="MM-dd" />~<fmt:formatDate value="${schedule.endDay}" pattern="MM-dd" /></td>
-							<td class="line">${schedule.information}</td>
+							<td class="line">&nbsp;${schedule.information}</td>
 						</tr>
 					</c:forEach>
 				</tbody>

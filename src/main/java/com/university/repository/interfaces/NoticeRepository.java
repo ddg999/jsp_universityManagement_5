@@ -9,6 +9,10 @@ public interface NoticeRepository {
 	Notice getNoticeById(int noticeId);
 
 	List<Notice> getAllNotices();
-	
+
+	List<Notice> getNoticesByTitle(String keyword);
+
+	List<Notice> getNoticesByTitleOrContent(String keyword);
+
 	List<Schedule> getAllSchedule();
 }
