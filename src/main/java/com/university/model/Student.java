@@ -1,35 +1,6 @@
 package com.university.model;
 
 import java.sql.Date;
-<<<<<<< Updated upstream
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@ToString
-public class Student {
-
-	private int id;
-	private String name;
-	private Date birthDate;
-	private String gender;
-	private String address;
-	private String tel;
-	private String email;
-	private int deptId;
-	private int grade;
-	private int semester;
-	private Date entranceDate;
-	private Date graduationDate;
-	
-=======
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -56,5 +27,4 @@ public class Student {
 	private int semester; // 학기
 	private Date entranceDate; // 입학날짜
 	private Date graduationDate; // 졸업 날짜
->>>>>>> Stashed changes
 }
