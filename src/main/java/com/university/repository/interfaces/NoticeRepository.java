@@ -8,11 +8,13 @@ import com.university.model.Schedule;
 public interface NoticeRepository {
 	Notice getNoticeById(int noticeId);
 
-	List<Notice> getAllNotices();
+	List<Notice> getAllNotices(int pageSize, int offset);
 
 	List<Notice> getNoticesByTitle(String keyword);
 
 	List<Notice> getNoticesByTitleOrContent(String keyword);
 
 	List<Schedule> getAllSchedule();
+	
+	int getTotalNoticesCount();
 }

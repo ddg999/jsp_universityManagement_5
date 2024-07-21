@@ -13,10 +13,11 @@ import com.university.util.DBUtil;
 
 public class NoticeRepositoryImpl implements NoticeRepository {
 	private static final String SELECT_NOTICE_BY_ID = " SELECT * FROM notice_tb WHERE id = ? ";
-	private static final String SELECT_ALL_NOTICES = " SELECT * FROM notice_tb ORDER BY id DESC ";
+	private static final String SELECT_ALL_NOTICES = " SELECT * FROM notice_tb ORDER BY id DESC LIMIT ? OFFSET ? ";
 	private static final String SELECT_NOTICES_BY_TITLE = " SELECT * FROM notice_tb WHERE title LIKE ? ";
 	private static final String SELECT_NOTICES_BY_TITLE_OR_CONTENT = " SELECT * FROM notice_tb WHERE title LIKE ? OR content LIKE ? ";
 	private static final String SELECT_ALL_SCHEDULES = " SELECT * FROM schedule_tb ";
+	private static final String COUNT_ALL_NOTICES = " select count(*) as count from notice_tb ";
 
 	@Override
 	public Notice getNoticeById(int noticeId) {
@@ -37,10 +38,12 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 	}
 
 	@Override
-	public List<Notice> getAllNotices() {
+	public List<Notice> getAllNotices(int pageSize, int offset) {
 		List<Notice> noticeList = new ArrayList<>();
 		try (Connection conn = DBUtil.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(SELECT_ALL_NOTICES)) {
+			pstmt.setInt(1, pageSize);
+			pstmt.setInt(2, offset);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				noticeList.add(Notice.builder().id(rs.getInt("id")).category(rs.getString("category"))
@@ -105,6 +108,21 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 			e.printStackTrace();
 		}
 		return scheduleList;
+	}
+
+	@Override
+	public int getTotalNoticesCount() {
+		int count = 0;
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(COUNT_ALL_NOTICES)) {
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt("count");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 }

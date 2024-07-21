@@ -284,6 +284,35 @@ main h1:first-of-type {
 	display: flex;
 	justify-content: center;
 }
+
+.pagination {
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 40px;
+}
+
+.pagination a {
+	display: inline-block;
+	padding: 5px 10px;
+	margin: 0 5px;
+	border: 1px solid #ddd;
+	text-decoration: none;
+	color: #007bff;
+}
+
+.pagination a:hover {
+	background-color: #007bff;
+	color: white;
+}
+
+.current-page {
+	display: inline-block;
+	padding: 5px 10px;
+	background-color: #007bff;
+	border: 1px solid #007bff;
+	border-radius: 4px;
+	color: white;
+	
 .split--div {
 	min-width: 1100px;
 	height: 2px;

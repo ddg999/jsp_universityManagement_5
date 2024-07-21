@@ -52,17 +52,36 @@ public class NoticeController extends HttpServlet {
 	}
 
 	// 공지사항 페이지, 전체 공지사항 불러오기
+	// TODO 페이징
 	private void showNoticeBoard(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		List<Notice> noticeList = noticeRepository.getAllNotices();
+		int page = 1; // 기본 페이지 번호
+		int pageSize = 10; // 한 페이지당 보여질 게시글 수
+		try {
+			String pageStr = request.getParameter("page");
+			if (pageStr != null) {
+				page = Integer.parseInt(pageStr);
+			}
+		} catch (Exception e) {
+			page = 1;
+		}
+		int offset = (page - 1) * pageSize; // 시작 위치 계산( offset 값 계산)
+		List<Notice> noticeList = noticeRepository.getAllNotices(pageSize, offset);
+		// 전체 게시글 수 조회
+		int totalNotices = noticeRepository.getTotalNoticesCount();
+		// 총 페이지 수 계산 --> [1][2][3][...]
+		int totalPages = (int) Math.ceil((double) totalNotices / pageSize);
+
+		request.setAttribute("totalPages", totalPages);
+		request.setAttribute("currentPage", page);
 		request.setAttribute("noticeList", noticeList);
 		request.getRequestDispatcher("/WEB-INF/views/notice/notice.jsp").forward(request, response);
 	}
 
 	// 공지사항 검색
-	// TODO 페이징
 	private void showNoticeSearch(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		try {
 			String type = request.getParameter("type");
 			String keyword = request.getParameter("keyword");
