@@ -28,22 +28,22 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tr>
-					<td><a href="/info/student">내 정보 조회</a></td>
+					<td><a href="/info/student" >내 정보 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/password">비밀번호 변경</a></td>
+					<td><a href="/info/password">비밀번호 변경</a></td>
 				</tr>
 				<tr>
-					<td><a href="/break/application" class="selected--menu">휴학 신청</a></td>
+					<td><a href="/info/break/application" class="selected--menu">휴학 신청</a></td>
 				</tr>
 				<tr>
-					<td><a href="/break/list">휴학 내역 조회</a></td>
+					<td><a href="/info/break/list">휴학 내역 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/tuition/list">등록금 내역 조회</a></td>
+					<td><a href="/info/tuition/list">등록금 내역 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/tuition/payment">등록금 납부 고지서</a></td>
+					<td><a href="/info/tuition/payment">등록금 납부 고지서</a></td>
 				</tr>
 			</table>
 		</div>
@@ -61,9 +61,9 @@
 					<table border="1">
 						<tr>
 							<th>단 과 대</th>
-							<td>${collName}</td>
+							<td>${student.collegeName}</td>
 							<th>학 과</th>
-							<td>${deptName}</td>
+							<td>${student.deptName}</td>
 						</tr>
 						<tr>
 							<th>학 번</th>
@@ -84,7 +84,10 @@
 						</tr>
 						<tr>
 							<th>기 간</th>
-							<td colspan="3"><select name="toYear">
+							<td colspan="3">
+							<select name="toYear">
+							<option value="1">2023
+									<option value="2" selected>2024
 							</select>년도 <select name="toSemester">
 									<option value="1">1
 									<option value="2" selected>2

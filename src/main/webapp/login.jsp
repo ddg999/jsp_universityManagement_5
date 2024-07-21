@@ -32,7 +32,7 @@ input[type=number] {
 		</div>
 		<%
 		String cookie = "";
-		Cookie[] cookies = request.getCookies(); //쿠키생성
+		Cookie[] cookies = request.getCookies();
 		if (cookies != null && cookies.length > 0)
 			for (int i = 0; i < cookies.length; i++) {
 				if (cookies[i].getName().equals("userId")) { 

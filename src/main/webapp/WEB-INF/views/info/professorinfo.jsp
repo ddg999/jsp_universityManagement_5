@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%@ include file="../layout/header.jsp" %>
-<link rel="stylesheet" href="../../css/myInfo.css">
+<link rel="stylesheet" href="../../resources/css/myInfo.css">
 
 <!-- 세부 메뉴 + 메인 -->
 <div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
@@ -19,7 +19,7 @@
 					<td><a href="/info/professor" class="selected--menu">내 정보 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/password">비밀번호 변경</a></td>
+					<td><a href="/info/password">비밀번호 변경</a></td>
 				</tr>
 			</table>
 		</div>

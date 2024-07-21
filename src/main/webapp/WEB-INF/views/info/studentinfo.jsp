@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../layout/header.jsp" %>
-<link rel="stylesheet" href="../../css/myInfo.css">
+<link rel="stylesheet" href="../../resources/css/myInfo.css">
 
 <!-- 세부 메뉴 + 메인 -->
 <div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
@@ -17,19 +17,19 @@
 					<td><a href="/info/student" class="selected--menu">내 정보 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/password">비밀번호 변경</a></td>
+					<td><a href="/info/password">비밀번호 변경</a></td>
 				</tr>
 				<tr>
-					<td><a href="/break/application">휴학 신청</a></td>
+					<td><a href="/info/break/application">휴학 신청</a></td>
 				</tr>
 				<tr>
-					<td><a href="/break/list">휴학 내역 조회</a></td>
+					<td><a href="/info/break/list">휴학 내역 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/tuition/list">등록금 내역 조회</a></td>
+					<td><a href="/info/tuition/list">등록금 내역 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/tuition/payment">등록금 납부 고지서</a></td>
+					<td><a href="/info/tuition/payment">등록금 납부 고지서</a></td>
 				</tr>
 			</table>
 		</div>
@@ -91,7 +91,7 @@
 				<td>${student.email}</td>
 			</tr>
 		</table>
-		<button type="button" onclick="location.href='/update'" class="btn btn-dark update--button">수정하기</button>
+		<button type="button" onclick="location.href='/info/update'" class="btn btn-dark update--button">수정하기</button>
 		<hr>
 		<h4>
 			<span style="font-weight: 600;">학적 변동 내역</span>

@@ -36,16 +36,16 @@
 				</tr>
 				<c:if test="${principal.userRole.equals(\"student\")}">
 					<tr>
-						<td><a href="/break/application">휴학 신청</a></td>
+						<td><a href="/info/break/application">휴학 신청</a></td>
 					</tr>
 					<tr>
-						<td><a href="/break/list">휴학 내역 조회</a></td>
+						<td><a href="/info/break/list">휴학 내역 조회</a></td>
 					</tr>
 					<tr>
-						<td><a href="/tuition/list">등록금 내역 조회</a></td>
+						<td><a href="/info/tuition/list">등록금 내역 조회</a></td>
 					</tr>
 					<tr>
-						<td><a href="/tuition/payment">등록금 납부 고지서</a></td>
+						<td><a href="/info/tuition/payment">등록금 납부 고지서</a></td>
 					</tr>
 				</c:if>
 			</table>
@@ -56,7 +56,7 @@
 	<main>
 		<h1>비밀번호 변경</h1>
 		<div class="split--div"></div>
-		<form action="/password" method="post" class="form--container">
+		<form action="/info/password" method="post" class="form--container">
 			<input type="hidden" name="_method" value="put" />
 			<table class="table--container">
 				<tr>
@@ -71,6 +71,19 @@
 					<td><label for="passwordCheck">변경할 비밀번호 확인</label></td>
 					<td><input type="password" name="passwordCheck" class="input--box" id="passwordCheck"></td>
 				</tr>
+				<tr>
+				<td>
+			<%
+			String message = (String) request.getAttribute("message");
+			if (message != null) {
+			%>
+			<p style="color: red">
+				<%=message%></p>
+			<%
+			}
+			%>
+			<td>
+			</tr>
 			</table>
 			<c:choose>
 				<c:when test="${principal.getUserRole().equals(\"staff\")}">
@@ -86,4 +99,4 @@
 		</form>
 	</main>
 </div>
-<%@ include file="../layout/header.jsp"%>
+<%@ include file="../layout/footer.jsp"%>

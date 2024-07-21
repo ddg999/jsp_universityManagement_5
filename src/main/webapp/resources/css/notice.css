@@ -1,16 +1,15 @@
 @charset "UTF-8";
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+@import
+	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
+	;
 
 .material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 300,
-  'GRAD' 0,
-  'opsz' 48;
+	font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 48;
 }
 
 .material--li {
-	display: flex; 
+	display: flex;
 	align-items: center;
 	margin-right: 5px;
 }
@@ -43,12 +42,11 @@ header {
 	width: 320px;
 	height: 80px;
 	margin: 5px 50px 5px 10px;
-	
 }
 
 .header--top {
 	min-width: 100em;
-	height: 40px; 
+	height: 40px;
 	background-color: #031734;
 	display: flex;
 	justify-content: right;
@@ -71,7 +69,7 @@ header {
 .main--menu {
 	padding: 10px 5px;
 	min-width: 100em;
-	height: 100px; 
+	height: 100px;
 	background-color: white; /* #031734 */
 	display: flex;
 	align-items: center;
@@ -100,7 +98,7 @@ header {
 }
 
 .sub--menu {
-	min-width: 230px; 
+	min-width: 230px;
 	margin-right: 80px;
 }
 
@@ -123,7 +121,6 @@ header {
 
 .sub--menu--table {
 	border-color: #D1D5D4;
-	
 }
 
 .sub--menu--table td {
@@ -135,7 +132,7 @@ header {
 	font-size: 20px;
 }
 
-.sub--menu--table td a{
+.sub--menu--table td a {
 	padding: 20px 10px;
 }
 
@@ -149,7 +146,7 @@ header {
 }
 
 main {
-	min-width: 1150px; 
+	min-width: 1150px;
 	padding: 20px;
 	margin-bottom: 50px;
 }
@@ -165,8 +162,7 @@ main h1:first-of-type {
 	margin: 20px 0 50px;
 }
 
-.selected--menu,
-.sub--menu--table td a:hover {
+.selected--menu, .sub--menu--table td a:hover {
 	color: #075AA4;
 	font-weight: 600;
 }
@@ -187,7 +183,7 @@ main h1:first-of-type {
 }
 
 .selected--page {
-	font-weight: 700; 
+	font-weight: 700;
 	color: #007bff;
 }
 
@@ -195,6 +191,7 @@ main h1:first-of-type {
 	background-color: #f7f6f6;
 	padding: 20px;
 }
+
 .title--container {
 	display: flex;
 	margin-bottom: 20px;
@@ -213,9 +210,11 @@ main h1:first-of-type {
 	width: 500px;
 	border: hidden;
 }
+
 .textarea {
 	border: hidden;
 }
+
 .table {
 	width: 1000px;
 	margin-bottom: 20px;
@@ -235,6 +234,7 @@ main h1:first-of-type {
 .type {
 	width: 70px;
 }
+
 .read--container {
 	display: flex;
 	flex-direction: column;
@@ -264,22 +264,25 @@ main h1:first-of-type {
 
 .button:hover {
 	color: #fff;
-
 }
+
 .select--button {
 	margin-left: 200px;
 }
+
 .input--box {
 	border: 1px solid #D2D1D1;
 	border-radius: 3px;
 	height: 31px;
 	margin-right: 20px;
 }
+
 .form--container {
 	display: flex;
-	justify-content: flex-end;
+    justify-content: center;
 	margin: 0 90px 20px 0;
 }
+
 .paging--container {
 	display: flex;
 	justify-content: center;
@@ -312,9 +315,9 @@ main h1:first-of-type {
 	border: 1px solid #007bff;
 	border-radius: 4px;
 	color: white;
-	
-.split--div {
-	min-width: 1100px;
+} 
+.split--div { 
+	min-width : 1100px;
 	height: 2px;
 	background-color: gray;
 	margin: 20px 0 50px;
