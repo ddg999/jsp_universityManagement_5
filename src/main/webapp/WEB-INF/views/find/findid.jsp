@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,22 +30,25 @@
 					<td><label for="email">이메일</label></td>
 					<td><input type="text" name="email" id="email"></td>
 				</tr>
+				<tr>
+					<td colspan="2"><label for="student">학생</label> <input
+						type="radio" name="userRole" value="student" id="student">
+						&nbsp;&nbsp; <label for="professor">교수</label> <input type="radio"
+						name="userRole" value="professor" id="professor">
+						&nbsp;&nbsp; <label for="staff">직원</label> <input type="radio"
+						name="userRole" value="staff" id="staff"></td>
+				</tr>
+			</table>
 				<%
 				String errorMessage = (String) request.getAttribute("errorMessage");
-				// String errorMessage = (String) request.getParameter("errorMessage");
 				if (errorMessage != null) {
 				%>
-				<p style="color: red">
+				<p style= "color: red; margin-left: 55px;">
 					<%=errorMessage%></p>
 
 				<%
 				}
 				%>
-				<tr>
-					<td colspan="2"><label for="student">학생</label> <input type="radio" name="userRole" value="student" id="student"> &nbsp;&nbsp; <label for="professor">교수</label> <input
-						type="radio" name="userRole" value="professor" id="professor"> &nbsp;&nbsp; <label for="staff">직원</label> <input type="radio" name="userRole" value="staff" id="staff"></td>
-				</tr>
-			</table>
 			<div class="button--container">
 				<button type="submit" class="submit--button">아이디 찾기</button>
 			</div>
