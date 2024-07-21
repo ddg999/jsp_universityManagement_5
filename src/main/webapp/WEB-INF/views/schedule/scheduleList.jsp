@@ -66,10 +66,11 @@
 				<tr>
 					<td><a href="../schedule.jsp">학사일정</a></td>
 				</tr>
-				<tr>
-					<td><a href="../scheduleList.jsp" class="selected--menu">학사일정 등록</a></td>
-				</tr>
-
+				<c:if test="${principal.userRole eq staff}">
+					<tr>
+						<td><a href="${pageContext.request.contextPath}/scheduleList.jsp">학사일정 등록</a></td>
+					</tr>
+				</c:if>
 			</table>
 		</div>
 	</div>

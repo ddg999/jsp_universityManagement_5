@@ -81,21 +81,42 @@ public class NoticeController extends HttpServlet {
 	// 공지사항 검색
 	private void showNoticeSearch(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		List<Notice> noticeList = null;
+		int totalNotices = 0;
+		String type = null;
+		String keyword = null;
+
+		int page = 1; // 기본 페이지 번호
+		int pageSize = 10; // 한 페이지당 보여질 게시글 수
+		try {
+			String pageStr = request.getParameter("page");
+			if (pageStr != null) {
+				page = Integer.parseInt(pageStr);
+			}
+		} catch (Exception e) {
+			page = 1;
+		}
+		int offset = (page - 1) * pageSize; // 시작 위치 계산( offset 값 계산)
 
 		try {
-			String type = request.getParameter("type");
-			String keyword = request.getParameter("keyword");
+			type = request.getParameter("type");
+			keyword = request.getParameter("keyword");
 			if (type.equals("title")) {
-				List<Notice> noticeList = noticeRepository.getNoticesByTitle(keyword);
-				request.setAttribute("noticeList", noticeList);
-				request.getRequestDispatcher("/WEB-INF/views/notice/notice.jsp").forward(request, response);
+				noticeList = noticeRepository.getNoticesByTitle(keyword, pageSize, offset);
+				totalNotices = noticeRepository.getTotalNoticesCountByTitle(keyword);
 			} else if (type.equals("keyword")) {
-				List<Notice> noticeList = noticeRepository.getNoticesByTitleOrContent(keyword);
-				request.setAttribute("noticeList", noticeList);
-				request.getRequestDispatcher("/WEB-INF/views/notice/notice.jsp").forward(request, response);
+				noticeList = noticeRepository.getNoticesByTitleOrContent(keyword, pageSize, offset);
+				totalNotices = noticeRepository.getTotalNoticesCountByTitleOrContent(keyword);
 			} else {
 				// TODO type이 잘못쓰였을때 에러처리
 			}
+			int totalPages = (int) Math.ceil((double) totalNotices / pageSize);
+			request.setAttribute("type", type);
+			request.setAttribute("keyword", keyword);
+			request.setAttribute("totalPages", totalPages);
+			request.setAttribute("currentPage", page);
+			request.setAttribute("noticeList", noticeList);
+			request.getRequestDispatcher("/WEB-INF/views/notice/notice.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
