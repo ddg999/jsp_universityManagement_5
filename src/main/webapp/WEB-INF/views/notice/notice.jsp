@@ -17,9 +17,11 @@
 					<tr>
 						<td><a href="${pageContext.request.contextPath}/notice/schedule">학사일정</a></td>
 					</tr>
+					<c:if test="${principal.userRole eq staff}">
 					<tr>
 						<td><a href="${pageContext.request.contextPath}/scheduleList.jsp">학사일정 등록</a></td>
 					</tr>
+					</c:if>
 				</tbody>
 			</table>
 		</div>
@@ -29,9 +31,9 @@
 		<!-- 공지검색기능 -->
 		<form action="/notice/search" method="get" class="form--container">
 			<select class="input--box" name="type">
-				<option value="title">제목</option>
-				<option value="keyword">제목+내용</option>
-			</select> <input type="text" name="keyword" class="input--box" placeholder="검색어를 입력하세요"> <input type="submit" class="button" value="검색">
+				<option value="title" ${type eq 'title' ? 'selected' : ''}>제목</option>
+				<option value="keyword" ${type eq 'keyword' ? 'selected' : ''}>제목+내용</option>
+			</select><input type="text" name="keyword" class="input--box" placeholder="검색어를 입력하세요" value="${keyword}"> <input type="submit" class="button" value="검색">
 		</form>
 		<div class="split--div"></div>
 		<table class="table">
@@ -48,21 +50,32 @@
 						<td>${notice.id}</td>
 						<td>${notice.category}</td>
 						<td>${notice.title}</td>
-						<td><fmt:formatDate value="${notice.createdTime}" pattern=""/> </td>
+						<td><fmt:formatDate value="${notice.createdTime}" pattern="yyyy-MM-dd"/></td>
 						<td>${notice.views}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 		<div class="pagination">
-		<!-- index for  -->
 		<c:forEach begin="1" end="${totalPages}"  var="i" >
 			<c:choose>
-				<c:when test="${ i == currentPage }">
+				<c:when test="${i == currentPage}">
 					<span class="current-page" >${i}</span>
 				</c:when>
 				<c:otherwise>
-					<span><a href="${pageContext.request.contextPath}/notice/list?page=${i}">${i}</a></span>	
+					 <c:choose>
+						<c:when test="${not empty keyword}">
+							<c:if test="${type eq 'title'}">
+								<span><a href="${pageContext.request.contextPath}/notice/search?type=title&keyword=${keyword}&page=${i}">${i}</a></span>
+							</c:if>	
+							<c:if test="${type eq 'keyword'}">
+								<span><a href="${pageContext.request.contextPath}/notice/search?type=keyword&keyword=${keyword}&page=${i}">${i}</a></span>
+							</c:if>
+						</c:when>
+						<c:otherwise>
+							<span><a href="${pageContext.request.contextPath}/notice/list?page=${i}">${i}</a></span>	
+						</c:otherwise>
+					</c:choose>
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>

@@ -10,11 +10,15 @@ public interface NoticeRepository {
 
 	List<Notice> getAllNotices(int pageSize, int offset);
 
-	List<Notice> getNoticesByTitle(String keyword);
+	List<Notice> getNoticesByTitle(String keyword, int pageSize, int offset);
 
-	List<Notice> getNoticesByTitleOrContent(String keyword);
+	List<Notice> getNoticesByTitleOrContent(String keyword, int pageSize, int offset);
 
 	List<Schedule> getAllSchedule();
-	
+
 	int getTotalNoticesCount();
+
+	int getTotalNoticesCountByTitle(String keyword);
+
+	int getTotalNoticesCountByTitleOrContent(String keyword);
 }

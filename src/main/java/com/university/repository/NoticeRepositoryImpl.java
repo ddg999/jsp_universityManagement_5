@@ -14,10 +14,12 @@ import com.university.util.DBUtil;
 public class NoticeRepositoryImpl implements NoticeRepository {
 	private static final String SELECT_NOTICE_BY_ID = " SELECT * FROM notice_tb WHERE id = ? ";
 	private static final String SELECT_ALL_NOTICES = " SELECT * FROM notice_tb ORDER BY id DESC LIMIT ? OFFSET ? ";
-	private static final String SELECT_NOTICES_BY_TITLE = " SELECT * FROM notice_tb WHERE title LIKE ? ";
-	private static final String SELECT_NOTICES_BY_TITLE_OR_CONTENT = " SELECT * FROM notice_tb WHERE title LIKE ? OR content LIKE ? ";
+	private static final String SELECT_NOTICES_BY_TITLE = " SELECT * FROM notice_tb WHERE title LIKE ? ORDER BY id DESC LIMIT ? OFFSET ? ";
+	private static final String SELECT_NOTICES_BY_TITLE_OR_CONTENT = " SELECT * FROM notice_tb WHERE title LIKE ? OR content LIKE ? ORDER BY id DESC LIMIT ? OFFSET ? ";
 	private static final String SELECT_ALL_SCHEDULES = " SELECT * FROM schedule_tb ";
-	private static final String COUNT_ALL_NOTICES = " select count(*) as count from notice_tb ";
+	private static final String COUNT_ALL_NOTICES = " SELECT count(*) count from notice_tb ";
+	private static final String COUNT_NOTICES_BY_TITLE = " SELECT count(*) count from notice_tb WHERE title LIKE ? ";
+	private static final String COUNT_NOTICES_BY_TITLE_OR_CONTENT = " SELECT count(*) count from notice_tb WHERE title LIKE ? OR content LIKE ? ";
 
 	@Override
 	public Notice getNoticeById(int noticeId) {
@@ -57,11 +59,13 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 	}
 
 	@Override
-	public List<Notice> getNoticesByTitle(String keyword) {
+	public List<Notice> getNoticesByTitle(String keyword, int pageSize, int offset) {
 		List<Notice> noticeList = new ArrayList<>();
 		try (Connection conn = DBUtil.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(SELECT_NOTICES_BY_TITLE)) {
 			pstmt.setString(1, "%" + keyword + "%");
+			pstmt.setInt(2, pageSize);
+			pstmt.setInt(3, offset);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				noticeList.add(Notice.builder().id(rs.getInt("id")).category(rs.getString("category"))
@@ -75,12 +79,14 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 	}
 
 	@Override
-	public List<Notice> getNoticesByTitleOrContent(String keyword) {
+	public List<Notice> getNoticesByTitleOrContent(String keyword, int pageSize, int offset) {
 		List<Notice> noticeList = new ArrayList<>();
 		try (Connection conn = DBUtil.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(SELECT_NOTICES_BY_TITLE_OR_CONTENT)) {
 			pstmt.setString(1, "%" + keyword + "%");
 			pstmt.setString(2, "%" + keyword + "%");
+			pstmt.setInt(3, pageSize);
+			pstmt.setInt(4, offset);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				noticeList.add(Notice.builder().id(rs.getInt("id")).category(rs.getString("category"))
@@ -125,4 +131,36 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 		return count;
 	}
 
+	@Override
+	public int getTotalNoticesCountByTitle(String keyword) {
+		int count = 0;
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(COUNT_NOTICES_BY_TITLE)) {
+			pstmt.setString(1, "%" + keyword + "%");
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt("count");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	@Override
+	public int getTotalNoticesCountByTitleOrContent(String keyword) {
+		int count = 0;
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(COUNT_NOTICES_BY_TITLE_OR_CONTENT)) {
+			pstmt.setString(1, "%" + keyword + "%");
+			pstmt.setString(2, "%" + keyword + "%");
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt("count");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 }
