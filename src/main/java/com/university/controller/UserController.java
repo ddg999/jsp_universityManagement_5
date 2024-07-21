@@ -50,25 +50,25 @@ public class UserController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		String checkbox = request.getParameter("rememberId");
-//		String id = request.getParameter("id");
-//		response.setCharacterEncoding("UTF-8");
-//		PrintWriter out = response.getWriter();
-//		Cookie cookie = new Cookie("userId", id);
-//		
-//		request.setAttribute("checkbox", checkbox);
-//		
-//
-//		if (checkbox != null) { // 체크박스 체크여부에 따라 쿠키 저장 확인
-//			// 체크박스 체크 되었을 때
-//			// 쿠키 저장
-//			response.addCookie(cookie);
-//		} else {
-//			// 체크박스 체크 해제되었을 때
-//			// 쿠키 유효시간 0으로 해서 브라우저에서 삭제하게 한다.
-//			cookie.setMaxAge(0);
-//			response.addCookie(cookie);
-//		}
+		String checkbox = request.getParameter("rememberId");
+		String id = request.getParameter("id");
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
+		Cookie cookie = new Cookie("userId", id);
+		request.setAttribute("checkbox", checkbox);
+		
+		
+		System.out.println(checkbox);
+		if (checkbox != null) { // 체크박스 체크여부에 따라 쿠키 저장 확인
+			// 체크박스 체크 되었을 때
+			// 쿠키 저장
+			response.addCookie(cookie);
+		} else {
+			// 체크박스 체크 해제되었을 때
+			// 쿠키 유효시간 0으로 해서 브라우저에서 삭제하게 한다.
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
+		}
 		
 		String action = request.getPathInfo();
 
@@ -194,10 +194,10 @@ public class UserController extends HttpServlet {
 	private void handleSignin(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		String password = request.getParameter("password");
-		String idStr = request.getParameter("id");
 		
+		String idStr = request.getParameter("id");
 		// 방어적 코드 및 예외 처리
-		// JSP에 required 때문에 필요없을지도
+		// JSP에 required 때문에 필요없을지도? (일단 대기)
 //		if(password == null || password.trim().isEmpty()) {
 //			request.setAttribute("errorMessage", "비밀번호을 입력해주세요.");
 //			request.getRequestDispatcher("/login.jsp").forward(request, response);

@@ -35,7 +35,7 @@ input[type=number] {
 		Cookie[] cookies = request.getCookies(); //쿠키생성
 		if (cookies != null && cookies.length > 0)
 			for (int i = 0; i < cookies.length; i++) {
-				if (cookies[i].getName().equals("userId")) { // 내가 원하는 쿠키명 찾아서 값 저장
+				if (cookies[i].getName().equals("userId")) { 
 			cookie = cookies[i].getValue();
 				}
 			}
@@ -50,7 +50,7 @@ input[type=number] {
 							placeholder="아이디를 입력하세요" required value="<%=cookie%>">
 
 						<div class="checkbox--id">
-							<input type="checkbox" name="rememberId">&nbsp;ID 저장
+							<input type="checkbox" name="rememberId" ${not empty cookie ? "checked" : ""}>&nbsp;ID 저장
 						</div>
 					</div>
 				</div>

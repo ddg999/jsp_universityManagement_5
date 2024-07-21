@@ -55,8 +55,6 @@ public class UserRepositoryImpl implements UserRepository {
 			try (ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
 					user = User.builder().id(rs.getInt("id")).build();
-				} else {
-					return 0;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
