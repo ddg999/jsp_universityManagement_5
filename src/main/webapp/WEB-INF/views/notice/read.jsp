@@ -21,7 +21,7 @@
 					<tr>
 						<td><a href="${pageContext.request.contextPath}/notice/schedule">학사일정</a></td>
 					</tr>
-					<c:if test="${principal.userRole eq staff}">
+					<c:if test="${principal.userRole eq 'staff'}">
 					<tr>
 						<td><a href="${pageContext.request.contextPath}/scheduleList.jsp">학사일정 등록</a></td>
 					</tr>
@@ -44,11 +44,12 @@
 						<td>${notice.content}</td>
 					</tr>
 				</table>
-
 				<div class="select--button">
-					<a href="/notice/list" class="button">목록</a> 
-						<a href="/notice/update?id=1" class="button">수정</a> 
-						<a href="/notice/delete?id=1" class="button">삭제</a>
+					<a href="/notice/list" class="button">목 록</a>
+					<c:if test="${principal.userRole eq 'staff'}">
+						<a href="/notice/update?id=${notice.id}" class="button">수 정</a> 
+						<a href="/notice/delete?id=${notice.id}" class="button">삭 제</a>
+					</c:if>
 				</div>
 			</div>
 	</main>

@@ -61,7 +61,7 @@
 
 .sub--plan--view li a:hover {
 	color: black;
-}
+}	
 
 .paging--container {
 	display: flex;
