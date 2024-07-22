@@ -20,6 +20,9 @@ public interface InfoRepository {
 	int updateProfessorInfo(Professor professor, int principalId); 
 	
 	// 비밀번호 수정
-	int updateUserPassword(String password, int principalId); 
+	int updateUserPassword(String password, int principalId);
+	
+	// 비밀번호 체크
+	String getUserPasswordById(int principal);
 	
 }
