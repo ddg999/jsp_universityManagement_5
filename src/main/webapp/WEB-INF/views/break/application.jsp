@@ -1,6 +1,7 @@
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../layout/header.jsp"%>
 <link rel="stylesheet" href="../../resources/css/document.css">
 
@@ -34,10 +35,10 @@
 					<td><a href="/info/password">비밀번호 변경</a></td>
 				</tr>
 				<tr>
-					<td><a href="/break/application" class="selected--menu">휴학 신청</a></td>
+					<td><a href="${pageContext.request.contextPath}/break/application" class="selected--menu">휴학 신청</a></td>
 				</tr>
 				<tr>
-					<td><a href="/break/list">휴학 내역 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/break/list">휴학 내역 조회</a></td>
 				</tr>
 				<tr>
 					<td><a href="/info/tuition/list">등록금 내역 조회</a></td>
@@ -51,67 +52,87 @@
 
 	<!-- 메인 div -->
 	<main>
-		<h1>휴학 신청</h1>
-		<div class="split--div"></div>
-
-		<div class="d-flex flex-column align-items-center" style="width: 100%">
-			<form action="/break/application" method="post" class="d-flex flex-column align-items-center">
-				<div class="document--layout">
-					<h3>휴학 신청서</h3>
-					<table border="1">
-						<tr>
-							<th>단 과 대</th>
-							<td>${student.collegeName}</td>
-							<th>학 과</th>
-							<td>${student.deptName}</td>
-						</tr>
-						<tr>
-							<th>학 번</th>
-							<td>${student.id}</td>
-							<th>학 년</th>
-							<td>${student.grade}학년<input type="hidden" name="studentGrade" value="${student.grade}">
-							</td>
-						</tr>
-						<tr>
-							<th>전 화 번 호</th>
-							<td>${student.tel}</td>
-							<th>성 명</th>
-							<td>${student.name}</td>
-						</tr>
-						<tr>
-							<th>주 소</th>
-							<td colspan="3">${student.address}</td>
-						</tr>
-						<tr>
-							<th>기 간</th>
-							<td colspan="3">
-							<select name="toYear">
-							<option value="1">2023
-									<option value="2" selected>2024
-							</select>년도 <select name="toSemester">
-									<option value="1">1
-									<option value="2" selected>2
-							</select>학기까지</td>
-						</tr>
-						<tr>
-							<th>휴 학 구 분</th>
-							<td colspan="3"><input type="radio" name="type" value="일반" id="일반" checked> <label for="일반" style="margin: 0">일반휴학</label> &nbsp; <input type="radio"
-								name="type" value="임신·출산·육아" id="임신"> <label for="임신" style="margin: 0">임신·출산·육아휴학</label> &nbsp; <input type="radio" name="type" value="질병" id="질병"> <label
-								for="질병" style="margin: 0">질병휴학</label> &nbsp; <input type="radio" name="type" value="창업" id="창업"> <label for="창업" style="margin: 0">창업휴학</label> &nbsp; <input
-								type="radio" name="type" value="군입대" id="군입대"> <label for="군입대" style="margin: 0">군입대휴학</label></td>
-						</tr>
-						<tr>
-							<td colspan="4">
-								<p>위와 같이 휴학하고자 하오니 허가하여 주시기 바랍니다.</p> <br>
-								<p><%=String.format("%tY년 %tm월 %td일", new Date(), new Date(), new Date())%></p>
-							</td>
-						</tr>
-					</table>
+				<h1>휴학 신청</h1>
+				<div class="split--div"></div>
+				
+				<div class="d-flex flex-column align-items-center" style="width: 100%">
+					<form action="/break/application" method="post" class="d-flex flex-column align-items-center">
+						<div class="document--layout">
+							<h3>휴학 신청서</h3>
+							<table border="1">
+								<tr>
+									<th>단 과 대</th>
+									<td>${student.collegeName}</td>
+									<th>학 과</th>
+									<td>${student.deptName}</td>
+								</tr>
+								<tr>
+									<th>학 번</th>
+									<td>${student.id}
+										<input type="hidden" name="student_id" value="${student.id}">
+									</td>
+									<th>학 년</th>
+									<td>${student.grade}학년
+										<input type="hidden" name="student_grade" value="${student.grade}">
+									</td>
+								</tr>
+								<tr>
+									<th>전 화 번 호</th>
+									<td>${student.tel}</td>
+									<th>성 명</th>
+									<td>${student.name}</td>
+								</tr>
+								<tr>
+									<th>주 소</th>
+									<td colspan="3">${student.address}</td>
+								</tr>
+								<tr>
+									<th>기 간</th>
+									<td colspan="3">
+										<select name="from_year">
+											<option value="2024" selected>2024
+										</select>년도
+										<select name="from_semester">
+											<option value="1" selected>1
+											<option value="2">2
+										</select>학기부터
+										<select name="to_year">
+											<option value="2025" selected>2025
+											<option value="2026">2026
+										</select>년도
+										<select name="to_semester">
+											<option value="1" selected>1
+											<option value="2">2
+										</select>학기까지
+									</td>
+								</tr>
+								<tr>
+									<th>휴 학 구 분</th>
+									<td colspan="3">
+										<input type="radio" name="type" value="일반" id="일반" checked> <label for="일반" style="margin: 0">일반휴학</label>
+										&nbsp;
+										<input type="radio" name="type" value="임신·출산·육아" id="임신"> <label for="임신" style="margin: 0">임신·출산·육아휴학</label>
+										&nbsp;
+										<input type="radio" name="type" value="질병" id="질병"> <label for="질병" style="margin: 0">질병휴학</label>
+										&nbsp;
+										<input type="radio" name="type" value="창업" id="창업"> <label for="창업" style="margin: 0">창업휴학</label>
+										&nbsp;
+										<input type="radio" name="type" value="군입대" id="군입대"> <label for="군입대" style="margin: 0">군입대휴학</label>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4">
+										<p>위와 같이 휴학하고자 하오니 허가하여 주시기 바랍니다.</p>									
+										<br>
+										<p><%=String.format("%tY년 %tm월 %td일", new Date(), new Date(), new Date()) %></p>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<button type="submit" class="btn btn-dark" onclick="return confirm('휴학을 신청하시겠습니까?')">신청하기</button>
+					</form>
 				</div>
-				<button type="submit" class="btn btn-dark">신청하기</button>
-			</form>
-		</div>
-	</main>
+			</main>
 </div>
 
 <%@ include file="../layout/footer.jsp"%>

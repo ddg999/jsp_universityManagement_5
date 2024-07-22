@@ -7,6 +7,7 @@ import com.university.model.Principal;
 import com.university.model.Student;
 import com.university.model.StudentInfo;
 import com.university.repository.BreakAppRepositoryImpl;
+import com.university.repository.InfoRepositoryImpl;
 import com.university.repository.interfaces.BreakAppRepository;
 import com.university.repository.interfaces.InfoRepository;
 
@@ -27,6 +28,7 @@ public class BreakAppController extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		breakAppRepository = new BreakAppRepositoryImpl();
+		infoRepository = new InfoRepositoryImpl();
 
 	}
 	
@@ -129,9 +131,9 @@ public class BreakAppController extends HttpServlet {
 				.toSemester(toSemester)
 				.type(type)
 				.build();
-		
+		System.out.println(breakApp);
 		breakAppRepository.insertApp(breakApp);
-		response.sendRedirect(request.getContextPath() + "/application");
+		response.sendRedirect(request.getContextPath() + "/break/application");
 	}
 	
 }
