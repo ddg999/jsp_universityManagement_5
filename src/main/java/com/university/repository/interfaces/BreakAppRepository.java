@@ -15,6 +15,9 @@ public interface BreakAppRepository {
 	// 직원 휴학 신청 조회
 	List<BreakApp> selectAppByStatus(String status);
 	
+	// 특정 휴학 신청서 조회
+	BreakApp selectAppById(int id);
+	
 	// 학생 휴학 신청 취소
 	void deleteAppById(int id);
 	

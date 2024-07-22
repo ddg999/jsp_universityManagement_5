@@ -69,7 +69,7 @@
 								<td>${breakApp.type}휴학</td>
 								<td>${breakApp.fromYear}년도&nbsp;${breakApp.fromSemester}학기</td>
 								<td>${breakApp.toYear}년도&nbsp;${breakApp.toSemester}학기</td>
-								<td><a href="/break/detail/${breakApp.id}">Click</a></td>
+								<td><a href="/break/detail?id=${breakApp.id}">Click</a></td>
 								<td><c:choose>
 										<c:when test="${breakApp.status.equals(\"처리중\")}">
 											<span style="color: #767676; font-weight: 600">처리중</span>

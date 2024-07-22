@@ -72,15 +72,15 @@
 				<table border="1">
 					<tr>
 						<th>단 과 대</th>
-						<td>${collName}</td>
+						<td>${student.collegeName}</td>
 						<th>학 과</th>
-						<td>${deptName}</td>
+						<td>${student.deptName}</td>
 					</tr>
 					<tr>
 						<th>학 번</th>
 						<td>${student.id}</td>
 						<th>학 년</th>
-						<td>${breakApp.studentGrade}학년</td>
+						<td>${student.grade}학년</td>
 					</tr>
 					<tr>
 						<th>전 화 번 호</th>
@@ -103,7 +103,7 @@
 					<tr>
 						<td colspan="4">
 							<p>위와 같이 휴학하고자 하오니 허가하여 주시기 바랍니다.</p> <br>
-							<p>${breakApp.appDateFormat()}</p>
+							<p>${breakApp.appDate}</p>
 						</td>
 					</tr>
 				</table>
