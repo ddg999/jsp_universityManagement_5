@@ -2,7 +2,6 @@ package com.university.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.SecureRandom;
 import java.sql.Date;
 import java.util.Random;
 
