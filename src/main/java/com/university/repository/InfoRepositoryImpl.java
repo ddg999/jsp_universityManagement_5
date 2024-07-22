@@ -23,9 +23,13 @@ public class InfoRepositoryImpl implements InfoRepository{
 	private static final String UPDATE_STUNDET_INFO_SQL = "  " ;
 	
 	private static final String UPDATE_STAFF_INFO_SQL = " UPDATE staff_tb SET address = ?, tel = ?, email = ? WHERE id = ? ";
+	private static final String UPDATE_STUDENT_INFO_SQL = " UPDATE student_tb SET address = ?, tel = ?, email = ? WHERE id = ? ";
+	private static final String UPDATE_PROFESSOR_INFO_SQL = " UPDATE professor_tb SET address = ?, tel = ?, email = ? WHERE id = ? ";
+	
+	
+	
 	private static final String SELECT_USER_INFO_CHECKPW = " SELECT password FROM user_tb WHERE id = ? ";
 	
-	private static final String UPDATE_PROFESSOR_INFO_SQL = "  " ;
 	private static final String UPDATE_USER_PASSWORD_SQL = " update user_tb set password = ? where id = ? ";
 	
 	
@@ -128,8 +132,11 @@ public class InfoRepositoryImpl implements InfoRepository{
 		int rowCount = 0;
 		try (Connection conn = DBUtil.getConnection()){
 			conn.setAutoCommit(false);
-			try (PreparedStatement pstmt = conn.prepareStatement(UPDATE_STUNDET_INFO_SQL)){
-				pstmt.setInt(1, principalId);
+			try (PreparedStatement pstmt = conn.prepareStatement(UPDATE_STUDENT_INFO_SQL)){
+				pstmt.setString(1, student.getAddress());
+				pstmt.setString(2, student.getTel());
+				pstmt.setString(3, student.getEmail());
+				pstmt.setInt(4, principalId);
 				rowCount = pstmt.executeUpdate();
 				conn.commit();
 			} catch (Exception e) {
@@ -187,9 +194,11 @@ public class InfoRepositoryImpl implements InfoRepository{
 		int rowCount = 0;
 		try (Connection conn = DBUtil.getConnection()){
 			conn.setAutoCommit(false);
-			
 			try (PreparedStatement pstmt = conn.prepareStatement(UPDATE_PROFESSOR_INFO_SQL)){
-				pstmt.setInt(1, principalId);
+				pstmt.setString(1, professor.getAddress());
+				pstmt.setString(2, professor.getTel());
+				pstmt.setString(3, professor.getEmail());
+				pstmt.setInt(4, principalId);
 				rowCount = pstmt.executeUpdate();
 				conn.commit();
 			} catch (Exception e) {

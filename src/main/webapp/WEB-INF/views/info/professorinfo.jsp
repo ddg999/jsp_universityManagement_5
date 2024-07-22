@@ -69,7 +69,7 @@
 				<td>${professor.email}</td>
 			</tr>
 		</table>
-		<button type="button" onclick="location.href='/update'" class="btn btn-dark update--button">수정하기</button>
+		<button type="button" onclick="location.href='/info/update'" class="btn btn-dark update--button">수정하기</button>
 	</main>
 </div>
 <%@ include file="../layout/footer.jsp" %>
