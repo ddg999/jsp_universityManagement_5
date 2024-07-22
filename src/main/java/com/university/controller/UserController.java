@@ -49,23 +49,23 @@ public class UserController extends HttpServlet {
 		case "/login":
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 			break;
-			
+
 		case "/studentList":
 			request.getRequestDispatcher("/WEB-INF/views/user/studentlist.jsp").forward(request, response);
 			break;
-			
+
 		case "/student":
 			request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
 			break;
-			
+
 		case "/professor":
 			request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
 			break;
-			
+
 		case "/staff":
 			request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
 			break;
-			
+
 		default:
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			break;
@@ -74,7 +74,7 @@ public class UserController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		String action = request.getPathInfo();
 
 		switch (action) {
@@ -90,136 +90,89 @@ public class UserController extends HttpServlet {
 		case "/findPassword":
 			handleFindPassword(request, response);
 			break;
-			
+
 		case "/student":
 			addStudent(request, response);
 			break;
-			
+
 		case "/professor":
 			addProfessor(request, response);
 			break;
-			
+
 		case "/staff":
 			addStaff(request, response);
 			break;
-						
-			
+
 		default:
 			break;
 		}
 	}
-	
+
 	/**
 	 * 직원 등록
-	 * @param request
-	 * @param response
-	 * @throws IOException 
-	 * @throws ServletException 
-	 */
-	private void addStaff(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String name = request.getParameter("name");
-		Date birthDate = Date.valueOf(request.getParameter("birthDate"));
-		String gender = request.getParameter("gender");
-		String address = request.getParameter("address");
-		String tel = request.getParameter("tel");
-		String email = request.getParameter("email");
-		
-		// 방어적 코드 작성 및 예외처리
-				if(name == null || name.trim().isEmpty()) {
-					request.setAttribute("message", "이름을 입력해주세요.");
-					request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
-					return;
-				} else if (birthDate == null){
-					request.setAttribute("message", "생년월일을 입력해주세요.");
-					request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
-					return;
-				} else if (gender == null) {
-					request.setAttribute("message", "성별을 선택해주세요");
-					request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
-				} else if (address == null) {
-					request.setAttribute("message", "주소를 입력해주세요");
-					request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
-				} 
-				else if (tel == null) {
-					request.setAttribute("message", "전화번호를 입력해주세요");
-					request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
-				}
-				 else if (email == null) {
-						request.setAttribute("message", "이메일을 입력해주세요");
-						request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
-					}
-		
-		Staff staff = Staff.builder().name(name).birthDate(birthDate).gender(gender).address(address).tel(tel)
-		.email(email).build();
-		
-		userRepository.addStaff(staff);
-		request.setAttribute("message", "등록 완료");
-		request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
-		
-	}
-
-	/**
-	 * 교수 등록
-	 * @param request
-	 * @param response
-	 * @throws IOException 
-	 * @throws ServletException 
-	 */
-	private void addProfessor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String name = request.getParameter("name");
-		Date birthDate = Date.valueOf(request.getParameter("birthDate"));
-		String gender = request.getParameter("gender");
-		String address = request.getParameter("address");
-		String tel = request.getParameter("tel");
-		String email = request.getParameter("email");
-		int deptId = Integer.parseInt(request.getParameter("deptId"));
-		
-		// 방어적 코드 작성 및 예외처리
-				if(name == null || name.trim().isEmpty()) {
-					request.setAttribute("message", "이름을 입력해주세요.");
-					request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
-					return;
-				} else if (birthDate == null){
-					request.setAttribute("message", "생년월일을 입력해주세요.");
-					request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
-					return;
-				} else if (gender == null) {
-					request.setAttribute("message", "성별을 선택해주세요");
-					request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
-				} else if (address == null) {
-					request.setAttribute("message", "주소를 입력해주세요");
-					request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
-				} 
-				else if (tel == null) {
-					request.setAttribute("message", "전화번호를 입력해주세요");
-					request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
-				}
-				 else if (email == null) {
-						request.setAttribute("message", "이메일을 입력해주세요");
-						request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
-					}
-				 else if (deptId == 0) {
-						request.setAttribute("message", "과 ID를 선택해주세요");
-						request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
-					}
-		
-		Professor professor = Professor.builder().name(name).birthDate(birthDate).gender(gender).address(address).tel(tel)
-		.email(email).deptId(deptId).build();
-		
-		userRepository.addProfessor(professor);
-		request.setAttribute("message", "등록 완료");
-		request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
-		
-	}
-
-	/**
-	 * 학생 등록
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws IOException
 	 * @throws ServletException
 	 */
-	private void addStudent(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	private void addStaff(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String name = request.getParameter("name");
+		Date birthDate = Date.valueOf(request.getParameter("birthDate"));
+		String gender = request.getParameter("gender");
+		String address = request.getParameter("address");
+		String tel = request.getParameter("tel");
+		String email = request.getParameter("email");
+
+		// 방어적 코드 작성 및 예외처리
+		if (name == null || name.trim().isEmpty()) {
+			request.setAttribute("message", "이름을 입력해주세요.");
+			request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
+			return;
+		} else if (birthDate == null) {
+			request.setAttribute("message", "생년월일을 입력해주세요.");
+			request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
+			return;
+		} else if (gender == null || gender.trim().isEmpty()) {
+			request.setAttribute("message", "성별을 선택해주세요");
+			request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
+			return;
+		} else if (address == null || address.trim().isEmpty()) {
+			request.setAttribute("message", "주소를 입력해주세요");
+			request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
+			return;
+		} else if (tel == null || tel.trim().isEmpty()) {
+			request.setAttribute("message", "전화번호를 입력해주세요");
+			request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
+			return;
+		} else if (email == null || email.trim().isEmpty()) {
+			request.setAttribute("message", "이메일을 입력해주세요");
+			request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
+			return;
+		}
+
+		Staff staff = Staff.builder().name(name).birthDate(birthDate).gender(gender).address(address).tel(tel)
+				.email(email).build();
+
+		userRepository.addStaff(staff);
+		request.setAttribute("message", "등록 완료");
+		request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
+
+	}
+
+	/**
+	 * 교수 등록
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	private void addProfessor(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		try {
 		String name = request.getParameter("name");
 		Date birthDate = Date.valueOf(request.getParameter("birthDate"));
 		String gender = request.getParameter("gender");
@@ -227,47 +180,119 @@ public class UserController extends HttpServlet {
 		String tel = request.getParameter("tel");
 		String email = request.getParameter("email");
 		int deptId = Integer.parseInt(request.getParameter("deptId"));
-		System.out.println(request.getParameter("entranceDate"));
-		Date entranceDate = Date.valueOf(request.getParameter("entranceDate"));
-		
-		// 방어적 코드 작성 및 예외처리
-				if(name == null || name.trim().isEmpty()) {
-					request.setAttribute("message", "이름을 입력해주세요.");
-					request.getRequestDispatcher("/WEB-INF/views/user/student.jsp").forward(request, response);
-					return;
-				} else if (birthDate == null){
-					request.setAttribute("message", "생년월일을 입력해주세요.");
-					request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
-					return;
-				} else if (gender == null) {
-					request.setAttribute("message", "성별을 선택해주세요");
-					request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
-				} else if (address == null) {
-					request.setAttribute("message", "주소를 입력해주세요");
-					request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
-				} 
-				else if (tel == null) {
-					request.setAttribute("message", "전화번호를 입력해주세요");
-					request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
-				}
-				 else if (email == null) {
-						request.setAttribute("message", "이메일을 입력해주세요");
-						request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
-					}
-				 else if (deptId == 0) {
-						request.setAttribute("message", "과 ID를 선택해주세요");
-						request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
-					}
-		
-		Student student = Student.builder().name(name).birthDate(birthDate).gender(gender).address(address).tel(tel)
-		.email(email).deptId(deptId).entranceDate(entranceDate).build();
-		
-		userRepository.addStudent(student);
-		request.setAttribute("message", "등록 완료");
-		request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
-		
+		String deptIdStr = request.getParameter("deptId");
 
-		
+		// 방어적 코드 작성 및 예외처리
+		if (name == null || name.trim().isEmpty()) {
+			request.setAttribute("message", "이름을 입력해주세요.");
+			request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
+			return;
+		} else if (birthDate == null) {
+			request.setAttribute("message", "생년월일을 입력해주세요.");
+			request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
+			return;
+		} else if (gender == null || gender.trim().isEmpty()) {
+			request.setAttribute("message", "성별을 선택해주세요");
+			request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
+			return;
+		} else if (address == null || address.trim().isEmpty()) {
+			request.setAttribute("message", "주소를 입력해주세요");
+			request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
+			return;
+		} else if (tel == null || tel.trim().isEmpty()) {
+			request.setAttribute("message", "전화번호를 입력해주세요");
+			request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
+			return;
+		} else if (email == null || email.trim().isEmpty()) {
+			request.setAttribute("message", "이메일을 입력해주세요");
+			request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
+			return;
+		} else if (deptIdStr == null || deptIdStr.trim().isEmpty()) {
+			request.setAttribute("message", "과 ID를 선택해주세요");
+			request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
+			return;
+		}
+
+		Professor professor = Professor.builder().name(name).birthDate(birthDate).gender(gender).address(address)
+				.tel(tel).email(email).deptId(deptId).build();
+
+		userRepository.addProfessor(professor);
+		request.setAttribute("message", "등록 완료");
+		request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
+
+		} catch (Exception e) {
+			request.setAttribute("message", "입력된 정보가 잘못되었습니다.");
+			request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
+		}
+	}
+
+	/**
+	 * 학생 등록
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	private void addStudent(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		try {
+
+			String name = request.getParameter("name");
+			Date birthDate = Date.valueOf(request.getParameter("birthDate"));
+			String gender = request.getParameter("gender");
+			String address = request.getParameter("address");
+			String tel = request.getParameter("tel");
+			String email = request.getParameter("email");
+			int deptId = Integer.parseInt(request.getParameter("deptId"));
+			String deptIdStr = request.getParameter("deptId");
+			Date entranceDate = Date.valueOf(request.getParameter("entranceDate"));
+			// 방어적 코드 작성 및 예외처리
+			if (name == null || name.trim().isEmpty()) {
+				request.setAttribute("message", "이름을 입력해주세요.");
+				request.getRequestDispatcher("/WEB-INF/views/user/student.jsp").forward(request, response);
+				return;
+			} else if (birthDate == null) {
+				request.setAttribute("message", "생년월일을 입력해주세요.");
+				request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
+				return;
+			} else if (gender == null || gender.trim().isEmpty()) {
+				request.setAttribute("message", "성별을 선택해주세요");
+				request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
+				return;
+			} else if (address == null || address.trim().isEmpty()) {
+				request.setAttribute("message", "주소를 입력해주세요");
+				request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
+				return;
+			} else if (tel == null || tel.trim().isEmpty()) {
+				request.setAttribute("message", "전화번호를 입력해주세요");
+				request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
+				return;
+			} else if (email == null || email.trim().isEmpty()) {
+				request.setAttribute("message", "이메일을 입력해주세요");
+				request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
+				return;
+			} else if (deptIdStr == null || deptIdStr.trim().isEmpty()) {
+				request.setAttribute("message", "과 ID를 입력해주세요");
+				request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
+				return;
+			} else if (entranceDate == null) {
+				request.setAttribute("message", "입학날짜를 선택해주세요");
+				request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
+				return;
+			}
+
+			Student student = Student.builder().name(name).birthDate(birthDate).gender(gender).address(address).tel(tel)
+					.email(email).deptId(deptId).entranceDate(entranceDate).build();
+
+			userRepository.addStudent(student);
+			request.setAttribute("message", "등록 완료");
+			request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
+		} catch (Exception e) {
+			request.setAttribute("message", "입력된 정보가 잘못되었습니다.");
+			request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
+		}
+
 	}
 
 	// 임시 비밀번호 발급
@@ -293,9 +318,9 @@ public class UserController extends HttpServlet {
 		String email = request.getParameter("email");
 		String userRole = request.getParameter("userRole");
 		String userPassword = null;
-		
-		int id = Integer.parseInt(request.getParameter("id"));
+
 		try {
+			int id = Integer.parseInt(request.getParameter("id"));
 			if (userRole.equals("student")) {
 				userPassword = userRepository.getStudentPasswordByNameAndIdAndEmail(name, id, email);
 			} else if (userRole.equals("staff")) {
@@ -320,13 +345,13 @@ public class UserController extends HttpServlet {
 		String email = request.getParameter("email");
 		String userRole = request.getParameter("userRole");
 		int userId = 0;
-		
+
 		// 방어적 코드 및 예외처리
-		if(name == null || name.trim().isEmpty()) {
+		if (name == null || name.trim().isEmpty()) {
 			request.setAttribute("errorMessage", "이름을 입력해주세요.");
 			request.getRequestDispatcher("/WEB-INF/views/find/findid.jsp").forward(request, response);
 			return;
-		} else if (email == null || email.trim().isEmpty()){
+		} else if (email == null || email.trim().isEmpty()) {
 			request.setAttribute("errorMessage", "이메일을 입력해주세요.");
 			request.getRequestDispatcher("/WEB-INF/views/find/findid.jsp").forward(request, response);
 			return;
@@ -334,7 +359,7 @@ public class UserController extends HttpServlet {
 			request.setAttribute("errorMessage", "직위를 선택해주세요");
 			request.getRequestDispatcher("/WEB-INF/views/find/findid.jsp").forward(request, response);
 		}
-		
+
 		try {
 			if (userRole.equals("student")) {
 				userId = userRepository.getStudentIdByNameAndEmail(name, email);
@@ -342,7 +367,7 @@ public class UserController extends HttpServlet {
 				userId = userRepository.getStaffIdByNameAndEmail(name, email);
 			} else if (userRole.equals("professor")) {
 				userId = userRepository.getProfessorIdByNameAndEmail(name, email);
-			} 
+			}
 			request.setAttribute("userId", userId);
 			request.setAttribute("name", name);
 			request.getRequestDispatcher("/WEB-INF/views/find/findidresult.jsp").forward(request, response);
@@ -355,9 +380,9 @@ public class UserController extends HttpServlet {
 
 	private void handleSignin(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		
+
 		String password = request.getParameter("password");
-		
+
 		// 방어적 코드 및 예외 처리
 		// JSP에 required 때문에 필요없을지도? (일단 대기)
 //		String idStr = request.getParameter("id");
@@ -370,49 +395,49 @@ public class UserController extends HttpServlet {
 //			request.getRequestDispatcher("/login.jsp").forward(request, response);
 //			return;
 //		}
-		
+
 		int id = Integer.parseInt(request.getParameter("id"));
 		User user = userRepository.getUserByIdAndPassword(id, password);
 		Principal principal = null;
-		
-			if (user != null) {
-				if (user.getUserRole().equals("student")) {
-					principal = userRepository.getStudent(user);
-				} else if (user.getUserRole().equals("staff")) {
-					principal = userRepository.getStaff(user);
-				} else if (user.getUserRole().equals("professor")) {
-					principal = userRepository.getProfessor(user);
-				}
-				if (principal != null && principal.getPassword().equals(password)) {
-					String checkbox = request.getParameter("rememberId");
-					String id1 = request.getParameter("id");
-					response.setCharacterEncoding("UTF-8");
-					PrintWriter out = response.getWriter();
-					Cookie cookie = new Cookie("userId", id1);
-					System.out.println(checkbox);
-					System.out.println(cookie.getName());
-					if (checkbox != null) { 
-						cookie.setMaxAge(86400);
-						response.addCookie(cookie);
-						System.out.println("실행" + cookie);
-					} else {
-						cookie.setMaxAge(0);
-						response.addCookie(cookie);
-						System.out.println("실행xxx");
-					}
-					HttpSession session = request.getSession();
-					session.setAttribute("principal", principal);
-					//response.sendRedirect("/home.jsp");
-					request.getRequestDispatcher("/home.jsp").forward(request, response);
-					//request.getRequestDispatcher("/login.jsp").forward(request, response);
-				}
-			} else {
-				String id1 = request.getParameter("id");
-				Cookie cookie = new Cookie("userId", id1);
-				cookie.setMaxAge(0);
-				response.addCookie(cookie);
-				request.setAttribute("errorMessage", "아이디 비밀번호가 틀렸습니다.");
-				request.getRequestDispatcher("/login.jsp").forward(request, response);
+
+		if (user != null) {
+			if (user.getUserRole().equals("student")) {
+				principal = userRepository.getStudent(user);
+			} else if (user.getUserRole().equals("staff")) {
+				principal = userRepository.getStaff(user);
+			} else if (user.getUserRole().equals("professor")) {
+				principal = userRepository.getProfessor(user);
 			}
+			if (principal != null && principal.getPassword().equals(password)) {
+				String checkbox = request.getParameter("rememberId");
+				String id1 = request.getParameter("id");
+				response.setCharacterEncoding("UTF-8");
+				PrintWriter out = response.getWriter();
+				Cookie cookie = new Cookie("userId", id1);
+				System.out.println(checkbox);
+				System.out.println(cookie.getName());
+				if (checkbox != null) {
+					cookie.setMaxAge(86400);
+					response.addCookie(cookie);
+					System.out.println("실행" + cookie);
+				} else {
+					cookie.setMaxAge(0);
+					response.addCookie(cookie);
+					System.out.println("실행xxx");
+				}
+				HttpSession session = request.getSession();
+				session.setAttribute("principal", principal);
+				// response.sendRedirect("/home.jsp");
+				request.getRequestDispatcher("/home.jsp").forward(request, response);
+				// request.getRequestDispatcher("/login.jsp").forward(request, response);
+			}
+		} else {
+			String id1 = request.getParameter("id");
+			Cookie cookie = new Cookie("userId", id1);
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
+			request.setAttribute("errorMessage", "아이디 비밀번호가 틀렸습니다.");
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+		}
 	}
 }
