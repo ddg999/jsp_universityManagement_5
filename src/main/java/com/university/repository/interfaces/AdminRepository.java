@@ -9,6 +9,8 @@ import com.university.model.Room;
 import com.university.model.Subject;
 
 public interface AdminRepository {
+	
+	// 단과대 CRUD
 	void addCollege(College college);
 
 	List<College> getAllColleges();
@@ -17,6 +19,7 @@ public interface AdminRepository {
 
 	void deleteCollege(String collegeName);
 
+	// 학과 CRUD
 	void addDepartment(Department department);
 
 	List<Department> getAllDepartments();
@@ -25,6 +28,7 @@ public interface AdminRepository {
 
 	void deleteDepartment(int departmentId);
 
+	// 강의실 CRUD
 	void addRoom(Room room);
 
 	List<Room> getAllRooms();
@@ -33,6 +37,7 @@ public interface AdminRepository {
 
 	void deleteRoom(String roomId);
 
+	// 강의 CRUD
 	void addSubject(Subject subject);
 
 	List<Subject> getAllSubjects();
@@ -41,6 +46,7 @@ public interface AdminRepository {
 
 	void deleteSubject(int subjectId);
 
+	// 단대별 등록금 CRUD
 	void addCollTuit(CollTuit collTuit);
 
 	List<CollTuit> getAllCollTuits();

@@ -18,6 +18,4 @@ public interface ProfessorRepository {
 	Syllabus getsyllabus(Subject subject); // 임시코드
 	// TODO 강의별 학생리스트, 조회, 출결 및 성적기입
 	
-	
-	
 }

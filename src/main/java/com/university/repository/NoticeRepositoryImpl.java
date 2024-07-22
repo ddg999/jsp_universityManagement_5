@@ -20,6 +20,7 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 	private static final String COUNT_ALL_NOTICES = " SELECT count(*) count from notice_tb ";
 	private static final String COUNT_NOTICES_BY_TITLE = " SELECT count(*) count from notice_tb WHERE title LIKE ? ";
 	private static final String COUNT_NOTICES_BY_TITLE_OR_CONTENT = " SELECT count(*) count from notice_tb WHERE title LIKE ? OR content LIKE ? ";
+	private static final String UPDATE_NOTICE_VIEW = " UPDATE notice_tb SET views = views + 1 WHERE id = ? ";
 
 	@Override
 	public Notice getNoticeById(int noticeId) {
@@ -100,6 +101,16 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 	}
 
 	@Override
+	public void updateNotice(Notice notice) {
+
+	}
+
+	@Override
+	public void deleteNotice(int noticeId) {
+
+	}
+
+	@Override
 	public List<Schedule> getAllSchedule() {
 		List<Schedule> scheduleList = new ArrayList<>();
 		try (Connection conn = DBUtil.getConnection();
@@ -162,5 +173,22 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 			e.printStackTrace();
 		}
 		return count;
+	}
+
+	@Override
+	public void updateNoticeView(int noticeId) {
+		try (Connection conn = DBUtil.getConnection()) {
+			conn.setAutoCommit(false);
+			try (PreparedStatement pstmt = conn.prepareStatement(UPDATE_NOTICE_VIEW)) {
+				pstmt.setInt(1, noticeId);
+				pstmt.executeUpdate();
+				conn.commit();
+			} catch (Exception e) {
+				conn.rollback();
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

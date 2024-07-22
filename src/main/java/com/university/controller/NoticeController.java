@@ -10,6 +10,7 @@ import com.university.repository.interfaces.NoticeRepository;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,11 +27,6 @@ public class NoticeController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		HttpSession session = request.getSession(false);
-//		if (session == null || session.getAttribute("principal") == null) {
-//			response.sendRedirect(request.getContextPath() + "/user/signin");
-//			return;
-//		}
 		String action = request.getPathInfo();
 		switch (action) {
 		case "/list":
@@ -52,7 +48,6 @@ public class NoticeController extends HttpServlet {
 	}
 
 	// 공지사항 페이지, 전체 공지사항 불러오기
-	// TODO 페이징
 	private void showNoticeBoard(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		int page = 1; // 기본 페이지 번호
@@ -107,8 +102,6 @@ public class NoticeController extends HttpServlet {
 			} else if (type.equals("keyword")) {
 				noticeList = noticeRepository.getNoticesByTitleOrContent(keyword, pageSize, offset);
 				totalNotices = noticeRepository.getTotalNoticesCountByTitleOrContent(keyword);
-			} else {
-				// TODO type이 잘못쓰였을때 에러처리
 			}
 			int totalPages = (int) Math.ceil((double) totalNotices / pageSize);
 			request.setAttribute("type", type);
@@ -125,13 +118,38 @@ public class NoticeController extends HttpServlet {
 	// 공지사항 상세보기
 	private void showNoticeDetail(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		int noticeId = Integer.parseInt(request.getParameter("id"));
 		Notice notice = noticeRepository.getNoticeById(noticeId);
+
+		Cookie viewCookie = null;
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (int i = 0; i < cookies.length; i++) {
+				if (cookies[i].getValue().equals("notice:" + noticeId)) {
+					viewCookie = cookies[i];
+				}
+			}
+		}
+		if (viewCookie == null) {
+			try {
+				Cookie newCookie = new Cookie("viewCookie", "notice:" + noticeId);
+				newCookie.setMaxAge(1800);
+				response.addCookie(newCookie);
+
+				noticeRepository.updateNoticeView(noticeId);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else if (!viewCookie.getValue().equals("notice:" + noticeId)) {
+			noticeRepository.updateNoticeView(noticeId);
+		}
 
 		request.setAttribute("notice", notice);
 		request.getRequestDispatcher("/WEB-INF/views/notice/read.jsp").forward(request, response);
 	}
 
+	// 학사 일정 페이지, 전체 학사일정 불러오기
 	private void showSchedule(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		List<Schedule> scheduleList = noticeRepository.getAllSchedule();
