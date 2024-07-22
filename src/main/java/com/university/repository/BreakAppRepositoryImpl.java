@@ -18,6 +18,7 @@ public class BreakAppRepositoryImpl implements BreakAppRepository {
 	private static final String SELECT_APP_BY_STATUS = " select * from break_app_tb where status = ? ";
 	private static final String DELETE_APP_BY_ID = " delete from break_app_tb where id = ? ";
 	private static final String UPDATE_APP_BY_ID = " update break_app_tb set status = ? where id = ? ";
+	private static final String SELECT_APP_BY_ID = " select * from break_app_tb where id = ? ";
 	
 	@Override
 	public void insertApp(BreakApp breakApp) {
@@ -47,11 +48,12 @@ public class BreakAppRepositoryImpl implements BreakAppRepository {
 	public List<BreakApp> selectAppByStudentId(int studentId) {
 		List<BreakApp> breakAppList = new ArrayList<>();
 		try (Connection conn = DBUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(SELECT_APP_BY_STATUS)) {
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_APP_BY_STUDENT_ID)) {
 			pstmt.setInt(1, studentId);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
 				breakAppList.add(BreakApp.builder()
+						.id(rs.getInt("id"))
 						.studentId(studentId)
 						.studentGrade(rs.getInt("student_grade"))
 						.fromYear(rs.getInt("from_year"))
@@ -59,6 +61,8 @@ public class BreakAppRepositoryImpl implements BreakAppRepository {
 						.toYear(rs.getInt("to_year"))
 						.toSemester(rs.getInt("to_semester"))
 						.type(rs.getString("type"))
+						.appDate(rs.getDate("app_date"))
+						.status(rs.getString("status"))
 						.build());
 			}
 		} catch (Exception e) {
@@ -129,6 +133,33 @@ public class BreakAppRepositoryImpl implements BreakAppRepository {
 			e.printStackTrace();
 		}
 		
+	}
+
+	@Override
+	public BreakApp selectAppById(int id) {
+		BreakApp breakApp = null;
+		
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_APP_BY_ID)) {
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				breakApp = BreakApp.builder()
+						.id(id)
+						.appDate(rs.getDate("app_date"))
+						.type(rs.getString("type"))
+						.fromYear(rs.getInt("from_year"))
+						.fromSemester(rs.getInt("from_semester"))
+						.toYear(rs.getInt("to_year"))
+						.toSemester(rs.getInt("to_semester"))
+						.status(rs.getString("status"))
+						.build();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return breakApp;
 	}
 
 }
