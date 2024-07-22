@@ -108,7 +108,7 @@
 						</tr>
 					</table>
 				</div>
-				<button type="submit" class="btn btn-dark" onclick="return confirm('휴학을 신청하시겠습니까?')">신청하기</button>
+				<button type="submit" class="btn btn-dark">신청하기</button>
 			</form>
 		</div>
 	</main>
