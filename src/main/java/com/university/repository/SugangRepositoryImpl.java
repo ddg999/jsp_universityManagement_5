@@ -13,7 +13,6 @@ import com.university.util.DBUtil;
 public class SugangRepositoryImpl implements SugangRepository {
 
 	private static final String SELECT_ALL_SUB = " select * from subject_tb ";
-	private static final String INSERT_PRE_SUB = " insert into pre_stu_sub_tb values(?, ?) ";
 	private static final String INSERT_SUB = " insert into stu_sub_tb values(?, ?) ";
 	private static final String SELECT_SUB_BY_STUDENT_ID_AND_SEMESTER = " SELECT student_id, subject_id, su.name AS subject_name, p.name AS professor_name, grades, sub_day, start_time, end_time, num_of_student, capacity, room_id FROM stu_sub_tb AS ss LEFT JOIN subject_tb AS su ON ss.subject_id = su.id LEFT JOIN professor_tb AS p ON su.professor_id = p.id WHERE student_id = ? AND sub_year = ? AND semester = ? ";
 	
@@ -42,14 +41,7 @@ public class SugangRepositoryImpl implements SugangRepository {
 	}
 
 	@Override
-	public void addPresubStudent(int studentId, int subjectId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void addSubStudent(int studentId, int subjectId) {
-		// TODO Auto-generated method stub
 		
 	}
 
