@@ -60,7 +60,6 @@ public class UserController extends HttpServlet {
 
 		case "/studentList":
 			studentAllView(request, response, session);
-			request.getRequestDispatcher("/WEB-INF/views/user/studentlist.jsp").forward(request, response);
 			break;
 
 		case "/student":
@@ -146,17 +145,22 @@ public class UserController extends HttpServlet {
 		int totalBoards = userRepository.getTotalBoardCount();
 		int totalPage = (int)Math.ceil((double)totalBoards / pageSize);
 		
+//		request.setAttribute("studentList", studentList);
+//		request.setAttribute("listCount", totalPage);
+//		request.setAttribute("index", page);
+	
 		request.setAttribute("studentList", studentList);
 		request.setAttribute("listCount", totalPage);
 		request.setAttribute("index", page);
 		
-		if(session != null) {
-			Principal principal = (Principal)session.getAttribute("principal");
-			if(principal != null) {
-				request.setAttribute("userID", principal.getId());
-			}
-		}
-//		request.getRequestDispatcher("/WEB-INF/views/user/studentlist.jsp").forward(request, response);
+		
+//		if(session != null) {
+//			Principal principal = (Principal)session.getAttribute("principal");
+//			if(principal != null) {
+//				request.setAttribute("id", principal.getId());
+//			}
+//		}
+		request.getRequestDispatcher("/WEB-INF/views/user/studentlist.jsp").forward(request, response);
 	}
 
 	/**

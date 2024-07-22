@@ -5,7 +5,6 @@ import com.university.model.ProfessorInfo;
 import com.university.model.Staff;
 import com.university.model.Student;
 import com.university.model.StudentInfo;
-import com.university.model.User;
 
 public interface InfoRepository {
 	

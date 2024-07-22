@@ -13,5 +13,5 @@
 		jdbcUrl="jdbc:mysql://localhost:3306/db_university?serverTimezone=Asia/Seoul"
 		driverClassName="com.mysql.cj.jdbc.Driver"
 		username="root"
-		password="asd123" />
+		password="gudwjd6742" />
 </Context>

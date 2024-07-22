@@ -34,7 +34,7 @@ public class UserRepositoryImpl implements UserRepository {
 	private static final String INSERT_PROFESSOR_SQL = " insert into professor_tb (name, birth_date, gender, address, tel, email, dept_id) values (?, ?, ?, ?, ?, ?, ?) ";
 	private static final String INSERT_STAFF_SQL = " insert into staff_tb (name, birth_date, gender, address, tel, email) values(?, ?, ?, ?, ?, ?) ";
 
-	private static final String SELECT_ALL_STUDENT = " select * from student_tb ";
+	private static final String SELECT_ALL_STUDENT = " SELECT * FROM student_tb LIMIT ? OFFSET ? ";
 	private static final String SELECT_ALL_STAFF = " select * from staff_tb ";
 	private static final String SELECT_ALL_PROFESSOR = " select * from professor_tb ";
 	
@@ -325,53 +325,55 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	@Override
-	public void selectAllStudent(Student student) {
-		try (Connection conn = DBUtil.getConnection()) {
-			conn.setAutoCommit(false);
-			try (PreparedStatement pstmt = conn.prepareStatement(SELECT_ALL_STUDENT)) {
-				pstmt.setString(1, student.getName()); // 이름
-				pstmt.setDate(2, student.getBirthDate()); // 생일
-				pstmt.setString(3, student.getGender()); // 성별
-				pstmt.setString(4, student.getAddress()); // 주소
-				pstmt.setString(5, student.getTel()); // 전화번호
-				pstmt.setString(6, student.getEmail()); // 이메일
-				pstmt.setInt(7, student.getDeptId()); // 학과번호
-				pstmt.setDate(8, student.getEntranceDate()); // 입학일
-				pstmt.executeUpdate();
-				conn.commit();
-			} catch (Exception e) {
-				e.printStackTrace();
-				conn.rollback();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    public void selectAllStudent(Student student) {
+        try (Connection conn = DBUtil.getConnection()) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement pstmt = conn.prepareStatement(SELECT_ALL_STUDENT)) {
+                pstmt.setString(1, student.getName()); // 이름
+                pstmt.setDate(2, student.getBirthDate()); // 생일
+                pstmt.setString(3, student.getGender()); // 성별
+                pstmt.setString(4, student.getAddress()); // 주소
+                pstmt.setString(5, student.getTel()); // 전화번호
+                pstmt.setString(6, student.getEmail()); // 이메일
+                pstmt.setInt(7, student.getDeptId()); // 학과번호
+                pstmt.setDate(8, student.getEntranceDate()); // 입학일
+                pstmt.executeUpdate();
+                conn.commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+                conn.rollback();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 	@Override
-	public List<Student> getAllBoards(int limit, int offset) {
-		List<Student> boardlist = new ArrayList<>();
+    public List<Student> getAllBoards(int limit, int offset) {
+        List<Student> boardlist = new ArrayList<>();
 
-		try (Connection conn = DBUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(SELECT_ALL_STUDENT)) {
+        try (Connection conn = DBUtil.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(SELECT_ALL_STUDENT)) {
+        	pstmt.setInt(1, limit);
+        	pstmt.setInt(2, offset);
+            ResultSet rs = pstmt.executeQuery();
 
-			ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                boardlist.add(Student.builder().id(rs.getInt("id")).name(rs.getString("name"))
+                        .birthDate(rs.getDate("birth_date")).gender(rs.getString("gender"))
+                        .address(rs.getString("address")).tel(rs.getString("tel")).email(rs.getString("email"))
+                        .deptId(rs.getInt("dept_id")).grade(rs.getInt("grade")).semester(rs.getInt("semester"))
+                        .entranceDate(rs.getDate("entrance_date")).graduationDate(rs.getDate("graduation_date")).build());
 
-			while (rs.next()) {
-				boardlist.add(Student.builder().id(rs.getInt("id")).name(rs.getString("name"))
-						.birthDate(rs.getDate("birth_date")).gender(rs.getString("gender"))
-						.address(rs.getString("address")).tel(rs.getString("tel")).email(rs.getString("email"))
-						.deptId(rs.getInt("dept_id")).grade(rs.getInt("grade")).semester(rs.getInt("semester"))
-						.entranceDate(rs.getDate("entrance_date")).graduationDate(rs.getDate("graduation_date")).build());
-			}
-			System.out.println("BoardRepositoryImpl - 로깅 : count " + boardlist.size());
+            }
+            System.out.println("BoardRepositoryImpl - 로깅 : count " + boardlist.size());
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-		return boardlist;
-	}
+        return boardlist;
+    }
 
 	@Override
 	public int getTotalBoardCount() {
