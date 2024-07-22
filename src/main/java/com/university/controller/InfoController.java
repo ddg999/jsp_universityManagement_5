@@ -65,7 +65,6 @@ public class InfoController extends HttpServlet {
 
 		// 내정보 수정하기
 		case "/update":
-			System.out.println("혹시!!");
 			request.getRequestDispatcher("/WEB-INF/views/info/updateInfo.jsp").forward(request, response);
 			break;
 

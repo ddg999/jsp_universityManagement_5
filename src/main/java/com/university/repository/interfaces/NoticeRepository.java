@@ -14,6 +14,8 @@ public interface NoticeRepository {
 
 	List<Notice> getNoticesByTitleOrContent(String keyword, int pageSize, int offset);
 
+	void createNotice(Notice notice);
+
 	void updateNotice(Notice notice);
 
 	void deleteNotice(int noticeId);

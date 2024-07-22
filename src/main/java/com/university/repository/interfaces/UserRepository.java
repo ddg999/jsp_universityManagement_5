@@ -42,5 +42,7 @@ public interface UserRepository {
 	void addStudent(Student student);
 	void addProfessor(Professor professor);
 	void addStaff(Staff staff);
+	
+	void selectAllStudent(Student student);
 
 }

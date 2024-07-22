@@ -32,6 +32,10 @@ public class UserRepositoryImpl implements UserRepository {
 	private static final String INSERT_PROFESSOR_SQL = " insert into professor_tb (name, birth_date, gender, address, tel, email, dept_id) values (?, ?, ?, ?, ?, ?, ?) ";
 	private static final String INSERT_STAFF_SQL = " insert into staff_tb (name, birth_date, gender, address, tel, email) values(?, ?, ?, ?, ?, ?) ";
 	
+	private static final String SELECT_ALL_STUDENT = " select * from student_tb ";
+	private static final String SELECT_ALL_STAFF = " select * from staff_tb ";
+	private static final String SELECT_ALL_PROFESSOR = " select * from professor_tb ";
+	
 	
 	@Override
 	public int getStudentIdByNameAndEmail(String name, String email) {
