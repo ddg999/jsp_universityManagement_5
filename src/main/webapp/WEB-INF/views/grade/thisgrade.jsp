@@ -66,12 +66,12 @@
 									<td>${grade.subYear}년</td>
 									<td>${grade.semester}학기</td>
 									<td>${grade.subjectId}</td>
-									<td class="sub--list--name">${grade.name}</td>
+									<td class="sub--list--name">${grade.subjectName}</td>
 									<td>${grade.type}</td>
 									<td>${grade.grades}</td>
 									<td>${grade.grade}</td>
 									<td><c:choose>
-											<c:when test="${grade.evaluationId == null}">
+											<c:when test="${grade.evaluationId == 0}">
 												<a href="/evaluation?subjectId=${grade.subjectId}" onclick="window.open(this.href, '_blank', 'width=720, height=1000'); return false;">Click</a>
 											</c:when>
 											<c:otherwise>
@@ -86,7 +86,7 @@
 				</div>
 				<hr>
 				<br>
-				<div>
+				<%-- <div>
 					<h4 style="font-weight: 600">누계 성적</h4>
 					<table border="1" class="sub--list--table">
 						<thead>
@@ -100,7 +100,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<%-- 금학기 누계성적 --%>
+								금학기 누계성적
 								<td>${mygrade.subYear}년</td>
 								<td>${mygrade.semester}학기</td>
 								<td>${mygrade.sumGrades}</td>
@@ -109,7 +109,7 @@
 							</tr>
 						</tbody>
 					</table>
-				</div>
+				</div> --%>
 			</c:when>
 			<c:otherwise>
 				<p class="no--list--p">강의 신청 및 수강 이력 확인 바랍니다.</p>

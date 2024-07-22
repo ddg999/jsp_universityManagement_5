@@ -7,7 +7,7 @@ import com.university.model.BreakApp;
 public interface BreakAppRepository {
 
 	// 휴학 신청
-	int insertApp(BreakApp breakApp);
+	void insertApp(BreakApp breakApp);
 	
 	// 학생 휴학 신청 조회
 	List<BreakApp> selectAppByStudentId(int studentId);
@@ -15,13 +15,13 @@ public interface BreakAppRepository {
 	// 직원 휴학 신청 조회
 	List<BreakApp> selectAppByStatus(String status);
 	
-	// 특정 휴학 신청 조회
+	// 특정 휴학 신청서 조회
 	BreakApp selectAppById(int id);
 	
 	// 학생 휴학 신청 취소
-	int deleteAppById(int id);
+	void deleteAppById(int id);
 	
 	// 직원 휴학 신청 처리
-	int updateAppById(int id, String status);
+	void updateAppById(int id, String status);
 	
 }

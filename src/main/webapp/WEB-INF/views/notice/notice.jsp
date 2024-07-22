@@ -17,7 +17,7 @@
 					<tr>
 						<td><a href="${pageContext.request.contextPath}/notice/schedule">학사일정</a></td>
 					</tr>
-					<c:if test="${principal.userRole eq staff}">
+					<c:if test="${principal.userRole eq 'staff'}">
 					<tr>
 						<td><a href="${pageContext.request.contextPath}/scheduleList.jsp">학사일정 등록</a></td>
 					</tr>
@@ -79,7 +79,10 @@
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
-	</div>
+		<c:if test="${principal.userRole eq 'staff'}">
+		<a href="/notice/write" class="notice--write">게시글 등록</a>
+		</c:if>
+		</div>
 	</main>
 </div>
 <%@ include file="../layout/footer.jsp"%>

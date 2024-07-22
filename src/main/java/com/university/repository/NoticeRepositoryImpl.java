@@ -20,6 +20,11 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 	private static final String COUNT_ALL_NOTICES = " SELECT count(*) count from notice_tb ";
 	private static final String COUNT_NOTICES_BY_TITLE = " SELECT count(*) count from notice_tb WHERE title LIKE ? ";
 	private static final String COUNT_NOTICES_BY_TITLE_OR_CONTENT = " SELECT count(*) count from notice_tb WHERE title LIKE ? OR content LIKE ? ";
+	private static final String UPDATE_NOTICE_VIEW = " UPDATE notice_tb SET views = views + 1 WHERE id = ? ";
+
+	private static final String INSERT_NOTICE_SQL = " INSERT INTO notice_tb (category, title, content) VALUES (?, ?, ?) ";
+	private static final String UPDATE_NOTICE_SQL = " UPDATE notice_tb SET category = ?, title = ?, content = ? WHERE id = ? ";
+	private static final String DELETE_NOTICE_SQL = " DELETE FROM notice_tb WHERE id = ? ";
 
 	@Override
 	public Notice getNoticeById(int noticeId) {
@@ -100,6 +105,62 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 	}
 
 	@Override
+	public void createNotice(Notice notice) {
+		try (Connection conn = DBUtil.getConnection()) {
+			conn.setAutoCommit(false);
+			try (PreparedStatement pstmt = conn.prepareStatement(INSERT_NOTICE_SQL)) {
+				pstmt.setString(1, notice.getCategory());
+				pstmt.setString(2, notice.getTitle());
+				pstmt.setString(3, notice.getContent());
+				pstmt.executeUpdate();
+				conn.commit();
+			} catch (Exception e) {
+				conn.rollback();
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void updateNotice(Notice notice) {
+		try (Connection conn = DBUtil.getConnection()) {
+			conn.setAutoCommit(false);
+			try (PreparedStatement pstmt = conn.prepareStatement(UPDATE_NOTICE_SQL)) {
+				pstmt.setString(1, notice.getCategory());
+				pstmt.setString(2, notice.getTitle());
+				pstmt.setString(3, notice.getContent());
+				pstmt.setInt(4, notice.getId());
+				pstmt.executeUpdate();
+				conn.commit();
+			} catch (Exception e) {
+				conn.rollback();
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void deleteNotice(int noticeId) {
+		try (Connection conn = DBUtil.getConnection()) {
+			conn.setAutoCommit(false);
+			try (PreparedStatement pstmt = conn.prepareStatement(DELETE_NOTICE_SQL)) {
+				pstmt.setInt(1, noticeId);
+				pstmt.executeUpdate();
+				conn.commit();
+			} catch (Exception e) {
+				conn.rollback();
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
 	public List<Schedule> getAllSchedule() {
 		List<Schedule> scheduleList = new ArrayList<>();
 		try (Connection conn = DBUtil.getConnection();
@@ -162,5 +223,22 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 			e.printStackTrace();
 		}
 		return count;
+	}
+
+	@Override
+	public void updateNoticeView(int noticeId) {
+		try (Connection conn = DBUtil.getConnection()) {
+			conn.setAutoCommit(false);
+			try (PreparedStatement pstmt = conn.prepareStatement(UPDATE_NOTICE_VIEW)) {
+				pstmt.setInt(1, noticeId);
+				pstmt.executeUpdate();
+				conn.commit();
+			} catch (Exception e) {
+				conn.rollback();
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -27,4 +27,5 @@ public class Student {
 	private int semester; // 학기
 	private Date entranceDate; // 입학날짜
 	private Date graduationDate; // 졸업 날짜
+
 }

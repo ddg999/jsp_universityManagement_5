@@ -176,6 +176,12 @@ public class SubjectRepositoryImpl implements SubjectRepository{
 		return null;
 	}
 
+	@Override
+	public int getTotalProfessorSubject() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 
 

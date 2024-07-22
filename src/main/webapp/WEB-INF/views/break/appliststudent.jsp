@@ -28,10 +28,10 @@
 					<td><a href="/info/password">비밀번호 변경</a></td>
 				</tr>
 				<tr>
-					<td><a href="/info/break/application">휴학 신청</a></td>
+					<td><a href="/break/application">휴학 신청</a></td>
 				</tr>
 				<tr>
-					<td><a href="/info/break/list" class="selected--menu">휴학 내역 조회</a></td>
+					<td><a href="/break/list" class="selected--menu">휴학 내역 조회</a></td>
 				</tr>
 				<tr>
 					<td><a href="/info/tuition/list">등록금 내역 조회</a></td>
@@ -69,7 +69,7 @@
 								<td>${breakApp.type}휴학</td>
 								<td>${breakApp.fromYear}년도&nbsp;${breakApp.fromSemester}학기</td>
 								<td>${breakApp.toYear}년도&nbsp;${breakApp.toSemester}학기</td>
-								<td><a href="/break/detail/${breakApp.id}">Click</a></td>
+								<td><a href="/break/detail?id=${breakApp.id}">Click</a></td>
 								<td><c:choose>
 										<c:when test="${breakApp.status.equals(\"처리중\")}">
 											<span style="color: #767676; font-weight: 600">처리중</span>
