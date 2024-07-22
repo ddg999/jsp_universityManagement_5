@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import com.university.model.Principal;
+import com.university.model.Professor;
+import com.university.model.Staff;
+import com.university.model.Student;
 import com.university.model.User;
 import com.university.repository.interfaces.UserRepository;
 import com.university.util.DBUtil;
@@ -24,6 +27,9 @@ public class UserRepositoryImpl implements UserRepository {
 
 	private static final String SELECT_USER_BY_USERID_AND_PASSWORD = " select * from user_tb where id = ? and password = ? ";
 	private static final String UPDATE_USER_PASSWORD = " update user_tb set password = ? where id = ? ";
+	
+	private static final String INSERT_STUDENT_SQL = " insert into student_tb (name, birth_date, gender, address, tel, email, dept_id, entrance_date) values (?, ?, ?, ?, ?, ?, ?, ?) ";
+	
 
 	@Override
 	public int getStudentIdByNameAndEmail(String name, String email) {
@@ -237,6 +243,43 @@ public class UserRepositoryImpl implements UserRepository {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void addStudent(Student student) {
+		try (Connection conn = DBUtil.getConnection()){
+			conn.setAutoCommit(false);
+			try (PreparedStatement pstmt = conn.prepareStatement(INSERT_STUDENT_SQL)){
+				pstmt.setString(1, student.getName()); //이름
+				pstmt.setDate(2, student.getBirthDate()); // 생일
+				pstmt.setString(3, student.getGender()); //성별
+				pstmt.setString(4, student.getAddress()); // 주소
+				pstmt.setString(5, student.getTel()); // 전화번호
+				pstmt.setString(6, student.getEmail()); // 이메일
+				pstmt.setInt(7, student.getDeptId()); // 학과번호
+				pstmt.setDate(8, student.getEntranceDate()); // 입학일
+				pstmt.executeUpdate();
+				conn.commit();
+			} catch (Exception e) {
+				e.printStackTrace();
+				conn.rollback();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void addProfessor(Professor professor) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addStaff(Staff staff) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
