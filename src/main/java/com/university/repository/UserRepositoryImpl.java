@@ -388,6 +388,8 @@ public class UserRepositoryImpl implements UserRepository {
 		}
 		System.out.println("로깅 totalCount : " + count);
 		return count;
+		// TODO Auto-generated method stub
+		
 	}
 
 }
