@@ -34,10 +34,10 @@
 					<td><a href="/info/password">비밀번호 변경</a></td>
 				</tr>
 				<tr>
-					<td><a href="/info/break/application" class="selected--menu">휴학 신청</a></td>
+					<td><a href="/break/application" class="selected--menu">휴학 신청</a></td>
 				</tr>
 				<tr>
-					<td><a href="/info/break/list">휴학 내역 조회</a></td>
+					<td><a href="/break/list">휴학 내역 조회</a></td>
 				</tr>
 				<tr>
 					<td><a href="/info/tuition/list">등록금 내역 조회</a></td>

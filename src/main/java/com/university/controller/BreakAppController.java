@@ -3,9 +3,12 @@ package com.university.controller;
 import java.io.IOException;
 
 import com.university.model.BreakApp;
+import com.university.model.Principal;
 import com.university.model.Student;
+import com.university.model.StudentInfo;
 import com.university.repository.BreakAppRepositoryImpl;
 import com.university.repository.interfaces.BreakAppRepository;
+import com.university.repository.interfaces.InfoRepository;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,6 +21,7 @@ import jakarta.servlet.http.HttpSession;
 public class BreakAppController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private BreakAppRepository breakAppRepository;
+	private InfoRepository infoRepository;
 	
 
 	@Override
@@ -26,12 +30,20 @@ public class BreakAppController extends HttpServlet {
 
 	}
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (principal == null) {
+			response.sendRedirect("/login.jsp");
+			return;
+		}
+		
 		String action = request.getPathInfo();
 		switch (action) {
 		// 휴학 신청 페이지
 		case "/application":
+			getAppStudentInfo(request, response, principal.getId());
 			request.getRequestDispatcher("/WEB-INF/views/break/application.jsp").forward(request, response);
 			break;
 		// 휴학 내역 조회 페이지
@@ -48,15 +60,30 @@ public class BreakAppController extends HttpServlet {
 		}
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+
+	private void getAppStudentInfo(HttpServletRequest request, HttpServletResponse response, int principalId) {
+		StudentInfo student = infoRepository.getStudentInfo(principalId);
+		System.out.println(student);
+		request.setAttribute("student", student);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Principal principal = (Principal) session.getAttribute("principal");
+
+		if (principal == null) {
+			response.sendRedirect("/login.jsp");
+			return;
+		}
+		
 		String action = request.getPathInfo();
 		switch (action) {
 		case "/application":
-			handleAddApplication(request, response, session);
+			handleAddApplication(request, response, principal.getId());
 			break;
 		case "/list/staff":
-			handleUpdateApplication(request, response, session);
+			handleUpdateApplication(request, response, principal.getId());
 			break;
 		default:
 			break;
@@ -64,13 +91,11 @@ public class BreakAppController extends HttpServlet {
 		
 	}
 
-	private void handleUpdateApplication(HttpServletRequest request, HttpServletResponse response,
-			HttpSession session) throws IOException {
+	private void handleUpdateApplication(HttpServletRequest request, HttpServletResponse response, int principalId) throws IOException {
 		int appId = Integer.parseInt(request.getParameter("id"));
 		String status = request.getParameter("status");
 				
 		try {
-			Student student = (Student) session.getAttribute("principal");
 			
 			BreakApp breakApp = BreakApp.builder()
 					.id(appId)
@@ -86,8 +111,7 @@ public class BreakAppController extends HttpServlet {
 		
 	}
 
-	private void handleAddApplication(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
-		Student student = (Student) session.getAttribute("principal"); 
+	private void handleAddApplication(HttpServletRequest request, HttpServletResponse response, int principalId) throws IOException {
 		int studentId = Integer.parseInt(request.getParameter("student_id"));
 		int studentGrade = Integer.parseInt(request.getParameter("student_grade"));
 		int fromYear = Integer.parseInt(request.getParameter("from_year"));
