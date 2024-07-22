@@ -29,8 +29,10 @@ public class UserRepositoryImpl implements UserRepository {
 	private static final String UPDATE_USER_PASSWORD = " update user_tb set password = ? where id = ? ";
 	
 	private static final String INSERT_STUDENT_SQL = " insert into student_tb (name, birth_date, gender, address, tel, email, dept_id, entrance_date) values (?, ?, ?, ?, ?, ?, ?, ?) ";
+	private static final String INSERT_PROFESSOR_SQL = " insert into professor_tb (name, birth_date, gender, address, tel, email, dept_id) values (?, ?, ?, ?, ?, ?, ?) ";
+	private static final String INSERT_STAFF_SQL = " insert into staff_tb (name, birth_date, gender, address, tel, email) values(?, ?, ?, ?, ?, ?) ";
 	
-
+	
 	@Override
 	public int getStudentIdByNameAndEmail(String name, String email) {
 		User user = null;
@@ -272,14 +274,47 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public void addProfessor(Professor professor) {
-		// TODO Auto-generated method stub
-		
+		try (Connection conn = DBUtil.getConnection()){
+			conn.setAutoCommit(false);
+			try (PreparedStatement pstmt = conn.prepareStatement(INSERT_PROFESSOR_SQL)){
+				pstmt.setString(1, professor.getName()); //이름
+				pstmt.setDate(2, professor.getBirthDate()); // 생일
+				pstmt.setString(3, professor.getGender()); //성별
+				pstmt.setString(4, professor.getAddress()); // 주소
+				pstmt.setString(5, professor.getTel()); // 전화번호
+				pstmt.setString(6, professor.getEmail()); // 이메일
+				pstmt.setInt(7, professor.getDeptId()); // 과ID
+				pstmt.executeUpdate();
+				conn.commit();
+			} catch (Exception e) {
+				e.printStackTrace();
+				conn.rollback();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void addStaff(Staff staff) {
-		// TODO Auto-generated method stub
-		
+		try (Connection conn = DBUtil.getConnection()){
+			conn.setAutoCommit(false);
+			try (PreparedStatement pstmt = conn.prepareStatement(INSERT_STAFF_SQL)){
+				pstmt.setString(1, staff.getName()); //이름
+				pstmt.setDate(2, staff.getBirthDate()); // 생일
+				pstmt.setString(3, staff.getGender()); //성별
+				pstmt.setString(4, staff.getAddress()); // 주소
+				pstmt.setString(5, staff.getTel()); // 전화번호
+				pstmt.setString(6, staff.getEmail()); // 이메일
+				pstmt.executeUpdate();
+				conn.commit();
+			} catch (Exception e) {
+				e.printStackTrace();
+				conn.rollback();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
