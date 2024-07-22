@@ -321,4 +321,10 @@ public class UserRepositoryImpl implements UserRepository {
 		}
 	}
 
+	@Override
+	public void selectAllStudent(Student student) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
