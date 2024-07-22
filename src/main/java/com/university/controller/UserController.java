@@ -42,6 +42,9 @@ public class UserController extends HttpServlet {
 		case "/findPassword":
 			request.getRequestDispatcher("/WEB-INF/views/find/findpassword.jsp").forward(request, response);
 			break;
+		case "/login":
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+			break;
 		default:
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			break;
@@ -176,19 +179,7 @@ public class UserController extends HttpServlet {
 	private void handleSignin(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		
-		String checkbox = request.getParameter("rememberId");
-		String id1 = request.getParameter("id");
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		Cookie cookie = new Cookie("userId", id1);
 		
-		System.out.println(checkbox);
-		if (checkbox != null) { 
-			response.addCookie(cookie);
-		} else {
-			cookie.setMaxAge(0);
-			response.addCookie(cookie);
-		}
 		
 		String password = request.getParameter("password");
 		
@@ -208,7 +199,7 @@ public class UserController extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		User user = userRepository.getUserByIdAndPassword(id, password);
 		Principal principal = null;
-		try {
+		
 			if (user != null) {
 				if (user.getUserRole().equals("student")) {
 					principal = userRepository.getStudent(user);
@@ -218,19 +209,36 @@ public class UserController extends HttpServlet {
 					principal = userRepository.getProfessor(user);
 				}
 				if (principal != null && principal.getPassword().equals(password)) {
+					String checkbox = request.getParameter("rememberId");
+					String id1 = request.getParameter("id");
+					response.setCharacterEncoding("UTF-8");
+					PrintWriter out = response.getWriter();
+					Cookie cookie = new Cookie("userId", id1);
+					System.out.println(checkbox);
+					System.out.println(cookie.getName());
+					if (checkbox != null) { 
+						cookie.setMaxAge(86400);
+						response.addCookie(cookie);
+						System.out.println("실행" + cookie);
+					} else {
+						cookie.setMaxAge(0);
+						response.addCookie(cookie);
+						System.out.println("실행xxx");
+					}
 					HttpSession session = request.getSession();
 					session.setAttribute("principal", principal);
-					response.sendRedirect("/home.jsp");
+					//response.sendRedirect("/home.jsp");
+					request.getRequestDispatcher("/home.jsp").forward(request, response);
+					//request.getRequestDispatcher("/login.jsp").forward(request, response);
 				}
 			} else {
+				String id1 = request.getParameter("id");
+				Cookie cookie = new Cookie("userId", id1);
+				cookie.setMaxAge(0);
+				response.addCookie(cookie);
 				request.setAttribute("errorMessage", "아이디 비밀번호가 틀렸습니다.");
-//				response.sendRedirect("login.jsp");
 				request.getRequestDispatcher("/login.jsp").forward(request, response);
 			}
-		} catch (Exception e) {
-			request.getRequestDispatcher("/login.jsp").forward(request, response);
-		}
-		
 	}
 
 }
