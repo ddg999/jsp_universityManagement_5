@@ -21,9 +21,11 @@ public class InfoRepositoryImpl implements InfoRepository{
 	
 	// 수정 쿼리 작성하기
 	private static final String UPDATE_STUNDET_INFO_SQL = "  " ;
-	private static final String UPDATE_STAFF_INFO_SQL = "  " ;
-	private static final String UPDATE_PROFESSOR_INFO_SQL = "  " ;
 	
+	private static final String UPDATE_STAFF_INFO_SQL = " UPDATE staff_tb SET address = ?, tel = ?, email = ? WHERE id = ? ";
+	private static final String SELECT_USER_INFO_CHECKPW = " SELECT password FROM user_tb WHERE id = ? ";
+	
+	private static final String UPDATE_PROFESSOR_INFO_SQL = "  " ;
 	private static final String UPDATE_USER_PASSWORD_SQL = " update user_tb set password = ? where id = ? ";
 	
 	
@@ -121,7 +123,6 @@ public class InfoRepositoryImpl implements InfoRepository{
 		return professor;
 	}
 
-	// 정보 수정하기 - JSP 가 없음..................
 	@Override
 	public int updateStudentInfo(Student student, int principalId) {
 		int rowCount = 0;
@@ -146,9 +147,11 @@ public class InfoRepositoryImpl implements InfoRepository{
 		int rowCount = 0;
 		try (Connection conn = DBUtil.getConnection()){
 			conn.setAutoCommit(false);
-			
 			try (PreparedStatement pstmt = conn.prepareStatement(UPDATE_STAFF_INFO_SQL)){
-				pstmt.setInt(1, principalId);
+				pstmt.setString(1, staff.getAddress());
+				pstmt.setString(2, staff.getTel());
+				pstmt.setString(3, staff.getEmail());
+				pstmt.setInt(4, principalId);
 				rowCount = pstmt.executeUpdate();
 				conn.commit();
 			} catch (Exception e) {
@@ -159,6 +162,24 @@ public class InfoRepositoryImpl implements InfoRepository{
 			e.printStackTrace();
 		}
 		return rowCount;
+	}
+
+	
+	// 일단 대기
+	@Override
+	public String getUserPasswordById(int principal) {
+		User user = null;
+//		try (Connection conn = DBUtil.getConnection();
+//				PreparedStatement pstmt = conn.prepareStatement(SELECT_USER_INFO_CHECKPW)) {
+//			pstmt.setInt(1, principal);
+//			ResultSet rs = pstmt.executeQuery();
+//			if (rs.next()) {
+//				user = User.builder().password(rs.getString("password")).build();
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		return user.getPassword();
 	}
 
 	@Override

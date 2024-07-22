@@ -57,7 +57,7 @@
 	<main>
 		<h1>개인 정보 수정</h1>
 		<div class="split--div" style="margin-bottom: 50px;"></div>
-		<form action="/update" method="post" class="info--update--form">
+		<form action="/info/update" method="post" class="info--update--form">
 			<input type="hidden" name="_method" value="put" />
 			<table class="update--table">
 				<tr>
@@ -77,6 +77,15 @@
 					<td><input type="password" name="password" class="input--box" id="password"></td>
 				</tr>
 			</table>
+			<%
+			String message = (String) request.getAttribute("message");
+			if (message != null) {
+			%>
+			<p style="color: red">
+				<%=message%></p>
+			<%
+			}
+			%>
 			<c:choose>
 				<c:when test="${principal.getUserRole().equals(\"staff\")}">
 					<div class="button--container">

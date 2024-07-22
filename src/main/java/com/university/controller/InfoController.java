@@ -151,10 +151,41 @@ public class InfoController extends HttpServlet {
 		case "/tuition/payment":
 			// 대기
 			break;
+			
+		case "/update":
+			handleUpdateStaffInfo(request,response,principal.getId());
+			break;
 
 		default:
 			break;
 		}
+	}
+
+	private void handleUpdateStaffInfo(HttpServletRequest request, HttpServletResponse response, int principalId) throws ServletException, IOException {
+//		String checkPassword = infoRepository.getUserPasswordById(principalId);
+		
+		HttpSession session = request.getSession();
+		Principal principal = (Principal) session.getAttribute("principal");
+		
+		String address = request.getParameter("address");
+		String tel = request.getParameter("tel");
+		String email = request.getParameter("email");
+		String checkPassword = request.getParameter("password");
+		
+		
+		
+		
+		Staff staff = Staff.builder().address(address).tel(tel).email(email).build();
+		
+		if(checkPassword.equals(principal.getPassword())) {
+			infoRepository.updateStaffInfo(staff, principalId);
+			request.setAttribute("message", "정보가 변경 되었습니다!");
+			request.getRequestDispatcher("/WEB-INF/views/info/updateInfo.jsp").forward(request, response);
+		} else {
+			request.setAttribute("message", "비밀번호가 일치하지 않습니다.");
+			request.getRequestDispatcher("/WEB-INF/views/info/updateInfo.jsp").forward(request, response);
+		}
+		
 	}
 
 	private void handleUpdatePassword(HttpServletRequest request, HttpServletResponse response, int principalId)
