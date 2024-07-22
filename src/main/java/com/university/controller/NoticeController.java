@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.university.model.Notice;
+import com.university.model.Principal;
 import com.university.model.Schedule;
 import com.university.repository.NoticeRepositoryImpl;
 import com.university.repository.interfaces.NoticeRepository;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/notice/*")
 public class NoticeController extends HttpServlet {
@@ -27,6 +29,7 @@ public class NoticeController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
 		String action = request.getPathInfo();
 		switch (action) {
 		case "/list":
@@ -38,6 +41,15 @@ public class NoticeController extends HttpServlet {
 		case "/read":
 			showNoticeDetail(request, response);
 			break;
+		case "/write":
+			showCreateNotice(request, response, session);
+			break;
+		case "/update":
+			showUpdateNotice(request, response, session);
+			break;
+		case "/delete":
+			deleteNotice(request, response, session);
+			break;
 		case "/schedule":
 			showSchedule(request, response);
 			break;
@@ -45,6 +57,59 @@ public class NoticeController extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			break;
 		}
+	}
+
+	private void showCreateNotice(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException, ServletException {
+		if (session == null || session.getAttribute("principal") == null) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("staff")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+		request.getRequestDispatcher("/WEB-INF/views/notice/write.jsp").forward(request, response);
+	}
+
+	// 공지사항 삭제
+	private void deleteNotice(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException, ServletException {
+		if (session == null || session.getAttribute("principal") == null) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("staff")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+
+		int noticeId = Integer.parseInt(request.getParameter("id"));
+		noticeRepository.deleteNotice(noticeId);
+	}
+
+	// 공지사항 수정 페이지로 이동
+	private void showUpdateNotice(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
+		if (session == null || session.getAttribute("principal") == null) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("staff")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+
+		int noticeId = Integer.parseInt(request.getParameter("id"));
+		Notice notice = noticeRepository.getNoticeById(noticeId);
+		request.setAttribute("notice", notice);
+		request.getRequestDispatcher("/WEB-INF/views/notice/update.jsp").forward(request, response);
 	}
 
 	// 공지사항 페이지, 전체 공지사항 불러오기
@@ -160,6 +225,43 @@ public class NoticeController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String action = request.getPathInfo();
+		switch (action) {
+		case "/write":
+			createNotice(request, response);
+			break;
+		case "/update":
+			updateNotice(request, response);
+			break;
+		default:
+			break;
+		}
+	}
+
+	// 공지사항 수정
+	private void updateNotice(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		int noticeId = Integer.parseInt(request.getParameter("noticeId"));
+		String category = request.getParameter("category");
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+
+		Notice notice = Notice.builder().id(noticeId).category(category).title(title).content(content).build();
+		noticeRepository.updateNotice(notice);
+
+		response.sendRedirect(request.getContextPath() + "/notice/list");
+	}
+
+	// 공지사항 작성
+	private void createNotice(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String category = request.getParameter("category");
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+
+		Notice notice = Notice.builder().category(category).title(title).content(content).build();
+		noticeRepository.createNotice(notice);
+
+		response.sendRedirect(request.getContextPath() + "/notice/list");
 	}
 
 }
