@@ -1,5 +1,7 @@
 package com.university.repository.interfaces;
 
+import java.util.List;
+
 import com.university.model.Principal;
 import com.university.model.Professor;
 import com.university.model.Staff;
@@ -44,5 +46,9 @@ public interface UserRepository {
 	void addStaff(Staff staff);
 	
 	void selectAllStudent(Student student);
+	
+	// 페이징 처리
+	List<Student> getAllBoards(int limit, int offset);
+	int getTotalBoardCount();
 
 }

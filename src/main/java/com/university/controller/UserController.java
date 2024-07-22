@@ -3,6 +3,7 @@ package com.university.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.util.List;
 import java.util.Random;
 
 import com.university.model.Principal;
@@ -37,6 +38,14 @@ public class UserController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+//		Principal principal = (Principal) session.getAttribute("principal");
+//		System.out.println(principal + "됐나???");
+//		if (principal == null) {
+//			response.sendRedirect("/login.jsp");
+//			return;
+//		}
+		
 		String action = request.getPathInfo();
 		switch (action) {
 		case "/findId":
@@ -50,6 +59,7 @@ public class UserController extends HttpServlet {
 			break;
 
 		case "/studentList":
+			studentAllView(request, response, session);
 			request.getRequestDispatcher("/WEB-INF/views/user/studentlist.jsp").forward(request, response);
 			break;
 
@@ -73,6 +83,7 @@ public class UserController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 
 		String action = request.getPathInfo();
 
@@ -105,6 +116,47 @@ public class UserController extends HttpServlet {
 		default:
 			break;
 		}
+	}
+
+	/**
+	 * 학생 목록 조회
+	 * @param request
+	 * @param response
+	 * @throws IOException 
+	 * @throws ServletException 
+	 */
+	private void studentAllView(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+		
+		int page = 1;
+		int pageSize = 20;
+		
+		try {
+			String pageStr = request.getParameter("page");
+			if(pageStr != null) {
+				page = Integer.parseInt(pageStr);
+			}
+		} catch (Exception e) {
+			page = 1;
+			e.printStackTrace();
+		}
+		
+		int offset = (page -1) * pageSize;
+		List<Student> studentList = userRepository.getAllBoards(pageSize, offset);
+		
+		int totalBoards = userRepository.getTotalBoardCount();
+		int totalPage = (int)Math.ceil((double)totalBoards / pageSize);
+		
+		request.setAttribute("studentList", studentList);
+		request.setAttribute("listCount", totalPage);
+		request.setAttribute("index", page);
+		
+		if(session != null) {
+			Principal principal = (Principal)session.getAttribute("principal");
+			if(principal != null) {
+				request.setAttribute("userID", principal.getId());
+			}
+		}
+//		request.getRequestDispatcher("/WEB-INF/views/user/studentlist.jsp").forward(request, response);
 	}
 
 	/**
