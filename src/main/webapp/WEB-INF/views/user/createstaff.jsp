@@ -53,11 +53,11 @@
 			<table class="table--container">
 				<tr>
 					<td><label for="name">이름</label></td>
-					<td><input type="text" name="name" id="name" class="input--box"></td>
+					<td><input type="text" name="name" id="name" class="input--box" required></td>
 				</tr>
 				<tr>
 					<td><label for="birthDate">생년월일</label></td>
-					<td><input type="date" name="birthDate" id="birthDate" class="input--box"></td>
+					<td><input type="date" name="birthDate" id="birthDate" class="input--box" required></td>
 				</tr>
 				<tr>
 					<td style="padding-top: 7px"><label>성별</label></td>
@@ -66,19 +66,29 @@
 				</tr>
 				<tr>
 					<td><label for="address">주소</label></td>
-					<td><input type="text" name="address" id="address" class="input--box"></td>
+					<td><input type="text" name="address" id="address" class="input--box" required></td>
 				</tr>
 				<tr>
 					<td><label for="tel">전화번호</label></td>
-					<td><input type="text" name="tel" id="tel" class="input--box"></td>
+					<td><input type="text" name="tel" id="tel" class="input--box" required></td>
 				</tr>
 				<tr>
 					<td><label for="email">이메일</label></td>
-					<td><input type="text" name="email" id="email" class="input--box"></td>
+					<td><input type="text" name="email" id="email" class="input--box" required></td>
 				</tr>
 			</table>
+			
 			<div class="button--container">
 				<input type="submit" value="입력">
+		<%
+			String message = (String) request.getAttribute("message");
+			if (message != null) {
+			%>
+			<p style="color: red; display: inline; font-size:18px;">
+				<%=message%></p>
+			<%
+			}
+			%>
 			</div>
 		</form>
 	</main>

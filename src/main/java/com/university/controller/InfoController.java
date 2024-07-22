@@ -73,18 +73,7 @@ public class InfoController extends HttpServlet {
 		case "/password":
 			request.getRequestDispatcher("/WEB-INF/views/password/updatepassword.jsp").forward(request, response);
 			break;
-
-		// 휴학 신청
-		case "/break/application":
-			getbreakUserInfo(request, response, principal.getId());
-			request.getRequestDispatcher("/WEB-INF/views/break/application.jsp").forward(request, response);
-			break;
-
-		// 휴학 내역 조회
-		case "/break/list":
-			request.getRequestDispatcher("/WEB-INF/views/break/appliststudent.jsp").forward(request, response);
-			break;
-
+			
 		// 등록금 내역 조회
 		case "/tuition/list":
 			request.getRequestDispatcher("/WEB-INF/views/tuition/tuitionlist.jsp").forward(request, response);
@@ -98,12 +87,6 @@ public class InfoController extends HttpServlet {
 		default:
 			break;
 		}
-	}
-
-	private void getbreakUserInfo(HttpServletRequest request, HttpServletResponse response, int principalId) {
-		StudentInfo student = infoRepository.getStudentInfo(principalId);
-		System.out.println(student);
-		request.setAttribute("student", student);
 	}
 
 	private void getProfessorInfo(HttpServletRequest request, HttpServletResponse response, int principalId) {
@@ -143,13 +126,8 @@ public class InfoController extends HttpServlet {
 		case "/password":
 			handleUpdatePassword(request, response, principal.getId());
 			break;
-
-		// 휴학 신청
-		case "/break/application":
-			// 대기
-			break;
-
-		// 등록금 납부 고지서
+			
+		//등록금 납부 고지서
 		case "/tuition/payment":
 			// 대기
 			break;
