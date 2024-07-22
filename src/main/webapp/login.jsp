@@ -31,7 +31,7 @@ input[type=number] {
 				src="/resources/images/logo.png"></a>
 		</div>
 		<%
-		String cookie = "";
+		String cookie = null;
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null && cookies.length > 0)
 			for (int i = 0; i < cookies.length; i++) {
@@ -50,7 +50,7 @@ input[type=number] {
 							placeholder="아이디를 입력하세요" required value="<%=cookie%>">
 
 						<div class="checkbox--id">
-							<input type="checkbox" name="rememberId" ${not empty cookie ? "checked" : ""}>&nbsp;ID 저장
+							<input type="checkbox" name="rememberId" <%= cookie == null ? "" : "checked"%>>&nbsp;ID 저장
 						</div>
 					</div>
 				</div>

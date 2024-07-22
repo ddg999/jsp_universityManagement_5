@@ -26,7 +26,7 @@
 				<li>${principal.name}님 (${principal.id})
 				<li style="margin: 0 15px;">ㅣ
 				<li class="material--li"><span style="color: #9BD2EC;" class="material-symbols-outlined">logout</span>
-				<li><a href="/logout">로그아웃</a>
+				<li><a href="/user/login">로그아웃</a>
 			</ul>
 		</div>
 
