@@ -14,6 +14,10 @@ public interface NoticeRepository {
 
 	List<Notice> getNoticesByTitleOrContent(String keyword, int pageSize, int offset);
 
+	void updateNotice(Notice notice);
+
+	void deleteNotice(int noticeId);
+
 	List<Schedule> getAllSchedule();
 
 	int getTotalNoticesCount();
@@ -21,4 +25,6 @@ public interface NoticeRepository {
 	int getTotalNoticesCountByTitle(String keyword);
 
 	int getTotalNoticesCountByTitleOrContent(String keyword);
+
+	void updateNoticeView(int noticeId);
 }
