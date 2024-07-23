@@ -19,22 +19,24 @@
 		<!-- 선택된 메뉴에 class="selected--menu" 추가해주세요 -->
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
-				<tbody><tr>
-					<td><a href="${pageContext.request.contextPath}/admin/college">단과대학</a></td>
-				</tr>
-				<tr>
-					<td><a href="${pageContext.request.contextPath}/admin/department" class="selected--menu">학과</a></td>
-				</tr>
-				<tr>
-					<td><a href="${pageContext.request.contextPath}/admin/room">강의실</a></td>
-				</tr>
-				<tr>
-					<td><a href="${pageContext.request.contextPath}/admin/subject">강의</a></td>
-				</tr>
-				<tr>
-					<td><a href="${pageContext.request.contextPath}/admin/tuition">단대별 등록금</a></td>
-				</tr>
-			</tbody></table>
+				<tbody>
+					<tr>
+						<td><a href="${pageContext.request.contextPath}/admin/college">단과대학</a></td>
+					</tr>
+					<tr>
+						<td><a href="${pageContext.request.contextPath}/admin/department" class="selected--menu">학과</a></td>
+					</tr>
+					<tr>
+						<td><a href="${pageContext.request.contextPath}/admin/room">강의실</a></td>
+					</tr>
+					<tr>
+						<td><a href="${pageContext.request.contextPath}/admin/subject">강의</a></td>
+					</tr>
+					<tr>
+						<td><a href="${pageContext.request.contextPath}/admin/tuition">단대별 등록금</a></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 
@@ -48,139 +50,115 @@
 		</div>
 
 		<!-- 학과 입력 -->
+		<c:if test="${crud.equals(\"insert\")}">
+			<div class="container">
+				<form action="/admin/department" method="post" class="form--container">
+					<ul class="d-flex" style="margin: 0;">
+						<li style="height: 24px; margin-right: 2px;"><span class="material-symbols-outlined">school</span>
+						<li style="height: 24px;"><span class="insert">등록하기</span>
+					</ul>
+					<input type="text" class="input--box" name="name" placeholder="학과를 입력해주세요"> <select name="collegeId" class="input--box">
+						<c:forEach var="college" items="${collegeList}">
+							<option value="${college.id}">${college.name}</option>
+						</c:forEach>
+					</select> <input type="submit" class="button" value="입력">
+				</form>
+				<div class="total--container">
+					<table class="table--container">
+						<tr class="first--tr">
+							<td>ID</td>
+							<td>학과명</td>
+							<td>단과대ID</td>
+						</tr>
+						<c:forEach var="department" items="${departmentList}">
+							<tr>
+								<td>${department.id}</td>
+								<td>${department.name}</td>
+								<td>${department.collegeId}</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</div>
+			</div>
+		</c:if>
 
-		<div class="total--container">
-			<table class="table--container">
-				<tr class="first--tr">
-					<td>ID</td>
-					<td>학과명</td>
-					<td>단과대ID</td>
-				</tr>
 
-				<tr>
-					<td>101</td>
-					<td>컴퓨터공학과</td>
-					<td>1</td>
-				</tr>
+		<!-- 학과 수정  -->
+		<c:if test="${crud.equals(\"update\")}">
+			<div class="container">
+				<form action="/admin/department" method="post" id="form--container">
+					<input type="hidden" name="_method" value="put" />
+					<ul class="d-flex" style="margin: 0;">
+						<li style="height: 24px; margin-right: 2px;"><span class="material-symbols-outlined">school</span>
+						<li style="height: 24px;"><span class="insert">수정하기</span>
+					</ul>
+					<select name="id" class="input--box">
+						<c:forEach var="department" items="${departmentList}">
+							<option value="${department.id}">${department.name}</option>
+						</c:forEach>
+					</select> <input type="text" class="input--box" name="name" placeholder="변경할 학과명을 입력하세요"> <input type="submit" value="수정" class="button">
+				</form>
 
-				<tr>
-					<td>102</td>
-					<td>전자공학과</td>
-					<td>1</td>
-				</tr>
+				<table class="table--container">
+					<tr class="first--tr">
+						<td>ID</td>
+						<td>학과명</td>
+						<td>단과대ID</td>
+					</tr>
+					<c:forEach var="department" items="${departmentList}">
+						<tr>
+							<td>${department.id}</td>
+							<td>${department.name}</td>
+							<td>${department.collegeId}</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+		</c:if>
 
-				<tr>
-					<td>103</td>
-					<td>화학공학과</td>
-					<td>1</td>
-				</tr>
 
-				<tr>
-					<td>104</td>
-					<td>기계공학과</td>
-					<td>1</td>
-				</tr>
+		<!-- 학과 삭제 -->
+		<c:if test="${crud.equals(\"delete\")}">
+			<span class="delete">삭제할 학과 이름을 클릭해주세요</span>
+			<div class="total--container">
+				<table class="table--container">
+					<tr class="first--tr">
+						<td>ID</td>
+						<td>학과명</td>
+						<td>단과대ID</td>
+					</tr>
+					<c:forEach var="department" items="${departmentList}">
+						<tr>
+							<td>${department.id}</td>
+							<td><a href="/admin/departmentDelete?id=${department.id}">${department.name}</a></td>
+							<td>${department.collegeId}</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+		</c:if>
 
-				<tr>
-					<td>105</td>
-					<td>신소재공학과</td>
-					<td>1</td>
-				</tr>
 
-				<tr>
-					<td>106</td>
-					<td>철학과</td>
-					<td>2</td>
-				</tr>
-
-				<tr>
-					<td>107</td>
-					<td>국사학과</td>
-					<td>2</td>
-				</tr>
-
-				<tr>
-					<td>108</td>
-					<td>언어학과</td>
-					<td>2</td>
-				</tr>
-
-				<tr>
-					<td>109</td>
-					<td>국어국문학과</td>
-					<td>2</td>
-				</tr>
-
-				<tr>
-					<td>110</td>
-					<td>영어영문학과</td>
-					<td>2</td>
-				</tr>
-
-				<tr>
-					<td>111</td>
-					<td>심리학과</td>
-					<td>3</td>
-				</tr>
-
-				<tr>
-					<td>112</td>
-					<td>정치외교학과</td>
-					<td>3</td>
-				</tr>
-
-				<tr>
-					<td>113</td>
-					<td>사회복지학과</td>
-					<td>3</td>
-				</tr>
-
-				<tr>
-					<td>114</td>
-					<td>언론정보학과</td>
-					<td>3</td>
-				</tr>
-
-				<tr>
-					<td>115</td>
-					<td>인류학과</td>
-					<td>3</td>
-				</tr>
-
-				<tr>
-					<td>116</td>
-					<td>경영학과</td>
-					<td>4</td>
-				</tr>
-
-				<tr>
-					<td>117</td>
-					<td>경제학과</td>
-					<td>4</td>
-				</tr>
-
-				<tr>
-					<td>118</td>
-					<td>회계학과</td>
-					<td>4</td>
-				</tr>
-
-				<tr>
-					<td>119</td>
-					<td>농업경영학과</td>
-					<td>4</td>
-				</tr>
-
-				<tr>
-					<td>120</td>
-					<td>무역학과</td>
-					<td>4</td>
-				</tr>
-
-			</table>
-		</div>
+		<!-- 학과 조회 -->
+		<c:if test="${departmentList != null}">
+			<div class="total--container">
+				<table class="table--container">
+					<tr class="first--tr">
+						<td>ID</td>
+						<td>학과명</td>
+						<td>단과대ID</td>
+					</tr>
+					<c:forEach var="department" items="${departmentList}">
+						<tr>
+							<td>${department.id}</td>
+							<td>${department.name}</td>
+							<td>${department.collegeId}</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+		</c:if>
 	</main>
-
 </div>
 
 <%@ include file="../layout/footer.jsp"%>

@@ -14,6 +14,7 @@ import lombok.ToString;
 public class CollTuit {
 	
 	private int collegeId;
+	private String collegeName;
 	private int amount;
 
 }
