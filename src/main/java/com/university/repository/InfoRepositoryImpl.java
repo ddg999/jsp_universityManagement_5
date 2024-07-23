@@ -28,7 +28,6 @@ public class InfoRepositoryImpl implements InfoRepository{
 	
 	
 	
-	private static final String SELECT_USER_INFO_CHECKPW = " SELECT password FROM user_tb WHERE id = ? ";
 	
 	private static final String UPDATE_USER_PASSWORD_SQL = " update user_tb set password = ? where id = ? ";
 	

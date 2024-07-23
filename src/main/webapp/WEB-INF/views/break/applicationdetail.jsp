@@ -112,8 +112,8 @@
 			<c:if test="${breakApp.status.equals(\"처리중\")}">
 				<c:choose>
 					<c:when test="${principal.userRole.equals(\"student\")}">
-						<form action="/break/delete/${breakApp.id}" method="post" class="d-flex flex-column align-items-center">
-							<button type="submit" class="btn btn-dark" onclick="return confirm('신청을 취소하시겠습니까?')">취소하기</button>
+						<form action="/break/delete" class="d-flex flex-column align-items-center">
+							<button type="submit" name ="id" value="${breakApp.id}" class="btn btn-dark" onclick="return confirm('신청을 취소하시겠습니까?')">취소하기</button>
 						</form>
 					</c:when>
 					<c:when test="${principal.userRole.equals(\"staff\")}">

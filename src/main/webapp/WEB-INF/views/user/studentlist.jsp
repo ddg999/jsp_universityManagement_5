@@ -179,16 +179,16 @@
 					<c:forEach var="index" begin="1" end="${listCount}">
 						<c:choose>
 							<c:when test="${deptId != null && index != page}">
-								<li><a href="/user/studentlist/${index}?deptId=${deptId}"> ${index}</a> &nbsp;&nbsp;
+								<li><a href="/user/studentList?page=${index}&deptId=${deptId}"> ${index}</a> &nbsp;&nbsp;
 							</c:when>
 							<c:when test="${deptId != null && index == page}">
-								<li><a href="/user/studentlist/${index}" class="selected--page"> ${index}</a> &nbsp;&nbsp;
+								<li><a href="/user/studentList?page=${index}" class="selected--page"> ${index}</a> &nbsp;&nbsp;
 							</c:when>
 							<c:when test="${deptId == null && index == page}">
-								<li><a href="/user/studentlist/${index}" class="selected--page"> ${index}</a> &nbsp;&nbsp;
+								<li><a href="/user/studentList?page=${index}" class="selected--page"> ${index}</a> &nbsp;&nbsp;
 							</c:when>
 							<c:otherwise>
-								<li><a href="/user/studentlist/${index}"> ${index}</a> &nbsp;&nbsp;
+								<li><a href="/user/studentList?page=${index}"> ${index}</a> &nbsp;&nbsp;
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
