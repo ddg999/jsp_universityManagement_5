@@ -1,8 +1,16 @@
 package com.university.controller;
 
 import java.io.IOException;
+import java.util.List;
 
+import com.university.model.CollTuit;
+import com.university.model.College;
+import com.university.model.Department;
 import com.university.model.Principal;
+import com.university.model.Room;
+import com.university.model.Subject;
+import com.university.repository.AdminRepositoryImpl;
+import com.university.repository.interfaces.AdminRepository;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,9 +22,11 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/admin/*")
 public class AdminController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private AdminRepository adminRepository;
 
-	public AdminController() {
-		super();
+	@Override
+	public void init() throws ServletException {
+		adminRepository = new AdminRepositoryImpl();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -36,27 +46,62 @@ public class AdminController extends HttpServlet {
 		switch (action) {
 		// 단과 대학 등록 페이지
 		case "/college":
+			viewCollege(request, response, session);
 			request.getRequestDispatcher("/WEB-INF/views/admin/college.jsp").forward(request, response);
 			break;
 		// 학과 등록 페이지
 		case "/department":
+			viewDepartment(request, response, session);
 			request.getRequestDispatcher("/WEB-INF/views/admin/department.jsp").forward(request, response);
 			break;
 		// 강의실 등록 페이지
 		case "/room":
+			viewRoom(request, response, session);
 			request.getRequestDispatcher("/WEB-INF/views/admin/room.jsp").forward(request, response);
 			break;
 		// 강의 등록 페이지
 		case "/subject":
+			viewSubject(request, response, session);
 			request.getRequestDispatcher("/WEB-INF/views/admin/subject.jsp").forward(request, response);
 			break;
 		// 단대별 등록금 페이지
 		case "/tuition":
+			viewCollTuit(request, response, session);
 			request.getRequestDispatcher("/WEB-INF/views/admin/colltuition.jsp").forward(request, response);
 			break;
 		default:
 			break;
 		}
+	}
+
+	private void viewCollTuit(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		List<CollTuit> selectAllCollTuits = adminRepository.getAllCollTuits();
+		System.out.println(selectAllCollTuits);
+		request.setAttribute("collTuitList", selectAllCollTuits);
+	}
+
+	private void viewSubject(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		List<Subject> selectAllSubjects = adminRepository.getAllSubjects();
+		System.out.println(selectAllSubjects);
+		request.setAttribute("subjectList", selectAllSubjects);
+	}
+
+	private void viewRoom(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		List<Room> selectAllRooms = adminRepository.getAllRooms();
+		System.out.println(selectAllRooms);
+		request.setAttribute("roomList", selectAllRooms);
+	}
+
+	private void viewDepartment(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		List<Department> selectAllDepartments = adminRepository.getAllDepartments();
+		System.out.println(selectAllDepartments);
+		request.setAttribute("departmentList", selectAllDepartments);
+	}
+
+	private void viewCollege(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		List<College> selectAllColleges = adminRepository.getAllColleges();
+		System.out.println(selectAllColleges);
+		request.setAttribute("collegeList", selectAllColleges);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

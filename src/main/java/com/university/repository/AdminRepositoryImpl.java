@@ -16,27 +16,27 @@ import com.university.util.DBUtil;
 
 public class AdminRepositoryImpl implements AdminRepository {
 	private static final String INSERT_COLLEGE_SQL = " INSERT INTO college_tb (name) VALUSE (?) ";
-	private static final String SELECT_ALL_COLLEGES = " SELECT * FROM college_tb ";
+	private static final String SELECT_ALL_COLLEGES = " SELECT * FROM college_tb order by id asc ";
 	private static final String UPDATE_COLLEGE_SQL = " UPDATE college_tb SET name = ? WHERE id = ? ";
 	private static final String DELETE_COLLEGE_SQL = " DELETE FROM college_tb WHERE name = ? ";
 
 	private static final String INSERT_DEPARTMENT_SQL = " INSERT INTO department_tb (name, college_id) VALUES (?, ?) ";
-	private static final String SELECT_ALL_DEPARTMENTS = " SELECT * FROM department_tb ";
+	private static final String SELECT_ALL_DEPARTMENTS = " SELECT * FROM department_tb order by id asc ";
 	private static final String UPDATE_DEPARTMENT_SQL = " UPDATE department_tb SET name = ?, collegeId = ? WHERE id = ? ";
 	private static final String DELETE_DEPARTMENT_SQL = " DELETE FROM department_tb WHERE id = ? ";
 
 	private static final String INSERT_ROOM_SQL = " INSERT INTO room_tb (id, college_id) VALUES (?, ?) ";
-	private static final String SELECT_ALL_ROOMS = " SELECT * FROM room_tb ";
+	private static final String SELECT_ALL_ROOMS = " SELECT * FROM room_tb order by college_id asc ";
 	private static final String UPDATE_ROOM_SQL = " UPDATE room_tb SET collegeId = ? WHERE id = ? ";
 	private static final String DELETE_ROOM_SQL = " DELETE FROM room_tb WHERE id = ? ";
 
 	private static final String INSERT_SUBJECT_SQL = " INSERT INTO subject_tb (name, professor_id, room_id, dept_id, type, sub_year, semester, sub_day, start_time, end_time, grades, capacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
-	private static final String SELECT_ALL_SUBJECTS = " SELECT * FROM subject_tb ";
+	private static final String SELECT_ALL_SUBJECTS = " SELECT * FROM subject_tb order by id asc ";
 	private static final String UPDATE_SUBJECT_SQL = " UPDATE subject_tb SET name = ?, professor_id = ?, room_id = ?, sub_day = ?, start_time = ?, end_time = ?, capacity = ?  WHERE id = ? ";
 	private static final String DELETE_SUBJECT_SQL = " DELETE FROM subject_tb WHERE id = ? ";
 
 	private static final String INSERT_COLLTUIT_SQL = " INSERT INTO coll_tuit_tb (college_id, amount) VALUES (?, ?) ";
-	private static final String SELECT_ALL_COLLTUIT = " SELECT * FROM coll_tuit_tb ";
+	private static final String SELECT_ALL_COLLTUIT = " SELECT ct.college_id, c.name, ct.amount FROM coll_tuit_tb AS ct LEFT JOIN college_tb AS c ON ct.college_id = c.id ";
 	private static final String UPDATE_COLLTUIT_SQL = " UPDATE coll_tuit_tb SET amount = ? WHERE college_id = ? ";
 	private static final String DELETE_COLLTUIT_SQL = " DELETE FROM coll_tuit_tb WHERE college_id = ? ";
 
@@ -360,7 +360,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				collTuitList
-						.add(CollTuit.builder().collegeId(rs.getInt("college_id")).amount(rs.getInt("amount")).build());
+						.add(CollTuit.builder().collegeId(rs.getInt("college_id")).collegeName(rs.getString("name")).amount(rs.getInt("amount")).build());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

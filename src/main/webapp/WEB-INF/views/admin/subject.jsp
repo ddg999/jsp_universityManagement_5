@@ -238,7 +238,7 @@
 
 
 		<!-- 강의 조회 -->
-		<c:if test="${crud.equals(\"select\")}">
+		<c:if test="${subjectList != null}">
 			<div class="form--container">
 				<table class="table--container">
 					<tr class="first--tr">
