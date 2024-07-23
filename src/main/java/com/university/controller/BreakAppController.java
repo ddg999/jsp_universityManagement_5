@@ -58,9 +58,13 @@ public class BreakAppController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/break/appliststaff.jsp").forward(request, response);
 			break;
 		case "/detail":
-			// 휴학 신청서 확인 페이지
+		// 휴학 신청서 확인 페이지
 			getAppDetailInfo(request, response, principal.getId());
 			request.getRequestDispatcher("/WEB-INF/views/break/applicationdetail.jsp").forward(request, response);
+			break;
+		// 휴학 신청 취소
+		case "/delete":
+			handelDeleteApplication(request, response, principal.getId());
 			break;
 		default:
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -68,14 +72,27 @@ public class BreakAppController extends HttpServlet {
 		}
 	}
 
+	private void handelDeleteApplication(HttpServletRequest request, HttpServletResponse response, int principalId) throws IOException {
+		try {
+			int breakAppId = Integer.parseInt(request.getParameter("id"));
+			System.out.println("sdsd" + breakAppId);
+			breakAppRepository.deleteAppById(breakAppId);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		response.sendRedirect(request.getContextPath() + "/break/list");
+		
+	}
+
 	private void getAppDetailInfo(HttpServletRequest request, HttpServletResponse response, int principalId) {
 		int breakAppId = Integer.parseInt(request.getParameter("id"));
 		System.out.println(breakAppId);
 		BreakApp breakApp = breakAppRepository.selectAppById(breakAppId);
 		StudentInfo student = infoRepository.getStudentInfo(principalId);
-		System.out.println(student);
+		System.out.println("student : " + student);
+		System.out.println("breakApp : " + breakApp);
 		
-		System.out.println(breakApp);
 		request.setAttribute("student", student);
 		request.setAttribute("breakApp", breakApp);
 
@@ -104,12 +121,14 @@ public class BreakAppController extends HttpServlet {
 			response.sendRedirect("/login.jsp");
 			return;
 		}
-
+		
 		String action = request.getPathInfo();
 		switch (action) {
+		// 휴학 신청
 		case "/application":
 			handleAddApplication(request, response, principal.getId());
 			break;
+		// 휴학 신청관리 직원용
 		case "/list/staff":
 			handleUpdateApplication(request, response, principal.getId());
 			break;
@@ -118,6 +137,7 @@ public class BreakAppController extends HttpServlet {
 		}
 
 	}
+	
 
 	private void handleUpdateApplication(HttpServletRequest request, HttpServletResponse response, int principalId)
 			throws IOException {
