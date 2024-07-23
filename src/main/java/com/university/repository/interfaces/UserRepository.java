@@ -46,9 +46,13 @@ public interface UserRepository {
 	void addStaff(Staff staff);
 	
 	void selectAllStudent(Student student);
+	void selectAllProfessor(Professor professor);
 	
 	// 페이징 처리
 	List<Student> getAllBoards(int limit, int offset);
 	int getTotalBoardCount();
+	
+	List<Professor> getAllProfessor(int limit, int offset);
+	int getTotalProfessorCount();
 
 }

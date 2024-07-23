@@ -76,19 +76,20 @@ public class BreakAppRepositoryImpl implements BreakAppRepository {
 	public List<BreakApp> selectAppByStatus(String status) {
 		List<BreakApp> breakAppList = new ArrayList<>();
 		try (Connection conn = DBUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(SELECT_APP_BY_STUDENT_ID)) {
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_APP_BY_STATUS)) {
 			pstmt.setString(1, status);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
 				breakAppList.add(BreakApp.builder()
+						.id(rs.getInt("id"))
 						.studentId(rs.getInt("student_id"))
-						.studentGrade(rs.getInt("student_grade"))
 						.fromYear(rs.getInt("from_year"))
 						.fromSemester(rs.getInt("from_semester"))
 						.toYear(rs.getInt("to_year"))
 						.toSemester(rs.getInt("to_semester"))
 						.type(rs.getString("type"))
-						.status(rs.getString("status"))
+						.appDate(rs.getDate("app_date"))
+						.status(status)
 						.build());
 			}
 		} catch (Exception e) {
