@@ -29,6 +29,10 @@ public class NoticeController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
+		if (session == null || session.getAttribute("principal") == null) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
 		String action = request.getPathInfo();
 		switch (action) {
 		case "/list":
@@ -57,10 +61,6 @@ public class NoticeController extends HttpServlet {
 
 	private void showCreateNotice(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws IOException, ServletException {
-		if (session == null || session.getAttribute("principal") == null) {
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
-			return;
-		}
 		Principal principal = (Principal) session.getAttribute("principal");
 		if (!principal.getUserRole().equals("staff")) {
 			request.setAttribute("errorMessage", "권한이 없습니다");
@@ -73,10 +73,6 @@ public class NoticeController extends HttpServlet {
 	// 공지사항 삭제
 	private void deleteNotice(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws IOException, ServletException {
-		if (session == null || session.getAttribute("principal") == null) {
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
-			return;
-		}
 		Principal principal = (Principal) session.getAttribute("principal");
 		if (!principal.getUserRole().equals("staff")) {
 			request.setAttribute("errorMessage", "권한이 없습니다");
@@ -97,10 +93,6 @@ public class NoticeController extends HttpServlet {
 	// 공지사항 수정 페이지로 이동
 	private void showUpdateNotice(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
-		if (session == null || session.getAttribute("principal") == null) {
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
-			return;
-		}
 		Principal principal = (Principal) session.getAttribute("principal");
 		if (!principal.getUserRole().equals("staff")) {
 			request.setAttribute("errorMessage", "권한이 없습니다");
