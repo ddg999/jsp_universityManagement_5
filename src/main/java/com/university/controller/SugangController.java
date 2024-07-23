@@ -22,11 +22,9 @@ public class SugangController extends HttpServlet {
 		switch (action) {
 		// 강의 시간표 조회 페이지
 		case "/subjectList":
-
 			break;
 		// 예비 수강 신청 페이지
 		case "/pre":
-
 			break;
 		// 수강 신청 페이지
 		case "/preAppList":
@@ -38,7 +36,7 @@ public class SugangController extends HttpServlet {
 			break;
 		// 수강 신청 기간 설정 페이지
 		case "/period":
-
+			request.getRequestDispatcher("/WEB-INF/views/sugang/updateperiod.jsp").forward(request, response);
 			break;
 		default:
 

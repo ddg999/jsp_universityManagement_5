@@ -90,6 +90,8 @@ public class NoticeController extends HttpServlet {
 
 		int noticeId = Integer.parseInt(request.getParameter("id"));
 		noticeRepository.deleteNotice(noticeId);
+		request.getRequestDispatcher("/WEB-INF/views/notice/notice.jsp").forward(request, response);
+		
 	}
 
 	// 공지사항 수정 페이지로 이동

@@ -12,14 +12,14 @@
 			<table class="sub--menu--table" border="1">
 				<tbody>
 					<tr>
-						<td><a href="/notice/list">공지사항</a></td>
+						<td><a href="${pageContext.request.contextPath}/notice/list">공지사항</a></td>
 					</tr>
 					<tr>
-						<td><a href="/notice/schedule" class="selected--menu">학사일정</a></td>
+						<td><a href="${pageContext.request.contextPath}/schedule/show" class="selected--menu">학사일정</a></td>
 					</tr>
 					<c:if test="${principal.userRole eq 'staff'}">
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/scheduleList.jsp">학사일정 등록</a></td>
+						<td><a href="${pageContext.request.contextPath}/schedule/list">학사일정 등록</a></td>
 					</tr>
 					</c:if>
 				</tbody>

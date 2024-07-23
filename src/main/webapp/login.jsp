@@ -40,7 +40,7 @@ input[type=number] {
 				}
 			}
 		%>
-		<form action="/user/login" method="post" class="main--container">
+		<form action="${pageContext.request.contextPath}/user/login" method="post" class="main--container">
 			<div class="login--container">
 				<div class="id--container">
 					<div class="login--id">
@@ -48,7 +48,6 @@ input[type=number] {
 							class="material-symbols-outlined">person</span></label> <input
 							type="number" max="2147483647" name="id" id="userId"
 							placeholder="아이디를 입력하세요" required value="<%=cookie%>">
-
 						<div class="checkbox--id">
 							<input type="checkbox" name="rememberId" <%= cookie == null ? "" : "checked"%>>&nbsp;ID 저장
 						</div>
@@ -77,10 +76,10 @@ input[type=number] {
 				<input type="submit" value="로그인" id="input--submit">
 			</div>
 			<ul class="login--info">
-				<li><a href="/user/findId"
+				<li><a href="${pageContext.request.contextPath}/user/findId"
 					onclick="window.open(this.href, '_blank', 'width=500, height=300'); return false;">
 						ID 찾기 </a></li>
-				<li><a href="/user/findPassword"
+				<li><a href="${pageContext.request.contextPath}/user/findPassword"
 					onclick="window.open(this.href, '_blank', 'width=500, height=350'); return false;">
 						비밀번호 찾기 </a></li>
 			</ul>

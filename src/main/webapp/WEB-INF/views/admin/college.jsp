@@ -19,19 +19,19 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tbody><tr>
-					<td><a href="/college.jsp" class="selected--menu">단과대학</a></td>
+					<td><a href="${pageContext.request.contextPath}/admin/college" class="selected--menu">단과대학</a></td>
 				</tr>
 				<tr>
-					<td><a href="/department.jsp">학과</a></td>
+					<td><a href="${pageContext.request.contextPath}/admin/department">학과</a></td>
 				</tr>
 				<tr>
-					<td><a href="/admin/room">강의실</a></td>
+					<td><a href="${pageContext.request.contextPath}/admin/room">강의실</a></td>
 				</tr>
 				<tr>
-					<td><a href="/admin/subject">강의</a></td>
+					<td><a href="${pageContext.request.contextPath}/admin/subject">강의</a></td>
 				</tr>
 				<tr>
-					<td><a href="/admin/tuition">단대별 등록금</a></td>
+					<td><a href="${pageContext.request.contextPath}/admin/tuition">단대별 등록금</a></td>
 				</tr>
 			</tbody></table>
 		</div>

@@ -12,13 +12,13 @@
 					<!-- 공지사항 -->
 					<div class="main--page--notice">
 						<h3>
-							<a href="/notice">공지사항</a>
+							<a href="${pageContext.request.contextPath}/notice/list">공지사항</a>
 						</h3>
 						<div class="main--page--split"></div>
 						<table>
 							<c:forEach var="notice" items="${noticeList}">
 								<tr>
-									<td><a href="/notice/read?id=${notice.id}">${notice.category}&nbsp;${notice.title}</a></td>
+									<td><a href="${pageContext.request.contextPath}/notice/read?id=${notice.id}">${notice.category}&nbsp;${notice.title}</a></td>
 									<td>${notice.dateFormat()}
 								</tr>
 							</c:forEach>
@@ -26,7 +26,7 @@
 					</div>
 					<div class="main--page--calander">
 						<h3>
-							<a href="/schedule">학사일정</a>
+							<a href="${pageContext.request.contextPath}/notice/schedule">학사일정</a>
 						</h3>
 						<div class="main--page--split"></div>
 						<table>
@@ -70,8 +70,8 @@
 									</tr>
 								</table>
 								<div class="profile--button--div">
-									<a href="/info/student"><button>마이페이지</button></a>
-									<a href="/logout"><button>로그아웃</button></a>
+									<a href="${pageContext.request.contextPath}/info/student"><button>마이페이지</button></a>
+									<a href="${pageContext.request.contextPath}/logout"><button>로그아웃</button></a>
 								</div>
 							</c:when>
 							<c:when test="${principal.getUserRole().equals(\"staff\")}">
@@ -86,8 +86,8 @@
 									</tr>
 								</table>
 								<div class="profile--button--div">
-									<a href="/info/staff"><button>마이페이지</button></a>
-									<a href="/logout"><button>로그아웃</button></a>
+									<a href="${pageContext.request.contextPath}/info/staff"><button>마이페이지</button></a>
+									<a href="${pageContext.request.contextPath}/logout"><button>로그아웃</button></a>
 								</div>
 							</c:when>
 							<c:otherwise>
@@ -102,8 +102,8 @@
 									</tr>
 								</table>
 								<div class="profile--button--div">
-									<a href="/info/professor"><button>마이페이지</button></a>
-									<a href="/logout"><button>로그아웃</button></a>
+									<a href="${pageContext.request.contextPath}/info/professor"><button>마이페이지</button></a>
+									<a href="${pageContext.request.contextPath}/logout"><button>로그아웃</button></a>
 								</div>
 							</c:otherwise>
 						</c:choose>
@@ -116,7 +116,7 @@
 								<li><span class="material-symbols-rounded" style="margin-top: 2px; color:#fccb03;">notifications_active</span>&nbsp;&nbsp;
 								<li style="font-weight: 600; font-size: 18px;">업무 알림
 							</ul>
-							<p><a href="/break/list/staff">처리되지 않은 휴학 신청이 존재합니다.</a></p>
+							<p><a href="${pageContext.request.contextPath}/break/list/staff">처리되지 않은 휴학 신청이 존재합니다.</a></p>
 						</div>
 					</c:when>
 					<c:when test="${breakAppSize == 0}">

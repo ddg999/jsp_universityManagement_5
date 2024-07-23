@@ -12,9 +12,6 @@
 <link rel="stylesheet" href="../../resources/css/notice.css">
 <link rel="stylesheet" href="../../resources/css/schedule.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 </style>
 </head>
@@ -26,39 +23,39 @@
 				<li>${principal.name}님 (${principal.id})
 				<li style="margin: 0 15px;">ㅣ
 				<li class="material--li"><span style="color: #9BD2EC;" class="material-symbols-outlined">logout</span>
-				<li><a href="/user/login">로그아웃</a>
+				<li><a href="${pageContext.request.contextPath}/user/login">로그아웃</a>
 			</ul>
 		</div>
 
 		<nav class="main--menu">
-			<a href="/"><img class="logo" alt="" src="/resources/images/logo.png"></a>
+			<a href="${pageContext.request.contextPath}/home.jsp"><img class="logo" alt="" src="/resources/images/logo.png"></a>
 			<!-- userRole에 따라 메뉴 다르게 표시 -->
 			<c:choose>
 				<c:when test="${principal.userRole.equals(\"student\")}">
 					<ul>
-						<li><a href="/">홈</a>
-						<li><a href="/info/student">MY</a>
-						<li><a href="/subject/list/1">수업</a>
-						<li><a href="/sugang/subjectList/1">수강신청</a>
-						<li><a href="/grade/thisSemester">성적</a>
+						<li><a href="${pageContext.request.contextPath}/home.jsp">홈</a>
+						<li><a href="${pageContext.request.contextPath}/info/student">MY</a>
+						<li><a href="${pageContext.request.contextPath}/subject/list">수업</a>
+						<li><a href="${pageContext.request.contextPath}/sugang/subjectList/1">수강신청</a>
+						<li><a href="${pageContext.request.contextPath}/grade/thisSemester">성적</a>
 						<li><a href="${pageContext.request.contextPath}/notice/list">학사정보</a>
 					</ul>
 				</c:when>
 
 				<c:when test="${principal.userRole.equals(\"professor\")}">
 					<ul>
-						<li><a href="/">홈</a>
-						<li><a href="/info/professor">MY</a>
-						<li><a href="/subject/list/1">수업</a>
+						<li><a href="${pageContext.request.contextPath}/home.jsp">홈</a>
+						<li><a href="${pageContext.request.contextPath}/info/professor">MY</a>
+						<li><a href="${pageContext.request.contextPath}/subject/list/1">수업</a>
 						<li><a href="${pageContext.request.contextPath}/notice/list">학사정보</a>
 					</ul>
 				</c:when>
 				<c:otherwise>
 					<ul>
-						<li><a href="/">홈</a>
-						<li><a href="/info/staff">MY</a>
-						<li><a href="/user/studentList">학사관리</a>
-						<li><a href="/college.jsp">등록</a>
+						<li><a href="${pageContext.request.contextPath}/home.jsp">홈</a>
+						<li><a href="${pageContext.request.contextPath}/info/staff">MY</a>
+						<li><a href="${pageContext.request.contextPath}/user/studentList">학사관리</a>
+						<li><a href="${pageContext.request.contextPath}/admin/college">등록</a>
 						<li><a href="${pageContext.request.contextPath}/notice/list">학사정보</a>
 					</ul>
 				</c:otherwise>

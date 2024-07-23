@@ -68,17 +68,19 @@
 		</div>
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
-				<tr>
-					<td><a href="/notice">공지사항</a></td>
-				</tr>
-				<tr>
-					<td><a href="/schedule">학사일정</a></td>
-				</tr>
-				<c:if test="${principal.userRole eq staff}">
+				<tbody>
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/scheduleList.jsp">학사일정 등록</a></td>
+						<td><a href="${pageContext.request.contextPath}/notice/list">공지사항</a></td>
 					</tr>
-				</c:if>
+					<tr>
+						<td><a href="${pageContext.request.contextPath}/schedule/show" class="selected--menu">학사일정</a></td>
+					</tr>
+					<c:if test="${principal.userRole eq 'staff'}">
+					<tr>
+						<td><a href="${pageContext.request.contextPath}/schedule/list">학사일정 등록</a></td>
+					</tr>
+					</c:if>
+				</tbody>
 			</table>
 		</div>
 	</div>

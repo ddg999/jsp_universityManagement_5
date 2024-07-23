@@ -19,22 +19,22 @@
 		<!-- 선택된 메뉴에 class="selected--menu" 추가해주세요 -->
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
-				<tr>
-					<td><a href="/college.jsp">단과대학</a></td>
+				<tbody><tr>
+					<td><a href="${pageContext.request.contextPath}/admin/college">단과대학</a></td>
 				</tr>
 				<tr>
-					<td><a href="/department.jsp" class="selected--menu">학과</a></td>
+					<td><a href="${pageContext.request.contextPath}/admin/department" class="selected--menu">학과</a></td>
 				</tr>
 				<tr>
-					<td><a href="/admin/room">강의실</a></td>
+					<td><a href="${pageContext.request.contextPath}/admin/room">강의실</a></td>
 				</tr>
 				<tr>
-					<td><a href="/admin/subject">강의</a></td>
+					<td><a href="${pageContext.request.contextPath}/admin/subject">강의</a></td>
 				</tr>
 				<tr>
-					<td><a href="/admin/tuition">단대별 등록금</a></td>
+					<td><a href="${pageContext.request.contextPath}/admin/tuition">단대별 등록금</a></td>
 				</tr>
-			</table>
+			</tbody></table>
 		</div>
 	</div>
 
