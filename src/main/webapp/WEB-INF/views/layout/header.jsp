@@ -55,7 +55,7 @@
 						<li><a href="${pageContext.request.contextPath}/home.jsp">홈</a>
 						<li><a href="${pageContext.request.contextPath}/info/staff">MY</a>
 						<li><a href="${pageContext.request.contextPath}/user/studentList">학사관리</a>
-						<li><a href="${pageContext.request.contextPath}/admin/college">등록</a>
+						<li><a href="${pageContext.request.contextPath}/admin/college?crud=select">등록</a>
 						<li><a href="${pageContext.request.contextPath}/notice/list">학사정보</a>
 					</ul>
 				</c:otherwise>

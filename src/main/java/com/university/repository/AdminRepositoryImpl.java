@@ -15,7 +15,7 @@ import com.university.repository.interfaces.AdminRepository;
 import com.university.util.DBUtil;
 
 public class AdminRepositoryImpl implements AdminRepository {
-	private static final String INSERT_COLLEGE_SQL = " INSERT INTO college_tb (name) VALUSE (?) ";
+	private static final String INSERT_COLLEGE_SQL = " INSERT INTO college_tb (name) VALUES (?) ";
 	private static final String SELECT_ALL_COLLEGES = " SELECT * FROM college_tb order by id asc ";
 	private static final String UPDATE_COLLEGE_SQL = " UPDATE college_tb SET name = ? WHERE id = ? ";
 	private static final String DELETE_COLLEGE_SQL = " DELETE FROM college_tb WHERE name = ? ";

@@ -21,10 +21,10 @@
 			<table class="sub--menu--table" border="1">
 				<tbody>
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/admin/college">단과대학</a></td>
+						<td><a href="${pageContext.request.contextPath}/admin/college?crud=select">단과대학</a></td>
 					</tr>
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/admin/department" class="selected--menu">학과</a></td>
+						<td><a href="${pageContext.request.contextPath}/admin/department?crud=select" class="selected--menu">학과</a></td>
 					</tr>
 					<tr>
 						<td><a href="${pageContext.request.contextPath}/admin/room">강의실</a></td>
@@ -140,7 +140,7 @@
 
 
 		<!-- 학과 조회 -->
-		<c:if test="${departmentList != null}">
+		<c:if test="${crud.equals(\"select\")}">
 			<div class="total--container">
 				<table class="table--container">
 					<tr class="first--tr">

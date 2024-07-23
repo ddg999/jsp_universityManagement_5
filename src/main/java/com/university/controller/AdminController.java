@@ -93,19 +93,70 @@ public class AdminController extends HttpServlet {
 	}
 
 	private void viewDepartment(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String crud = request.getParameter("crud");
+		System.out.println("crud " + crud);
+		request.setAttribute("crud", crud);
+		
 		List<Department> selectAllDepartments = adminRepository.getAllDepartments();
 		System.out.println(selectAllDepartments);
 		request.setAttribute("departmentList", selectAllDepartments);
 	}
 
 	private void viewCollege(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String crud = request.getParameter("crud");
+		System.out.println("crud " + crud);
+		request.setAttribute("crud", crud);
+		
 		List<College> selectAllColleges = adminRepository.getAllColleges();
 		System.out.println(selectAllColleges);
 		request.setAttribute("collegeList", selectAllColleges);
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		if (session == null || session.getAttribute("principal") == null) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("staff")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+		String action = request.getPathInfo();
+		switch (action) {
+		// 단과 대학 등록
+		case "/college":
+			addCollege(request, response, session);
+			break;
+		// 학과 등록
+		case "/department":
+			break;
+		// 강의실 등록
+		case "/room":
+			break;
+		// 강의 등록
+		case "/subject":
+			break;
+		// 단대별 등록금
+		case "/tuition":
+			break;
+		default:
+			break;
+		}
+	}
+
+	private void addCollege(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+		String collegeName = request.getParameter("name");
+		College college = College.builder()
+				.name(collegeName)
+				.build();
+		System.out.println(college);
+		adminRepository.addCollege(college);
+		response.sendRedirect(request.getContextPath() + "/admin/college?crud=select");
 	}
 
 }
