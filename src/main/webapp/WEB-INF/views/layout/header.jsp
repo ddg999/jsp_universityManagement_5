@@ -36,7 +36,7 @@
 						<li><a href="${pageContext.request.contextPath}/home.jsp">홈</a>
 						<li><a href="${pageContext.request.contextPath}/info/student">MY</a>
 						<li><a href="${pageContext.request.contextPath}/subject/list">수업</a>
-						<li><a href="${pageContext.request.contextPath}/sugang/subjectList/1">수강신청</a>
+						<li><a href="${pageContext.request.contextPath}/sugang/subjectList">수강신청</a>
 						<li><a href="${pageContext.request.contextPath}/grade/thisSemester">성적</a>
 						<li><a href="${pageContext.request.contextPath}/notice/list">학사정보</a>
 					</ul>
