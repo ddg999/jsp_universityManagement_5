@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.university.model.Notice;
-import com.university.model.Schedule;
 import com.university.repository.interfaces.NoticeRepository;
 import com.university.util.DBUtil;
 
@@ -16,7 +15,6 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 	private static final String SELECT_ALL_NOTICES = " SELECT * FROM notice_tb ORDER BY id DESC LIMIT ? OFFSET ? ";
 	private static final String SELECT_NOTICES_BY_TITLE = " SELECT * FROM notice_tb WHERE title LIKE ? ORDER BY id DESC LIMIT ? OFFSET ? ";
 	private static final String SELECT_NOTICES_BY_TITLE_OR_CONTENT = " SELECT * FROM notice_tb WHERE title LIKE ? OR content LIKE ? ORDER BY id DESC LIMIT ? OFFSET ? ";
-	private static final String SELECT_ALL_SCHEDULES = " SELECT * FROM schedule_tb ";
 	private static final String COUNT_ALL_NOTICES = " SELECT count(*) count from notice_tb ";
 	private static final String COUNT_NOTICES_BY_TITLE = " SELECT count(*) count from notice_tb WHERE title LIKE ? ";
 	private static final String COUNT_NOTICES_BY_TITLE_OR_CONTENT = " SELECT count(*) count from notice_tb WHERE title LIKE ? OR content LIKE ? ";
@@ -158,23 +156,6 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public List<Schedule> getAllSchedule() {
-		List<Schedule> scheduleList = new ArrayList<>();
-		try (Connection conn = DBUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(SELECT_ALL_SCHEDULES)) {
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				scheduleList.add(Schedule.builder().id(rs.getInt("id")).staffId(rs.getInt("staff_id"))
-						.startDay(rs.getDate("start_day")).endDay(rs.getDate("end_day"))
-						.information(rs.getString("information")).build());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return scheduleList;
 	}
 
 	@Override

@@ -27,7 +27,7 @@
 					</tr>
 					<c:if test="${principal.userRole eq 'staff'}">
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/schedule/list">학사일정 등록</a></td>
+						<td><a href="${pageContext.request.contextPath}/schedule/write">학사일정 등록</a></td>
 					</tr>
 					</c:if>
 				</tbody>

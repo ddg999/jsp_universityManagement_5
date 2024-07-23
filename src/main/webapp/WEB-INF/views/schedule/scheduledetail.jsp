@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../layout/header.jsp"%>
@@ -61,7 +62,8 @@
 	margin: 0 10px;
 }
 </style>
-<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+<div class="d-flex justify-content-center align-items-start"
+	style="min-width: 100em;">
 	<div class="sub--menu">
 		<div class="sub--menu--top">
 			<h2>학사정보</h2>
@@ -76,9 +78,9 @@
 						<td><a href="${pageContext.request.contextPath}/schedule/show" class="selected--menu">학사일정</a></td>
 					</tr>
 					<c:if test="${principal.userRole eq 'staff'}">
-					<tr>
-						<td><a href="${pageContext.request.contextPath}/schedule/list">학사일정 등록</a></td>
-					</tr>
+						<tr>
+							<td><a href="${pageContext.request.contextPath}/schedule/write">학사일정 등록</a></td>
+						</tr>
 					</c:if>
 				</tbody>
 			</table>
@@ -86,10 +88,7 @@
 	</div>
 
 	<main>
-
-
 		<c:if test="${crud.equals(\"read\") }">
-
 			<table class="table">
 				<thead>
 					<tr class="first--tr">
@@ -115,7 +114,9 @@
 
 			<c:if test="${principal.userRole.equals(\"staff\") }">
 				<div class="checkbox">
-					<a href="/schedule/detail?crud=update&id=${schedule.id}" class="button">수정</a> <a href="/schedule/delete?id=${schedule.id}" class="button">삭제</a>
+					<a href="/schedule/detail?crud=update&id=${schedule.id}"
+						class="button">수정</a> <a href="/schedule/delete?id=${schedule.id}"
+						class="button">삭제</a>
 				</div>
 			</c:if>
 
@@ -132,15 +133,18 @@
 					<tbody>
 						<tr>
 							<td>시작날짜</td>
-							<td><input type="date" name="startDay" value="${schedule.startDay}"></td>
+							<td><input type="date" name="startDay"
+								value="${schedule.startDay}"></td>
 						</tr>
 						<tr>
 							<td>종료날짜</td>
-							<td><input type="date" name="endDay" value="${schedule.endDay}"></td>
+							<td><input type="date" name="endDay"
+								value="${schedule.endDay}"></td>
 						</tr>
 						<tr>
 							<td class="td">내용</td>
-							<td class="info"><input type="text" name="information" value="${schedule.information}"></td>
+							<td class="info"><input type="text" name="information"
+								value="${schedule.information}"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -150,4 +154,5 @@
 			</form>
 		</c:if>
 	</main>
-	<%@ include file="../layout/footer.jsp"%>
+</div>
+<%@ include file="../layout/footer.jsp"%>

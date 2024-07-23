@@ -20,8 +20,6 @@ public interface NoticeRepository {
 
 	void deleteNotice(int noticeId);
 
-	List<Schedule> getAllSchedule();
-
 	int getTotalNoticesCount();
 
 	int getTotalNoticesCountByTitle(String keyword);

@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.university.model.Notice;
 import com.university.model.Principal;
-import com.university.model.Schedule;
 import com.university.repository.NoticeRepositoryImpl;
 import com.university.repository.interfaces.NoticeRepository;
 
@@ -50,9 +49,6 @@ public class NoticeController extends HttpServlet {
 		case "/delete":
 			deleteNotice(request, response, session);
 			break;
-		case "/schedule":
-			showSchedule(request, response);
-			break;
 		default:
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			break;
@@ -87,11 +83,15 @@ public class NoticeController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
 			return;
 		}
-
-		int noticeId = Integer.parseInt(request.getParameter("id"));
-		noticeRepository.deleteNotice(noticeId);
-		request.getRequestDispatcher("/WEB-INF/views/notice/notice.jsp").forward(request, response);
-		
+		try {
+			noticeRepository.deleteNotice(Integer.parseInt(request.getParameter("id")));
+			response.sendRedirect(request.getContextPath() + "/notice/list");
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "잘못된 접근입니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
 	}
 
 	// 공지사항 수정 페이지로 이동
@@ -107,11 +107,16 @@ public class NoticeController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
 			return;
 		}
-
-		int noticeId = Integer.parseInt(request.getParameter("id"));
-		Notice notice = noticeRepository.getNoticeById(noticeId);
-		request.setAttribute("notice", notice);
-		request.getRequestDispatcher("/WEB-INF/views/notice/update.jsp").forward(request, response);
+		try {
+			Notice notice = noticeRepository.getNoticeById(Integer.parseInt(request.getParameter("id")));
+			request.setAttribute("notice", notice);
+			request.getRequestDispatcher("/WEB-INF/views/notice/update.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "잘못된 접근입니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
 	}
 
 	// 공지사항 페이지, 전체 공지사항 불러오기
@@ -185,10 +190,16 @@ public class NoticeController extends HttpServlet {
 	// 공지사항 상세보기
 	private void showNoticeDetail(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		int noticeId = Integer.parseInt(request.getParameter("id"));
+		int noticeId = 0;
+		try {
+			noticeId = Integer.parseInt(request.getParameter("id"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "잘못된 접근입니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
 		Notice notice = noticeRepository.getNoticeById(noticeId);
-
 		Cookie viewCookie = null;
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
@@ -216,17 +227,20 @@ public class NoticeController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/views/notice/read.jsp").forward(request, response);
 	}
 
-	// 학사 일정 페이지, 전체 학사일정 불러오기
-	private void showSchedule(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		List<Schedule> scheduleList = noticeRepository.getAllSchedule();
-
-		request.setAttribute("scheduleList", scheduleList);
-		request.getRequestDispatcher("/WEB-INF/views/schedule/schedule.jsp").forward(request, response);
-	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		if (session == null || session.getAttribute("principal") == null) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("staff")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+
 		String action = request.getPathInfo();
 		switch (action) {
 		case "/write":
@@ -236,34 +250,47 @@ public class NoticeController extends HttpServlet {
 			updateNotice(request, response);
 			break;
 		default:
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			break;
 		}
 	}
 
 	// 공지사항 수정
-	private void updateNotice(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		int noticeId = Integer.parseInt(request.getParameter("noticeId"));
-		String category = request.getParameter("category");
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
+	private void updateNotice(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		try {
+			int noticeId = Integer.parseInt(request.getParameter("noticeId"));
+			String category = request.getParameter("category");
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			Notice notice = Notice.builder().id(noticeId).category(category).title(title).content(content).build();
 
-		Notice notice = Notice.builder().id(noticeId).category(category).title(title).content(content).build();
-		noticeRepository.updateNotice(notice);
-
-		response.sendRedirect(request.getContextPath() + "/notice/list");
+			noticeRepository.updateNotice(notice);
+			response.sendRedirect(request.getContextPath() + "/notice/list");
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "잘못된 접근입니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
 	}
 
 	// 공지사항 작성
 	private void createNotice(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String category = request.getParameter("category");
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
+		try {
+			String category = request.getParameter("category");
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			Notice notice = Notice.builder().category(category).title(title).content(content).build();
 
-		Notice notice = Notice.builder().category(category).title(title).content(content).build();
-		noticeRepository.createNotice(notice);
-
-		response.sendRedirect(request.getContextPath() + "/notice/list");
+			noticeRepository.createNotice(notice);
+			response.sendRedirect(request.getContextPath() + "/notice/list");
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "잘못된 접근입니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
 	}
-
 }
