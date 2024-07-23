@@ -36,9 +36,10 @@ public class UserRepositoryImpl implements UserRepository {
 
 	private static final String SELECT_ALL_STUDENT = " SELECT * FROM student_tb LIMIT ? OFFSET ? ";
 	private static final String SELECT_ALL_STAFF = " select * from staff_tb ";
-	private static final String SELECT_ALL_PROFESSOR = " select * from professor_tb ";
+	private static final String SELECT_ALL_PROFESSOR = " SELECT * FROM professor_tb LIMIT ? OFFSET ? ";
 
 	private static final String COUNT_ALL_STUDENT = " SELECT COUNT(*) as count FROM student_tb ";
+	private static final String COUNT_ALL_PROFESSOR = " SELECT COUNT(*) as count FROM professor_tb ";
 
 	@Override
 	public int getStudentIdByNameAndEmail(String name, String email) {
@@ -391,8 +392,74 @@ public class UserRepositoryImpl implements UserRepository {
 		}
 		System.out.println("로깅 totalCount : " + count);
 		return count;
-		// TODO Auto-generated method stub
+	}
 
+	@Override
+	public void selectAllProfessor(Professor professor) {
+		try (Connection conn = DBUtil.getConnection()) {
+			conn.setAutoCommit(false);
+			try (PreparedStatement pstmt = conn.prepareStatement(SELECT_ALL_PROFESSOR)) {
+				pstmt.setString(1, professor.getName()); // 이름
+				pstmt.setDate(2, professor.getBirthDate()); // 생일
+				pstmt.setString(3, professor.getGender()); // 성별
+				pstmt.setString(4, professor.getAddress()); // 주소
+				pstmt.setString(5, professor.getTel()); // 전화번호
+				pstmt.setString(6, professor.getEmail()); // 이메일
+				pstmt.setInt(7, professor.getDeptId()); // 학과번호
+				pstmt.setDate(8, professor.getHireDate()); // 고용일
+				pstmt.executeUpdate();
+				conn.commit();
+			} catch (Exception e) {
+				conn.rollback();
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public List<Professor> getAllProfessor(int limit, int offset) {
+		List<Professor> boardlist = new ArrayList<>();
+
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_ALL_PROFESSOR)) {
+			pstmt.setInt(1, limit);
+			pstmt.setInt(2, offset);
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				boardlist.add(Professor.builder().id(rs.getInt("id")).name(rs.getString("name"))
+						.birthDate(rs.getDate("birth_date")).gender(rs.getString("gender"))
+						.address(rs.getString("address")).tel(rs.getString("tel")).email(rs.getString("email"))
+						.deptId(rs.getInt("dept_id")).hireDate(rs.getDate("hire_date"))
+						.build());
+
+			}
+			System.out.println("교수목록 - 로깅 : count " + boardlist.size());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return boardlist;
+	}
+
+	@Override
+	public int getTotalProfessorCount() {
+		int count = 0;
+
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(COUNT_ALL_PROFESSOR)) {
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt("count");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("professor totalCount : " + count);
+		return count;
 	}
 
 }

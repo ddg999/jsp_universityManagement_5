@@ -57,11 +57,12 @@ public class UserController extends HttpServlet {
 		case "/login":
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 			break;
-
 		case "/studentList":
 			studentAllView(request, response, session);
 			break;
-
+		case "/professorList":
+			professorAllView(request, response, session);
+			break;
 		case "/student":
 			request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
 			break;
@@ -116,9 +117,45 @@ public class UserController extends HttpServlet {
 			break;
 		}
 	}
+	
 
 	/**
-	 * 학생 목록 조회
+	 * 교수 명단 조회
+	 * @param request
+	 * @param response
+	 * @param session
+	 * @throws IOException 
+	 * @throws ServletException 
+	 */
+	private void professorAllView(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+		int page = 1;
+		int pageSize = 20;
+		
+		try {
+			String pageStr = request.getParameter("page");
+			if(pageStr != null) {
+				page = Integer.parseInt(pageStr);
+			}
+		} catch (Exception e) {
+			page = 1;
+			e.printStackTrace();
+		}
+		
+		int offset = (page -1) * pageSize;
+		List<Professor> professor = userRepository.getAllProfessor(pageSize, offset);
+		
+		int totalBoards = userRepository.getTotalProfessorCount();
+		int totalPage = (int)Math.ceil((double)totalBoards / pageSize);
+
+		request.setAttribute("professorList", professor);
+		request.setAttribute("listCount", totalPage);
+		request.setAttribute("index", page);
+		
+		request.getRequestDispatcher("/WEB-INF/views/user/professorlist.jsp").forward(request, response);
+	}
+
+	/**
+	 * 학생 명단 조회
 	 * @param request
 	 * @param response
 	 * @throws IOException 
@@ -144,10 +181,6 @@ public class UserController extends HttpServlet {
 		
 		int totalBoards = userRepository.getTotalBoardCount();
 		int totalPage = (int)Math.ceil((double)totalBoards / pageSize);
-		
-//		request.setAttribute("studentList", studentList);
-//		request.setAttribute("listCount", totalPage);
-//		request.setAttribute("index", page);
 	
 		request.setAttribute("studentList", studentList);
 		request.setAttribute("listCount", totalPage);
@@ -283,7 +316,6 @@ public class UserController extends HttpServlet {
 
 	/**
 	 * 학생 등록
-	 * 
 	 * @param request
 	 * @param response
 	 * @throws IOException
