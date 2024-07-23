@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.university.model.BreakApp;
 import com.university.model.Principal;
-import com.university.model.Student;
 import com.university.model.StudentInfo;
 import com.university.repository.BreakAppRepositoryImpl;
 import com.university.repository.InfoRepositoryImpl;
@@ -36,8 +35,8 @@ public class BreakAppController extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Principal principal = (Principal) session.getAttribute("principal");
-		if (principal == null) {
-			response.sendRedirect("/login.jsp");
+		if (session == null || session.getAttribute("principal") == null) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
 		}
 
@@ -53,12 +52,13 @@ public class BreakAppController extends HttpServlet {
 			getAppListInfo(request, response, principal.getId());
 			request.getRequestDispatcher("/WEB-INF/views/break/appliststudent.jsp").forward(request, response);
 			break;
-		// 휴학 처리 페이지
+		// 직원 휴학 처리 페이지
 		case "/list/staff":
+			getApplistStaff(request, response, principal.getId());
 			request.getRequestDispatcher("/WEB-INF/views/break/appliststaff.jsp").forward(request, response);
 			break;
 		case "/detail":
-		// 휴학 신청서 확인 페이지
+			// 휴학 신청서 확인 페이지
 			getAppDetailInfo(request, response, principal.getId());
 			request.getRequestDispatcher("/WEB-INF/views/break/applicationdetail.jsp").forward(request, response);
 			break;
@@ -72,27 +72,61 @@ public class BreakAppController extends HttpServlet {
 		}
 	}
 
-	private void handelDeleteApplication(HttpServletRequest request, HttpServletResponse response, int principalId) throws IOException {
+	private void getApplistStaff(HttpServletRequest request, HttpServletResponse response, int principalId)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("staff")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+
+		List<BreakApp> breakAppList = breakAppRepository.selectAppByStatus("처리중");
+		request.setAttribute("breakAppList", breakAppList);
+		System.out.println(breakAppList);
+	}
+
+	private void handelDeleteApplication(HttpServletRequest request, HttpServletResponse response, int principalId)
+			throws IOException, ServletException {
+		HttpSession session = request.getSession();
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("student")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+
 		try {
 			int breakAppId = Integer.parseInt(request.getParameter("id"));
 			System.out.println("sdsd" + breakAppId);
 			breakAppRepository.deleteAppById(breakAppId);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		response.sendRedirect(request.getContextPath() + "/break/list");
-		
+
 	}
 
-	private void getAppDetailInfo(HttpServletRequest request, HttpServletResponse response, int principalId) {
+	private void getAppDetailInfo(HttpServletRequest request, HttpServletResponse response, int principalId)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("student")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+
 		int breakAppId = Integer.parseInt(request.getParameter("id"));
+		int studentId = Integer.parseInt(request.getParameter("student_id"));
 		System.out.println(breakAppId);
 		BreakApp breakApp = breakAppRepository.selectAppById(breakAppId);
-		StudentInfo student = infoRepository.getStudentInfo(principalId);
+		StudentInfo student = infoRepository.getStudentInfo(studentId);
 		System.out.println("student : " + student);
 		System.out.println("breakApp : " + breakApp);
-		
+
 		request.setAttribute("student", student);
 		request.setAttribute("breakApp", breakApp);
 
@@ -100,13 +134,30 @@ public class BreakAppController extends HttpServlet {
 
 	private void getAppListInfo(HttpServletRequest request, HttpServletResponse response, int principalId)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("student")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+
 		List<BreakApp> breakAppList = breakAppRepository.selectAppByStudentId(principalId);
 		request.setAttribute("breakAppList", breakAppList);
 		System.out.println(request.getAttribute("breakAppList"));
 
 	}
 
-	private void getAppStudentInfo(HttpServletRequest request, HttpServletResponse response, int principalId) {
+	private void getAppStudentInfo(HttpServletRequest request, HttpServletResponse response, int principalId)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("student")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+
 		StudentInfo student = infoRepository.getStudentInfo(principalId);
 		System.out.println(student);
 		request.setAttribute("student", student);
@@ -116,12 +167,11 @@ public class BreakAppController extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Principal principal = (Principal) session.getAttribute("principal");
-
-		if (principal == null) {
-			response.sendRedirect("/login.jsp");
+		if (session == null || session.getAttribute("principal") == null) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
 		}
-		
+
 		String action = request.getPathInfo();
 		switch (action) {
 		// 휴학 신청
@@ -129,7 +179,7 @@ public class BreakAppController extends HttpServlet {
 			handleAddApplication(request, response, principal.getId());
 			break;
 		// 휴학 신청관리 직원용
-		case "/list/staff":
+		case "/update":
 			handleUpdateApplication(request, response, principal.getId());
 			break;
 		default:
@@ -137,28 +187,40 @@ public class BreakAppController extends HttpServlet {
 		}
 
 	}
-	
 
 	private void handleUpdateApplication(HttpServletRequest request, HttpServletResponse response, int principalId)
-			throws IOException {
-		int appId = Integer.parseInt(request.getParameter("id"));
+			throws IOException, ServletException {
+		HttpSession session = request.getSession();
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("staff")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+		
+		int breakAppId = Integer.parseInt(request.getParameter("id"));
 		String status = request.getParameter("status");
-
 		try {
-
-			BreakApp breakApp = BreakApp.builder().id(appId).status(status).build();
-
-			breakAppRepository.updateAppById(appId, status);
+			breakAppRepository.updateAppById(breakAppId, status);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		response.sendRedirect(request.getContextPath() + "/list/staff");
+
+		response.sendRedirect(request.getContextPath() + "/break/list/staff");
 
 	}
 
 	private void handleAddApplication(HttpServletRequest request, HttpServletResponse response, int principalId)
-			throws IOException {
+			throws IOException, ServletException {
+		HttpSession session = request.getSession();
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("student")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+		
 		int studentId = Integer.parseInt(request.getParameter("student_id"));
 		int studentGrade = Integer.parseInt(request.getParameter("student_grade"));
 		int fromYear = Integer.parseInt(request.getParameter("from_year"));
