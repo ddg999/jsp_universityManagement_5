@@ -116,10 +116,11 @@
 
 		<!-- 필터 및 검색 -->
 		<div class="sub--filter">
-			<form action="/user/studentList" method="get">
+			<form action="/user/studentList/search" method="get">
 				<div>
 					<!-- 개설연도 숫자 -->
-					<label for="deptId">학과 번호</label> <input type="text" name="deptId" id="deptId"> <label for="studentId">학번</label> <input type="text" name="studentId" list="studentId">
+					<label for="studentName">이름</label>
+					<input type="text" name="studentName" id="studentName">
 					<!-- 검색 버튼 -->
 					<button type="submit">
 						<ul class="d-flex justify-content-center" style="margin: 0;">
@@ -178,6 +179,14 @@
 				<ul class="page--list">
 					<c:forEach var="index" begin="1" end="${listCount}">
 						<c:choose>
+							<c:when test="${not empty keyword}">
+								<c:if test="${type eq 'studentName'}">
+									<span><a href="/user/studentList/search?type=title&keyword=${studentName}&page=${index}">${index}</a></span>
+								</c:if>
+								<c:if test="${type eq 'studentName'}">
+									<span><a href="/user/studentList/search?type=keyword&keyword=${studentName}&page=${index}">${index}</a></span>
+								</c:if>
+							</c:when>
 							<c:when test="${deptId != null && index != page}">
 								<li><a href="/user/studentList?page=${index}&deptId=${deptId}"> ${index}</a> &nbsp;&nbsp;
 							</c:when>
