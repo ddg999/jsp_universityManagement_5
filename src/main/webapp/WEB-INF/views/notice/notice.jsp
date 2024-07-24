@@ -33,7 +33,9 @@
 			<select class="input--box" name="type">
 				<option value="title" ${type eq 'title' ? 'selected' : ''}>제목</option>
 				<option value="keyword" ${type eq 'keyword' ? 'selected' : ''}>제목+내용</option>
-			</select><input type="text" name="keyword" class="input--box" placeholder="검색어를 입력하세요" value="${keyword}"> <input type="submit" class="button" value="검색">
+			</select>
+			<input type="text" name="keyword" class="input--box" placeholder="검색어를 입력하세요" value="${keyword}">
+			<input type="submit" class="button" value="검색">
 		</form>
 		<div class="split--div"></div>
 		<table class="table">

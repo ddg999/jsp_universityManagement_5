@@ -127,7 +127,7 @@ public class UserController extends HttpServlet {
 	}
 	
 	/**
-	 * 학생 학과 번호 조회
+	 * 학생 이름 조회
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -136,7 +136,7 @@ public class UserController extends HttpServlet {
 	private void studentSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		List<Student> studentList = null;
-		int totalStudent = 0;
+		//int totalStudent = 0;
 		String studentName = null;
 
 		int page = 1; // 기본 페이지 번호
@@ -153,7 +153,6 @@ public class UserController extends HttpServlet {
 
 		try {
 			studentName = request.getParameter("studentName");
-			System.out.println(studentName);
 //			if (type.equals("dept")) {
 //				studentList = studentRepository.getStudentId(keyword, pageSize, offset);
 //				totalStudent = studentRepository.getTotalStudentCountByTitle(keyword);
@@ -163,18 +162,22 @@ public class UserController extends HttpServlet {
 //			}
 			
 			studentList = studentRepository.getStudentId(studentName, pageSize, offset);
+			int totalStudent1 = studentRepository.getTotalStudentNameCount(studentName);
+			System.out.println("totalStudent1 : " + totalStudent1);
+			int totalPages = (int) Math.ceil((double) totalStudent1 / pageSize);
 			
-			int totalPages = (int) Math.ceil((double) totalStudent / pageSize);
 //			request.setAttribute("type", studentName);
 //			request.setAttribute("keyword", studentName);
 //			request.setAttribute("totalPages", totalPages);
 //			request.setAttribute("currentPage", page);
 //			request.setAttribute("noticeList", studentList);
-			
+			request.setAttribute("keyword", studentName);
 			request.setAttribute("studentList", studentList);
 			request.setAttribute("listCount", totalPages);
+			request.setAttribute("totalStudent", totalStudent1);
 			request.setAttribute("index", page);
-			System.out.println("studentList : " + studentList);
+//			System.out.println("studentList : " + studentList);
+			
 			request.getRequestDispatcher("/WEB-INF/views/user/studentlist.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();

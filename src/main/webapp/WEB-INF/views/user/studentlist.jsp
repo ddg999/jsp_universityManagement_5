@@ -119,8 +119,7 @@
 			<form action="/user/studentList/search" method="get">
 				<div>
 					<!-- 개설연도 숫자 -->
-					<label for="studentName">이름</label>
-					<input type="text" name="studentName" id="studentName">
+					<label for="studentName">이름</label> <input type="text" name="studentName" id="studentName" value="${keyword}">
 					<!-- 검색 버튼 -->
 					<button type="submit">
 						<ul class="d-flex justify-content-center" style="margin: 0;">
@@ -128,11 +127,13 @@
 							<li style="height: 24px;"><span class="material-symbols-outlined" style="font-size: 18px; padding-top: 4px;">search</span>
 						</ul>
 					</button>
+					<!--  
 					<button type="button" onclick="location.href='/user/student/update'" style="margin-left: 10px;">
 						<ul>
 							<li style="height: 24px;">새학기 적용
 						</ul>
 					</button>
+					-->
 				</div>
 			</form>
 		</div>
@@ -180,25 +181,19 @@
 					<c:forEach var="index" begin="1" end="${listCount}">
 						<c:choose>
 							<c:when test="${not empty keyword}">
-								<c:if test="${type eq 'studentName'}">
-									<span><a href="/user/studentList/search?type=title&keyword=${studentName}&page=${index}">${index}</a></span>
-								</c:if>
-								<c:if test="${type eq 'studentName'}">
-									<span><a href="/user/studentList/search?type=keyword&keyword=${studentName}&page=${index}">${index}</a></span>
-								</c:if>
-							</c:when>
-							<c:when test="${deptId != null && index != page}">
-								<li><a href="/user/studentList?page=${index}&deptId=${deptId}"> ${index}</a> &nbsp;&nbsp;
-							</c:when>
-							<c:when test="${deptId != null && index == page}">
-								<li><a href="/user/studentList?page=${index}" class="selected--page"> ${index}</a> &nbsp;&nbsp;
-							</c:when>
-							<c:when test="${deptId == null && index == page}">
-								<li><a href="/user/studentList?page=${index}" class="selected--page"> ${index}</a> &nbsp;&nbsp;
+								<li><a href="/user/studentList/search?studentName=${keyword}&page=${index}">${index}</a></li>
 							</c:when>
 							<c:otherwise>
-								<li><a href="/user/studentList?page=${index}"> ${index}</a> &nbsp;&nbsp;
+								<c:choose>
+									<c:when test="${index == page}">
+										<li><a href="/user/studentList?page=${index}" class="selected--page">${index}</a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="/user/studentList?page=${index}">${index}</a></li>
+									</c:otherwise>
+								</c:choose>
 							</c:otherwise>
+							
 						</c:choose>
 					</c:forEach>
 				</ul>

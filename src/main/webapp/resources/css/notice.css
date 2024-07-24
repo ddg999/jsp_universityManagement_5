@@ -299,6 +299,7 @@ main h1:first-of-type {
 	padding: 5px 10px;
 	margin: 0 5px;
 	border: 1px solid #ddd;
+	border-radius: 4px;
 	text-decoration: none;
 	color: #007bff;
 }

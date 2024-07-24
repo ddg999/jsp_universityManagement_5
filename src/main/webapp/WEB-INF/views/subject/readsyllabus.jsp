@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -6,7 +7,9 @@
 <meta charset="UTF-8">
 <title>강의계획서</title>
 <style type="text/css">
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+@import
+	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
+	;
 
 * {
 	margin: 0 auto;
@@ -69,7 +72,6 @@ a:hover {
 }
 </style>
 </head>
-
 <body>
 	<header>
 		<div class="header--top"></div>
@@ -109,9 +111,10 @@ a:hover {
 			</tr>
 			<tr>
 				<td>강의 시간</td>
-				<td>${syllabus.subDay}${syllabus.startTime}:00 - ${syllabus.endTime}:00</td>
+				<td>${syllabus.subDay}${syllabus.startTime}:00-
+					${syllabus.endTime}:00</td>
 				<td>강의실</td>
-				<td>${syllabus.roomId}(${syllabus.collegeName})</td>
+				<td>${syllabus.roomId}(${syllabus.collName})</td>
 			</tr>
 		</table>
 		<br>
@@ -164,14 +167,13 @@ a:hover {
 			<c:when test="${principal.userRole == \"professor\"}">
 				<table>
 					<tr>
-						<td><a href="/professor/syllabus/update/${syllabus.subjectId }">수정하기</a></td>
+						<td><a
+							href="/professor/syllabus/update/${syllabus.subjectId }">수정하기</a></td>
 					</tr>
 				</table>
 			</c:when>
 			<c:otherwise></c:otherwise>
 		</c:choose>
-
 	</section>
-
 </body>
 </html>

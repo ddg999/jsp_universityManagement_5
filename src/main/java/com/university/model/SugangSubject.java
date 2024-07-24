@@ -11,24 +11,18 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @ToString
-public class Syllabus {
-	private int subjectId;
-	private String name;
-	private int subYear;
-	private int semester;
-	private int grades;
+public class SugangSubject {
+	private String collName;
+	private String deptName;
+	private int id;
 	private String type;
+	private String name;
+	private String professorName;
+	private int grades;
 	private String subDay;
 	private int startTime;
 	private int endTime;
 	private String roomId;
-	private String collName;
-	private String professorName;
-	private String deptName;
-	private String tel;
-	private String email;
-	private String overview;
-	private String objective;
-	private String textbook;
-	private String program;
+	private int numOfStudent;
+	private int capacity;
 }

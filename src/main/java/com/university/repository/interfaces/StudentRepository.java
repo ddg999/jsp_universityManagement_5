@@ -14,8 +14,10 @@ public interface StudentRepository {
 	
 	List<Student> getStudentIdDeptId(String keyword, int pageSize, int offset);
 	
-	int getTotalStudentCountByTitle(String keyword);
+	int getTotalStudentNameCount(String studentName);
 
+	int getTotalStudentCountByTitle(String keyword, int pageSize, int offset);
+	
 	int getTotalStudentCountByTitleOrContent(String keyword);
 	
 }
