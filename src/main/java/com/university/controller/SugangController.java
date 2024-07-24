@@ -89,8 +89,10 @@ public class SugangController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/views/sugang/sugangSubject.jsp").forward(request, response);
 	}
 
+	// 수강신청 탭 강의시간표 검색
 	private void showSugangSubjectSearch(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// TODO 검색했을때 페이징 처리
 		int page = 1;
 		int pageSize = 20; // 한 페이지당 보여질 게시글 수
 		try {

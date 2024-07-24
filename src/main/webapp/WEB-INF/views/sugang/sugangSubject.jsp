@@ -69,10 +69,10 @@
 					<!-- 검색 버튼 -->
 					<button type="submit">
 						<ul class="d-flex justify-content-center" style="margin: 0;">
-							<li style="height: 24px; margin-right: 2px;">조회 <li style="height: 24px;"><span
+							<li style="height: 24px; margin-right: 2px;">조회
+							<li style="height: 24px;"><span
 								class="material-symbols-outlined"
 								style="font-size: 18px; padding-top: 4px;">search</span>
-						
 						</ul>
 					</button>
 				</div>
@@ -125,13 +125,12 @@
 									<ul class="d-flex justify-content-center sub--plan--view"
 										style="margin: 0;">
 										<li style="height: 24px;"><a
-											href="/subject/syllabus/${subject.id}"
+											href="/subject/syllabus?subjectId=${subject.id}"
 											onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;">조회</a>
 										<li style="height: 24px;"><a
-											href="/subject/syllabus/${subject.id}"
+											href="/subject/syllabus?subjectId=${subject.id}"
 											onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;"><span
 												class="material-symbols-outlined">content_paste_search</span></a>
-									
 									</ul>
 								</td>
 							</tr>
@@ -159,15 +158,16 @@
 									<c:otherwise>
 										<a
 											href="${pageContext.request.contextPath}/sugang/subject?page=${i}">${i}
-			</a> </c:otherwise>
+										</a>
+									</c:otherwise>
 								</c:choose>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
-				
-							</div>
-			
-										</c:when>
+
+				</div>
+
+			</c:when>
 			<c:otherwise>
 				<p class="no--list--p">검색 결과가 없습니다.</p>
 			</c:otherwise>
