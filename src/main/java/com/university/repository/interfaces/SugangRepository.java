@@ -18,7 +18,7 @@ public interface SugangRepository {
 
 	// 수강신청 탭 강의수
 	int getTotalSubjectsCount();
-	
+
 	// 검색한 수강신청 탭 강의수
 	int getSearchSugangSubjectCount(String name, String type, String deptName);
 
@@ -30,5 +30,8 @@ public interface SugangRepository {
 
 	// 학생 수강 신청 내역 조회
 	List<Subject> selectSubStudent(int limit, int offset);
+
+	// 학생-과목 수강신청 여부 조회
+	int isRegist(int studentId, int subjectId);
 
 }

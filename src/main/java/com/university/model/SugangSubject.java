@@ -25,4 +25,5 @@ public class SugangSubject {
 	private String roomId;
 	private int numOfStudent;
 	private int capacity;
+	private boolean status;
 }

@@ -35,7 +35,7 @@
 		<h1>수강 신청</h1>
 		<div class="split--div"></div>
 
-		<div class="d-flex justify-content-between align-items-start" style="margin-bottom: 50px;">
+		<div class="d-flex justify-content-between align-items-start">
 			<!-- 필터 및 검색 -->
 			<div class="sub--filter">
 				<form action="/sugang/application/search" method="get">

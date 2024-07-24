@@ -22,6 +22,7 @@ public class SugangRepositoryImpl implements SugangRepository {
 	private static final String COUNT_ALL_SUGANG_SUBJECTS = " SELECT count(*) count from subject_tb ";
 	private static final String COUNT_SEARCH_SUGANG_SUBJECT = " SELECT count(*) count FROM subject_tb su JOIN department_tb d ON su.dept_id = d.id JOIN college_tb c ON d.college_id = c.id JOIN professor_tb p ON su.professor_id = p.id WHERE su.name LIKE CONCAT('%', COALESCE(NULLIF(?, ''), su.name), '%') AND su.type like CONCAT('%', COALESCE(NULLIF(?, ''), su.type), '%') AND d.name like CONCAT('%', COALESCE(NULLIF(?, ''), d.name), '%') ";
 	private static final String SELECT_ALL_DEPARTMENTS = " SELECT * FROM department_tb ";
+	private static final String IS_REGISTERED_SQL = " SELECT ss.* FROM stu_sub_tb ss JOIN subject_tb su ON ss.subject_id = su.id WHERE student_id = ? AND subject_id = ? ";
 
 	@Override
 	public void updatePeriod() {
@@ -136,5 +137,21 @@ public class SugangRepositoryImpl implements SugangRepository {
 			e.printStackTrace();
 		}
 		return count;
+	}
+
+	@Override
+	public int isRegist(int studentId, int subjectId) {
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(IS_REGISTERED_SQL)) {
+			pstmt.setInt(1, studentId);
+			pstmt.setInt(2, subjectId);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return 1;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }

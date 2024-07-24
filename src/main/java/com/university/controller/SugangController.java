@@ -43,11 +43,11 @@ public class SugangController extends HttpServlet {
 			break;
 		// 예비 수강 신청 페이지
 		case "/preRegist":
-			request.getRequestDispatcher("/WEB-INF/views/sugang/preRegist.jsp").forward(request, response);
+			showPreRegist(request, response);
 			break;
 		// 수강 신청 페이지
 		case "/regist":
-			request.getRequestDispatcher("/WEB-INF/views/sugang/regist.jsp").forward(request, response);
+			showRegist(request, response);
 			break;
 		// 수강 신청 내역 조회 페이지
 		case "/registResult":
@@ -61,6 +61,57 @@ public class SugangController extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			break;
 		}
+	}
+
+	private void showRegist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int page = 1;
+		int pageSize = 20; // 한 페이지당 보여질 게시글 수
+		try {
+			String pageStr = request.getParameter("page");
+			if (pageStr != null) {
+				page = Integer.parseInt(pageStr);
+			}
+		} catch (Exception e) {
+			page = 1;
+		}
+		int offset = (page - 1) * pageSize; // 시작 위치 계산( offset 값 계산)
+		List<SugangSubject> subjectList = sugangRepository.getAllSugangSubject(pageSize, offset);
+		int totalSubjects = sugangRepository.getTotalSubjectsCount();
+		List<Department> deptList = sugangRepository.getAllDepartment();
+
+		int totalPages = (int) Math.ceil((double) totalSubjects / pageSize);
+		request.setAttribute("subjectCount", totalSubjects);
+		request.setAttribute("totalPages", totalPages);
+		request.setAttribute("currentPage", page);
+		request.setAttribute("subjectList", subjectList);
+		request.setAttribute("deptList", deptList);
+		request.getRequestDispatcher("/WEB-INF/views/sugang/regist.jsp").forward(request, response);
+	}
+
+	// 예비 수강 신청
+	private void showPreRegist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int page = 1;
+		int pageSize = 20; // 한 페이지당 보여질 게시글 수
+		try {
+			String pageStr = request.getParameter("page");
+			if (pageStr != null) {
+				page = Integer.parseInt(pageStr);
+			}
+		} catch (Exception e) {
+			page = 1;
+		}
+		int offset = (page - 1) * pageSize; // 시작 위치 계산( offset 값 계산)
+		List<SugangSubject> subjectList = sugangRepository.getAllSugangSubject(pageSize, offset);
+		int totalSubjects = sugangRepository.getTotalSubjectsCount();
+		List<Department> deptList = sugangRepository.getAllDepartment();
+
+		int totalPages = (int) Math.ceil((double) totalSubjects / pageSize);
+		request.setAttribute("subjectCount", totalSubjects);
+		request.setAttribute("totalPages", totalPages);
+		request.setAttribute("currentPage", page);
+		request.setAttribute("subjectList", subjectList);
+		request.setAttribute("deptList", deptList);
+		request.getRequestDispatcher("/WEB-INF/views/sugang/preRegist.jsp").forward(request, response);
 	}
 
 	private void showSugangSubject(HttpServletRequest request, HttpServletResponse response)
