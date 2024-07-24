@@ -119,7 +119,7 @@
 			<form action="/user/studentList/search" method="get">
 				<div>
 					<!-- 개설연도 숫자 -->
-					<label for="studentName">이름</label> <input type="text" name="studentName" id="studentName" value="${keyword}">
+					<label for="studentName">이름</label> <input type="text" name="studentName" id="studentName">
 					<!-- 검색 버튼 -->
 					<button type="submit">
 						<ul class="d-flex justify-content-center" style="margin: 0;">

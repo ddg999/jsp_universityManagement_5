@@ -15,9 +15,7 @@ public class StudentRepositoryImpl implements StudentRepository {
 	private static final String SEARCH_STUDENT_ID_AND_DEPT_ID = " SELECT * FROM student_tb WHERE id LIKE ? OR dept_id LIKE ? ORDER BY id DESC LIMIT ? OFFSET ? ";
 	private static final String SEARCH_STUDNET_NAME = " SELECT * FROM student_tb WHERE name LIKE ? ORDER BY name DESC LIMIT ? OFFSET ? ";
 	private static final String SELECT_STUDENT_BY_NAME = " SELECT * FROM student_tb WHERE name LIKE ? ORDER BY name DESC LIMIT ? OFFSET ? ";
-	private static final String COUNT_SEARCH_STUDENT = " SELECT COUNT(*) as count FROM student_tb WHERE name LIKE ? ";
-	private static final String COUNT_STUDEN_BY_NAME = " SELECT count(*) count from student_tb WHERE name LIKE ? ";
-	
+	private static final String COUNT_SEARCH_STUDENT = " SELECT COUNT(*) as count FROM student_tb WHERE name LIKE ? ";	
 	
 	@Override
 	public List<Student> getStudentId(String keyword, int pageSize, int offset) {
@@ -61,12 +59,6 @@ public class StudentRepositoryImpl implements StudentRepository {
 		}
 		return count;
 	}
-	
-
-	@Override
-	public List<Student> getStudentDeptId(String keyword, int pageSize, int offset) {
-		return null;
-	}
 
 	@Override
 	public List<Student> getStudentIdDeptId(String keyword, int pageSize, int offset) {
@@ -89,12 +81,6 @@ public class StudentRepositoryImpl implements StudentRepository {
 			e.printStackTrace();
 		}
 		return studentList;
-	}
-
-	@Override
-	public int getTotalStudentCountByTitleOrContent(String keyword) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override
