@@ -39,7 +39,7 @@
 					</c:choose>
 				</tr>
 				<tr>
-					<td><a href="/sugang/list">수강 신청 내역 조회</a></td>
+					<td><a href="/sugang/list">수강 신청 내역</a></td>
 				</tr>
 			</table>
 		</div>
