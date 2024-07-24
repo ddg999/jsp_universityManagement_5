@@ -153,30 +153,17 @@ public class UserController extends HttpServlet {
 
 		try {
 			studentName = request.getParameter("studentName");
-//			if (type.equals("dept")) {
-//				studentList = studentRepository.getStudentId(keyword, pageSize, offset);
-//				totalStudent = studentRepository.getTotalStudentCountByTitle(keyword);
-//			} else if (type.equals("keyword")) {
-//				studentList = studentRepository.getStudentIdDeptId(keyword, pageSize, offset);
-//				totalStudent = studentRepository.getTotalStudentCountByTitleOrContent(keyword);
-//			}
-			
+
 			studentList = studentRepository.getStudentId(studentName, pageSize, offset);
 			int totalStudent1 = studentRepository.getTotalStudentNameCount(studentName);
 			System.out.println("totalStudent1 : " + totalStudent1);
 			int totalPages = (int) Math.ceil((double) totalStudent1 / pageSize);
 			
-//			request.setAttribute("type", studentName);
-//			request.setAttribute("keyword", studentName);
-//			request.setAttribute("totalPages", totalPages);
-//			request.setAttribute("currentPage", page);
-//			request.setAttribute("noticeList", studentList);
 			request.setAttribute("keyword", studentName);
 			request.setAttribute("studentList", studentList);
 			request.setAttribute("listCount", totalPages);
 			request.setAttribute("totalStudent", totalStudent1);
 			request.setAttribute("index", page);
-//			System.out.println("studentList : " + studentList);
 			
 			request.getRequestDispatcher("/WEB-INF/views/user/studentlist.jsp").forward(request, response);
 		} catch (Exception e) {
