@@ -50,7 +50,7 @@ public class AdminController extends HttpServlet {
 			viewCollege(request, response, session);
 			request.getRequestDispatcher("/WEB-INF/views/admin/college.jsp").forward(request, response);
 			break;
-			// 단과 대학 삭제
+		// 단과 대학 삭제
 		case "/collegeDelete":
 			deleteCollege(request, response, session);
 			break;
@@ -59,7 +59,7 @@ public class AdminController extends HttpServlet {
 			viewDepartment(request, response, session);
 			request.getRequestDispatcher("/WEB-INF/views/admin/department.jsp").forward(request, response);
 			break;
-			// 학과 삭제
+		// 학과 삭제
 		case "/departmentDelete":
 			deleteDepartment(request, response, session);
 			break;
@@ -68,7 +68,7 @@ public class AdminController extends HttpServlet {
 			viewRoom(request, response, session);
 			request.getRequestDispatcher("/WEB-INF/views/admin/room.jsp").forward(request, response);
 			break;
-			// 강의실 삭제
+		// 강의실 삭제
 		case "/roomDelete":
 			deleteRoom(request, response, session);
 			break;
@@ -77,7 +77,7 @@ public class AdminController extends HttpServlet {
 			viewSubject(request, response, session);
 			request.getRequestDispatcher("/WEB-INF/views/admin/subject.jsp").forward(request, response);
 			break;
-			// 강의 삭제
+		// 강의 삭제
 		case "/subjectDelete":
 			deleteSubject(request, response, session);
 			break;
@@ -86,7 +86,7 @@ public class AdminController extends HttpServlet {
 			viewCollTuit(request, response, session);
 			request.getRequestDispatcher("/WEB-INF/views/admin/colltuition.jsp").forward(request, response);
 			break;
-			// 단대별 등록금 삭제
+		// 단대별 등록금 삭제
 		case "/tuitionDelete":
 			deleteCollTuit(request, response, session);
 			break;
@@ -95,54 +95,48 @@ public class AdminController extends HttpServlet {
 		}
 	}
 
-	private void deleteCollTuit(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+	private void deleteCollTuit(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException {
 		int collegeId = Integer.parseInt(request.getParameter("collegeId"));
 		String collegeName = request.getParameter("collegeName");
-		CollTuit collTuit = CollTuit.builder()
-				.collegeId(collegeId)
-				.collegeName(collegeName)
-				.build();
+		CollTuit collTuit = CollTuit.builder().collegeId(collegeId).collegeName(collegeName).build();
 		System.out.println(collTuit);
 		adminRepository.deleteCollTuit(collegeId);
 		response.sendRedirect(request.getContextPath() + "/admin/tuition?crud=select");
-		
+
 	}
 
-	private void deleteSubject(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+	private void deleteSubject(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException {
 		int subjectId = Integer.parseInt(request.getParameter("id"));
-		Subject subject = Subject.builder()
-				.id(subjectId)
-				.build();
+		Subject subject = Subject.builder().id(subjectId).build();
 		System.out.println(subject);
 		adminRepository.deleteSubject(subjectId);
 		response.sendRedirect(request.getContextPath() + "/admin/subject?crud=select");
 	}
 
-	private void deleteRoom(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+	private void deleteRoom(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException {
 		String roomId = request.getParameter("id");
-		Room room = Room.builder()
-				.id(roomId)
-				.build();
+		Room room = Room.builder().id(roomId).build();
 		System.out.println(room);
 		adminRepository.deleteRoom(roomId);
 		response.sendRedirect(request.getContextPath() + "/admin/room?crud=select");
 	}
 
-	private void deleteDepartment(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+	private void deleteDepartment(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException {
 		int departmentId = Integer.parseInt(request.getParameter("id"));
-		Department department = Department.builder()
-				.id(departmentId)
-				.build();
+		Department department = Department.builder().id(departmentId).build();
 		System.out.println(department);
 		adminRepository.deleteDepartment(departmentId);
 		response.sendRedirect(request.getContextPath() + "/admin/department?crud=select");
 	}
-	
-	private void deleteCollege(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+
+	private void deleteCollege(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException {
 		int collegeId = Integer.parseInt(request.getParameter("id"));
-		College college = College.builder()
-				.id(collegeId)
-				.build();
+		College college = College.builder().id(collegeId).build();
 		System.out.println(college);
 		adminRepository.deleteCollege(collegeId);
 		response.sendRedirect(request.getContextPath() + "/admin/college?crud=select");
@@ -152,11 +146,11 @@ public class AdminController extends HttpServlet {
 		String crud = request.getParameter("crud");
 		System.out.println("crud " + crud);
 		request.setAttribute("crud", crud);
-		
+
 		List<CollTuit> selectAllCollTuits = adminRepository.getAllCollTuits();
 		System.out.println(selectAllCollTuits);
 		request.setAttribute("collTuitList", selectAllCollTuits);
-		
+
 		List<College> selectAllColleges = adminRepository.getAllColleges();
 		System.out.println(selectAllColleges);
 		request.setAttribute("collegeList", selectAllColleges);
@@ -166,7 +160,7 @@ public class AdminController extends HttpServlet {
 		String crud = request.getParameter("crud");
 		System.out.println("crud " + crud);
 		request.setAttribute("crud", crud);
-		
+
 		List<Subject> selectAllSubjects = adminRepository.getAllSubjects();
 		System.out.println(selectAllSubjects);
 		request.setAttribute("subjectList", selectAllSubjects);
@@ -176,7 +170,7 @@ public class AdminController extends HttpServlet {
 		String crud = request.getParameter("crud");
 		System.out.println("crud " + crud);
 		request.setAttribute("crud", crud);
-		
+
 		List<Room> selectAllRooms = adminRepository.getAllRooms();
 		System.out.println(selectAllRooms);
 		request.setAttribute("roomList", selectAllRooms);
@@ -186,11 +180,11 @@ public class AdminController extends HttpServlet {
 		String crud = request.getParameter("crud");
 		System.out.println("crud " + crud);
 		request.setAttribute("crud", crud);
-		
+
 		List<Department> selectAllDepartments = adminRepository.getAllDepartments();
 		System.out.println(selectAllDepartments);
 		request.setAttribute("departmentList", selectAllDepartments);
-		
+
 		List<College> selectAllColleges = adminRepository.getAllColleges();
 		System.out.println(selectAllColleges);
 		request.setAttribute("collegeList", selectAllColleges);
@@ -200,11 +194,11 @@ public class AdminController extends HttpServlet {
 		String crud = request.getParameter("crud");
 		System.out.println("crud " + crud);
 		request.setAttribute("crud", crud);
-		
+
 		List<College> selectAllColleges = adminRepository.getAllColleges();
 		System.out.println(selectAllColleges);
 		request.setAttribute("collegeList", selectAllColleges);
-		
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -259,23 +253,20 @@ public class AdminController extends HttpServlet {
 		}
 	}
 
-
-	private void updateCollTutition(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+	private void updateCollTutition(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException {
 		int collegeId = Integer.parseInt(request.getParameter("collegeId"));
 		String collegeName = request.getParameter("name");
 		int amount = Integer.parseInt(request.getParameter("amount"));
-		
-		CollTuit collTuit = CollTuit.builder()
-				.collegeId(collegeId)
-				.collegeName(collegeName)
-				.amount(amount)
-				.build();
+
+		CollTuit collTuit = CollTuit.builder().collegeId(collegeId).collegeName(collegeName).amount(amount).build();
 		adminRepository.updateCollTuit(collTuit, collegeId);
-		
+
 		response.sendRedirect(request.getContextPath() + "/admin/tuition?crud=select");
 	}
 
-	private void updateSubject(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+	private void updateSubject(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException {
 		int subjectId = Integer.parseInt(request.getParameter("id"));
 		String subDay = request.getParameter("subDay");
 		String name = request.getParameter("name");
@@ -283,47 +274,36 @@ public class AdminController extends HttpServlet {
 		int startTime = Integer.parseInt(request.getParameter("startTime"));
 		int endTime = Integer.parseInt(request.getParameter("endTime"));
 		int capacity = Integer.parseInt(request.getParameter("capacity"));
-		
-		Subject subject = Subject.builder()
-				.id(subjectId)
-				.subDay(subDay)
-				.name(name)
-				.roomId(roomId)
-				.startTime(startTime)
-				.endTime(endTime)
-				.capacity(capacity)
-				.build();
+
+		Subject subject = Subject.builder().id(subjectId).subDay(subDay).name(name).roomId(roomId).startTime(startTime)
+				.endTime(endTime).capacity(capacity).build();
 		System.out.println(subject);
 		adminRepository.updateSubject(subject, subjectId);
 		response.sendRedirect(request.getContextPath() + "/admin/subject?crud=select");
 	}
 
-	private void updateDepartment(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+	private void updateDepartment(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException {
 		String departmentName = request.getParameter("name");
 		int departmentId = Integer.parseInt(request.getParameter("id"));
-		Department department = Department.builder()
-				.name(departmentName)
-				.id(departmentId)
-				.build();
+		Department department = Department.builder().name(departmentName).id(departmentId).build();
 		System.out.println(department);
 		adminRepository.updateDepartment(department, departmentId);
 		response.sendRedirect(request.getContextPath() + "/admin/department?crud=select");
 	}
 
-	private void addCollTuition(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+	private void addCollTuition(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException {
 		int collegeId = Integer.parseInt(request.getParameter("collegeId"));
 		String collegeName = request.getParameter("collegeName");
 		int amount = Integer.parseInt(request.getParameter("amount"));
-		CollTuit collTuit = CollTuit.builder()
-				.collegeId(collegeId)
-				.collegeName(collegeName)
-				.amount(amount)
-				.build();
+		CollTuit collTuit = CollTuit.builder().collegeId(collegeId).collegeName(collegeName).amount(amount).build();
 		adminRepository.addCollTuit(collTuit);
 		response.sendRedirect(request.getContextPath() + "/admin/tuition?crud=select");
 	}
 
-	private void addSubject(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+	private void addSubject(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException, ServletException {
 		String subjectName = request.getParameter("name");
 		int professorId = Integer.parseInt(request.getParameter("professorId"));
 		String roomId = request.getParameter("roomId");
@@ -336,60 +316,121 @@ public class AdminController extends HttpServlet {
 		int endTime = Integer.parseInt(request.getParameter("endTime"));
 		int grades = Integer.parseInt(request.getParameter("grades"));
 		int capacity = Integer.parseInt(request.getParameter("capacity"));
-		
-		Subject subject = Subject.builder()
-				.name(subjectName)
-				.professorId(professorId)
-				.roomId(roomId)
-				.deptId(deptId)
-				.type(type)
-				.subYear(subYear)
-				.semester(semester)
-				.subDay(subDay)
-				.startTime(startTime)
-				.endTime(endTime)
-				.grades(grades)
-				.capacity(capacity)
-				.build();
-		adminRepository.addSubject(subject);
-		response.sendRedirect(request.getContextPath() + "/admin/subject?crud=select");
-				
+
+		// TODO
+		try {
+			Subject subject = Subject.builder().name(subjectName).professorId(professorId).roomId(roomId).deptId(deptId)
+					.type(type).subYear(subYear).semester(semester).subDay(subDay).startTime(startTime).endTime(endTime)
+					.grades(grades).capacity(capacity).build();
+
+			// 강의 중복 검사
+			List<Subject> subjectList = adminRepository.getAllSubjects();
+			for (int i = 0; i < subjectList.size(); i++) {
+				boolean result = subject.subjectBoolean(subject, subjectList);
+					if (result == false) {
+						request.setAttribute("errorMessage", "이미 존재하는 강의실입니다");
+						request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+						return;
+					}
+				}
+
+			adminRepository.addSubject(subject);
+			response.sendRedirect(request.getContextPath() + "/admin/subject?crud=select");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "강의실 입력 오류");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+
 	}
 
-	private void addRoom(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
-		String roomId = request.getParameter("id");
-		int collegeId = Integer.parseInt(request.getParameter("collegeId"));
-		Room room = Room.builder()
-				.id(roomId)
-				.collegeId(collegeId)
-				.build();
-		System.out.println(room);
-		adminRepository.addRoom(room);
+	private void addRoom(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException, ServletException {
+		try {
+			String roomId = request.getParameter("id");
+			int collegeId = Integer.parseInt(request.getParameter("collegeId"));
+			Room room = Room.builder().id(roomId).collegeId(collegeId).build();
+
+			// 강의실 이름 중복 검사
+			List<Room> roomList = adminRepository.getAllRooms();
+			for (int i = 0; i < roomList.size(); i++) {
+				if (roomList.get(i).getId().equals(room.getId())) {
+					request.setAttribute("errorMessage", "이미 존재하는 강의실입니다");
+					request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+					return;
+				}
+			}
+			adminRepository.addRoom(room);
+			System.out.println(room);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "강의실 입력 오류");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
 		response.sendRedirect(request.getContextPath() + "/admin/room?crud=select");
 	}
 
-	private void addDepartment(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
-		String departmentName = request.getParameter("name");
-		int collegeId = Integer.parseInt(request.getParameter("collegeId"));
-		List<College> collegeList = adminRepository.getAllColleges();
-		request.setAttribute("collegeList", collegeList);
-		Department department = Department.builder()
-				.name(departmentName)
-				.collegeId(collegeId)
-				.build();
-		System.out.println(department);
-		adminRepository.addDepartment(department);
+	private void addDepartment(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException, ServletException {
+		try {
+			String departmentName = request.getParameter("name");
+			int collegeId = Integer.parseInt(request.getParameter("collegeId"));
+
+			List<College> collegeList = adminRepository.getAllColleges();
+			request.setAttribute("collegeList", collegeList);
+			Department department = Department.builder().name(departmentName).collegeId(collegeId).build();
+
+			// 학과 이름 중복 검사
+			List<Department> departmentList = adminRepository.getAllDepartments();
+			for (int i = 0; i < departmentList.size(); i++) {
+				if (departmentList.get(i).getName().equals(department.getName())) {
+					request.setAttribute("errorMessage", "이미 존재하는 학과입니다");
+					request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+					return;
+				}
+			}
+			adminRepository.addDepartment(department);
+			System.out.println(department);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "학과 입력 오류");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
 		response.sendRedirect(request.getContextPath() + "/admin/department?crud=select");
-		
 	}
 
-	private void addCollege(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
-		String collegeName = request.getParameter("name");
-		College college = College.builder()
-				.name(collegeName)
-				.build();
-		System.out.println(college);
-		adminRepository.addCollege(college);
+	private void addCollege(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException, ServletException {
+
+		try {
+			String collegeName = request.getParameter("name");
+
+			College college = College.builder().name(collegeName).build();
+			// 단과 이름 중복 검사
+			List<College> collegeList = adminRepository.getAllColleges();
+			for (int i = 0; i < collegeList.size(); i++) {
+				if (collegeList.get(i).getName().equals(college.getName())) {
+					request.setAttribute("errorMessage", "이미 존재하는 단과입니다");
+					request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+					return;
+				}
+			}
+			adminRepository.addCollege(college);
+			System.out.println(college);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "단과 입력 오류");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+
 		response.sendRedirect(request.getContextPath() + "/admin/college?crud=select");
 	}
 
