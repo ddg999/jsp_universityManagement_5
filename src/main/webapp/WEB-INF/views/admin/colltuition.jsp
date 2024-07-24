@@ -18,19 +18,19 @@
 			<table class="sub--menu--table" border="1">
 				<tbody>
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/admin/college">단과대학</a></td>
+						<td><a href="${pageContext.request.contextPath}/admin/college?crud=select">단과대학</a></td>
 					</tr>
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/admin/department">학과</a></td>
+						<td><a href="${pageContext.request.contextPath}/admin/department?crud=select">학과</a></td>
 					</tr>
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/admin/room">강의실</a></td>
+						<td><a href="${pageContext.request.contextPath}/admin/room?crud=select">강의실</a></td>
 					</tr>
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/admin/subject">강의</a></td>
+						<td><a href="${pageContext.request.contextPath}/admin/subject?crud=select">강의</a></td>
 					</tr>
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/admin/tuition" class="selected--menu">단대별 등록금</a></td>
+						<td><a href="${pageContext.request.contextPath}/admin/tuition?crud=select" class="selected--menu">단대별 등록금</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -70,8 +70,8 @@
 				<c:forEach var="collTuit" items="${collTuitList}">
 					<tr>
 						<td>${collTuit.collegeId}</td>
-						<td>${collTuit.name}</td>
-						<td>${collTuit.amountFormat()}</td>
+						<td>${collTuit.collegeName}</td>
+						<td>${collTuit.amount}</td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -90,7 +90,9 @@
 					<c:forEach var="college" items="${collegeList}">
 						<option value="${college.id}">${college.name}</option>
 					</c:forEach>
-				</select> <input type="text" name="amount" class="input--box" placeholder="등록금을 입력하세요"> <input type="submit" value="수정" class="button">
+				</select> 
+				<input type="text" name="amount" class="input--box" placeholder="등록금을 입력하세요"> 
+				<input type="submit" value="수정" class="button">
 			</form>
 			<table class="table--container">
 				<tr class="first--tr">
@@ -101,8 +103,8 @@
 				<c:forEach var="collTuit" items="${collTuitList}">
 					<tr>
 						<td>${collTuit.collegeId}</td>
-						<td>${collTuit.name}</td>
-						<td>${collTuit.amountFormat()}</td>
+						<td>${collTuit.collegeName}</td>
+						<td>${collTuit.amount}</td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -121,8 +123,8 @@
 				<c:forEach var="collTuit" items="${collTuitList}">
 					<tr>
 						<td>${collTuit.collegeId}</td>
-						<td><a href="/admin/tuitionDelete?collegeId=${collTuit.collegeId}">${collTuit.name}</a></td>
-						<td>${collTuit.amountFormat()}</td>
+						<td><a href="/admin/tuitionDelete?collegeId=${collTuit.collegeId}">${collTuit.collegeName}</a></td>
+						<td>${collTuit.amount}</td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -130,7 +132,7 @@
 
 
 		<!-- 등록금 조회 -->
-		<c:if test="${collTuitList != null}">
+		<c:if test="${crud.equals(\"select\")}">
 			<div class="form--container">
 				<table class="table--container">
 					<tr class="first--tr">

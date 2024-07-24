@@ -27,13 +27,13 @@
 						<td><a href="${pageContext.request.contextPath}/admin/department?crud=select" class="selected--menu">학과</a></td>
 					</tr>
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/admin/room">강의실</a></td>
+						<td><a href="${pageContext.request.contextPath}/admin/room?crud=select">강의실</a></td>
 					</tr>
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/admin/subject">강의</a></td>
+						<td><a href="${pageContext.request.contextPath}/admin/subject?crud=select">강의</a></td>
 					</tr>
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/admin/tuition">단대별 등록금</a></td>
+						<td><a href="${pageContext.request.contextPath}/admin/tuition?crud=select">단대별 등록금</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -57,7 +57,8 @@
 						<li style="height: 24px; margin-right: 2px;"><span class="material-symbols-outlined">school</span>
 						<li style="height: 24px;"><span class="insert">등록하기</span>
 					</ul>
-					<input type="text" class="input--box" name="name" placeholder="학과를 입력해주세요"> <select name="collegeId" class="input--box">
+					<input type="text" class="input--box" name="name" placeholder="학과를 입력해주세요"> 
+					<select name="collegeId" class="input--box">
 						<c:forEach var="college" items="${collegeList}">
 							<option value="${college.id}">${college.name}</option>
 						</c:forEach>
@@ -86,7 +87,7 @@
 		<!-- 학과 수정  -->
 		<c:if test="${crud.equals(\"update\")}">
 			<div class="container">
-				<form action="/admin/department" method="post" id="form--container">
+				<form action="/admin/departmentUpdate" method="post" id="form--container">
 					<input type="hidden" name="_method" value="put" />
 					<ul class="d-flex" style="margin: 0;">
 						<li style="height: 24px; margin-right: 2px;"><span class="material-symbols-outlined">school</span>

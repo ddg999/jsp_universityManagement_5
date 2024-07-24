@@ -18,11 +18,11 @@ public class AdminRepositoryImpl implements AdminRepository {
 	private static final String INSERT_COLLEGE_SQL = " INSERT INTO college_tb (name) VALUES (?) ";
 	private static final String SELECT_ALL_COLLEGES = " SELECT * FROM college_tb order by id asc ";
 	private static final String UPDATE_COLLEGE_SQL = " UPDATE college_tb SET name = ? WHERE id = ? ";
-	private static final String DELETE_COLLEGE_SQL = " DELETE FROM college_tb WHERE name = ? ";
+	private static final String DELETE_COLLEGE_SQL = " DELETE FROM college_tb WHERE id = ? ";
 
 	private static final String INSERT_DEPARTMENT_SQL = " INSERT INTO department_tb (name, college_id) VALUES (?, ?) ";
 	private static final String SELECT_ALL_DEPARTMENTS = " SELECT * FROM department_tb order by id asc ";
-	private static final String UPDATE_DEPARTMENT_SQL = " UPDATE department_tb SET name = ?, collegeId = ? WHERE id = ? ";
+	private static final String UPDATE_DEPARTMENT_SQL = " UPDATE department_tb SET name = ? WHERE id = ? ";
 	private static final String DELETE_DEPARTMENT_SQL = " DELETE FROM department_tb WHERE id = ? ";
 
 	private static final String INSERT_ROOM_SQL = " INSERT INTO room_tb (id, college_id) VALUES (?, ?) ";
@@ -32,7 +32,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 
 	private static final String INSERT_SUBJECT_SQL = " INSERT INTO subject_tb (name, professor_id, room_id, dept_id, type, sub_year, semester, sub_day, start_time, end_time, grades, capacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 	private static final String SELECT_ALL_SUBJECTS = " SELECT * FROM subject_tb order by id asc ";
-	private static final String UPDATE_SUBJECT_SQL = " UPDATE subject_tb SET name = ?, professor_id = ?, room_id = ?, sub_day = ?, start_time = ?, end_time = ?, capacity = ?  WHERE id = ? ";
+	private static final String UPDATE_SUBJECT_SQL = " UPDATE subject_tb SET name = ?, room_id = ?, sub_day = ?, start_time = ?, end_time = ?, capacity = ? WHERE id = ? ";
 	private static final String DELETE_SUBJECT_SQL = " DELETE FROM subject_tb WHERE id = ? ";
 
 	private static final String INSERT_COLLTUIT_SQL = " INSERT INTO coll_tuit_tb (college_id, amount) VALUES (?, ?) ";
@@ -91,11 +91,11 @@ public class AdminRepositoryImpl implements AdminRepository {
 	}
 
 	@Override
-	public void deleteCollege(String collegeName) {
+	public void deleteCollege(int collegeId) {
 		try (Connection conn = DBUtil.getConnection()) {
 			conn.setAutoCommit(false);
 			try (PreparedStatement pstmt = conn.prepareStatement(DELETE_COLLEGE_SQL)) {
-				pstmt.setString(1, collegeName);
+				pstmt.setInt(1, collegeId);
 				pstmt.executeUpdate();
 				conn.commit();
 			} catch (Exception e) {
@@ -147,8 +147,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 			conn.setAutoCommit(false);
 			try (PreparedStatement pstmt = conn.prepareStatement(UPDATE_DEPARTMENT_SQL)) {
 				pstmt.setString(1, department.getName());
-				pstmt.setInt(2, department.getCollegeId());
-				pstmt.setInt(3, departmentId);
+				pstmt.setInt(2, departmentId);
 				pstmt.executeUpdate();
 				conn.commit();
 			} catch (Exception e) {
@@ -299,13 +298,12 @@ public class AdminRepositoryImpl implements AdminRepository {
 			conn.setAutoCommit(false);
 			try (PreparedStatement pstmt = conn.prepareStatement(UPDATE_SUBJECT_SQL)) {
 				pstmt.setString(1, subject.getName());
-				pstmt.setInt(2, subject.getProfessorId());
-				pstmt.setString(3, subject.getRoomId());
-				pstmt.setString(4, subject.getSubDay());
-				pstmt.setInt(5, subject.getStartTime());
-				pstmt.setInt(6, subject.getEndTime());
-				pstmt.setInt(7, subject.getCapacity());
-				pstmt.setInt(8, subject.getId());
+				pstmt.setString(2, subject.getRoomId());
+				pstmt.setString(3, subject.getSubDay());
+				pstmt.setInt(4, subject.getStartTime());
+				pstmt.setInt(5, subject.getEndTime());
+				pstmt.setInt(6, subject.getCapacity());
+				pstmt.setInt(7, subjectId);
 				pstmt.executeUpdate();
 				conn.commit();
 			} catch (Exception e) {
@@ -373,7 +371,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 		try (Connection conn = DBUtil.getConnection()) {
 			conn.setAutoCommit(false);
 			try (PreparedStatement pstmt = conn.prepareStatement(UPDATE_COLLTUIT_SQL)) {
-				pstmt.setInt(1, collTuit.getCollegeId());
+				pstmt.setInt(1, collTuit.getAmount());
 				pstmt.setInt(2, collegeId);
 				pstmt.executeUpdate();
 				conn.commit();

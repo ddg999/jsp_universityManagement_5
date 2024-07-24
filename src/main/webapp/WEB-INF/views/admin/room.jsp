@@ -20,19 +20,19 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tbody><tr>
-					<td><a href="${pageContext.request.contextPath}/admin/college">단과대학</a></td>
+					<td><a href="${pageContext.request.contextPath}/admin/college?crud=select">단과대학</a></td>
 				</tr>
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/admin/department">학과</a></td>
+					<td><a href="${pageContext.request.contextPath}/admin/department?crud=select">학과</a></td>
 				</tr>
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/admin/room" class="selected--menu">강의실</a></td>
+					<td><a href="${pageContext.request.contextPath}/admin/room?crud=select" class="selected--menu">강의실</a></td>
 				</tr>
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/admin/subject">강의</a></td>
+					<td><a href="${pageContext.request.contextPath}/admin/subject?crud=select">강의</a></td>
 				</tr>
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/admin/tuition">단대별 등록금</a></td>
+					<td><a href="${pageContext.request.contextPath}/admin/tuition?crud=select">단대별 등록금</a></td>
 				</tr>
 			</tbody></table>
 		</div>
@@ -95,7 +95,7 @@
 
 
 		<!-- 강의 조회 -->
-		<c:if test="${roomList != null}">
+		<c:if test="${crud.equals(\"select\")}">
 			<div class="form--container">
 				<table class="table--container">
 					<tr class="first--tr">
