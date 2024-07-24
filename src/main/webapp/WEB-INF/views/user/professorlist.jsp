@@ -116,11 +116,11 @@
 
 		<!-- 필터 및 검색 -->
 		<div class="sub--filter">
-			<form action="/user/professorList" method="get">
+			<form action="/user/professorList/search" method="get">
 				<div>
 					<!-- 개설연도 숫자 -->
-					<label for="deptId">학과 번호</label> <input type="text" name="deptId" id="deptId"> <label for="professorId">사번</label> <input type="text" name="professorId"
-						list="professorId">
+					<label for="professorName">이름</label>
+					<input type="text" name="professorName" id="professorName">
 					<!-- 검색 버튼 -->
 					<button type="submit">
 						<ul class="d-flex justify-content-center" style="margin: 0;">
@@ -169,18 +169,37 @@
 				</table>
 				<ul class="page--list">
 					<c:forEach var="index" begin="1" end="${listCount}">
+				
+							<!--  
 						<c:choose>
 							<c:when test="${deptId != null && index != page}">
-								<li><a href="/user/professorList?page=${index}?deptId=${deptId}"> ${index}</a> &nbsp;&nbsp;
+								<li><a href="/user/professorList?page=${index}?professorName=${keyword}"> ${index}</a> &nbsp;&nbsp;
 							</c:when>
 							<c:when test="${deptId != null && index == page}">
-								<li><a href="/user/professorList?page=${index}?deptId=${deptId}" class="selected--page"> ${index}</a> &nbsp;&nbsp;
+								<li><a href="/user/professorList?page=${index}?professorName=${keyword}" class="selected--page"> ${index}</a> &nbsp;&nbsp;
 							</c:when>
 							<c:when test="${deptId == null && index == page}">
-								<li><a href="/user/professorList?page=${index}" class="selected--page"> ${index}</a> &nbsp;&nbsp;
+								<li><a href="/user/professorList?page=${index}?professorName=${keyword}" class="selected--page"> ${index}</a> &nbsp;&nbsp;
 							</c:when>
 							<c:otherwise>
-								<li><a href="/user/professorList?page=${index}"> ${index}</a> &nbsp;&nbsp;
+								<li><a href="/user/professorList?page=${index}?professorName=${keyword}"> ${index}</a> &nbsp;&nbsp;
+							</c:otherwise>
+						</c:choose>
+						
+						-->
+						<c:choose>
+							<c:when test="${not empty keyword}">
+								<li><a href="/user/professorList/search?professorName=${keyword}&page=${index}">${index}</a></li>
+							</c:when>
+							<c:otherwise>
+								<c:choose>
+									<c:when test="${index == page}">
+										<li><a href="/user/professorList?page=${index}" class="selected--page">${index}</a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="/user/professorList?page=${index}">${index}</a></li>
+									</c:otherwise>
+								</c:choose>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
