@@ -13,7 +13,8 @@ import lombok.ToString;
 @ToString
 public class SubjectList {
 
-	private String year;
+	private int year;
+	private int semester;
 	private String university;
 	private String department;
 	private int subjectNum;

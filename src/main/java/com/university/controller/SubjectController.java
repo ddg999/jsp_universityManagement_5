@@ -27,6 +27,7 @@ public class SubjectController extends HttpServlet {
 		switch (action) {
 		// 전체 강의 조회
 		case "/list":
+			System.out.println("실행");
 			showListProfessor(request, response);
 			break;
 		// 강의 계획서 조회
@@ -39,7 +40,7 @@ public class SubjectController extends HttpServlet {
 	}
 
 	private void showListProfessor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int page = 1;
+		int page = 2;
 		int pageSize = 20;
 		
 		try {
@@ -52,8 +53,8 @@ public class SubjectController extends HttpServlet {
 		}
 		int offset = (page -1) * pageSize;
 		List<SubjectList> subjectList = subjectRepository.getProfessorSubjectAll(pageSize, offset);
-		request.setAttribute("subjectList", subjectList);
-		request.getRequestDispatcher("/WEB-INF/views/professor/professorsublist.jsp");
+		// request.setAttribute("subjectList", subjectList);
+		request.getRequestDispatcher("/WEB-INF/views/professor/professorsublist.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
