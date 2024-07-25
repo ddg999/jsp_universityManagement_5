@@ -16,9 +16,12 @@ import lombok.ToString;
 public class Subject {
 	private int id;
 	private String name;
+	private String collName;
 	private int professorId;
+	private String professorName;
 	private String roomId;
 	private int deptId;
+	private String deptName;
 	private String type;
 	private int subYear;
 	private int semester;
@@ -28,6 +31,7 @@ public class Subject {
 	private int grades;
 	private int capacity;
 	private int numOfStudent;
+	private Boolean status;
 
 	public boolean subjectBoolean(Subject subject, List<Subject> subjectList) {
 		for (int i = 0; i < subjectList.size(); i++) {

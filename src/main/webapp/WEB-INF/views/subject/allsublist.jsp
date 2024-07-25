@@ -15,7 +15,7 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tr>
-					<td><a href="/subject/list/1" class="selected--menu">전체 강의 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/subject/list" class="selected--menu">전체 강의 조회</a></td>
 				</tr>
 				<c:if test="${principal.userRole.equals(\"professor\") }">
 					<tr>
@@ -42,7 +42,7 @@
 			<form action="/subject/list/search" method="get">
 				<div>
 					<!-- 개설연도 숫자 -->
-					<label for="subYear">연도 </label> <input type="number" value="" name="subYear" id="subYear" min="2005" max="2023">
+					<label for="subYear">연도 </label> <input type="number" value="2023" name="subYear" id="subYear" min="2023" max="2024">
 					<!-- 개설학기 콤보박스-->
 					<label for="subSemester">학기 </label> <select name="semester" id="subSemester">
 						<option value="1">1학기</option>
@@ -51,15 +51,15 @@
 					<!-- 대상학과 콤보박스 -->
 					<label for="deptId">개설학과</label> <select name="deptId" id="deptId">
 						<option value="-1">전체</option>
-						<c:forEach var="dept" items="${deptList}">
-							<option value="${dept.id}">${dept.name}</option>
+						<c:forEach var="department" items="${departmentList}">
+							<option value="${department.id}">${department.name}</option>
 						</c:forEach>
 					</select>
 					<!-- 강의 검색 -->
 					<label for="subName">강의명</label> <input type="text" name="name" list="subName">
 					<datalist id="subName">
-						<c:forEach var="subName" items="${subNameList}">
-							<option value="${subName}">
+						<c:forEach var="subName" items="${subjectList}">
+							<option value="${subject.name}">
 						</c:forEach>
 					</datalist>
 					<!-- 검색 버튼 -->
@@ -123,10 +123,10 @@
 						<c:forEach var="i" begin="1" end="${pageCount}" step="1">
 							<c:choose>
 								<c:when test="${i == page}">
-									<li><a href="/subject/list/${i}" style="font-weight: 700; color: #007bff">${i}</a>
+									<li><a href="/subject/list?page=${i}" style="font-weight: 700; color: #007bff">${i}</a>
 								</c:when>
 								<c:otherwise>
-									<li><a href="/subject/list/${i}">${i}</a>
+									<li><a href="/subject/list?page=${i}">${i}</a>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
