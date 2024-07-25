@@ -153,6 +153,7 @@ header {
 .main--page--profile table td {
 	color: #585858;
 	height: 27px;
+	width: 65px;
 }
 
 .main--page--calander tr td {

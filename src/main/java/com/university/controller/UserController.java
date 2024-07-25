@@ -646,7 +646,7 @@ public class UserController extends HttpServlet {
 				}
 				HttpSession session = request.getSession();
 				session.setAttribute("principal", principal);
-				
+				System.out.println(principal.toString());
 				List<Schedule> scheduleList = scheduleRepository.getAllSchedules();
 				List<Notice> noticeList = noticeRepository.getAllNotices(5 , 1);
 				

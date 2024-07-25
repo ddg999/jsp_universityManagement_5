@@ -60,9 +60,9 @@
 							<table>
 								<tr>
 									<td>이메일</td>
-									<td>${userInfo.email}</td>
+									<td>${principal.email}</td>
 								</tr>
-								<tr>
+								<!--  tr>
 									<td>소속</td>
 									<td>${userInfo.deptName}</td>
 								</tr>
@@ -73,7 +73,7 @@
 								<tr>
 									<td>학적상태</td>
 									<td>${currentStatus}</td>
-								</tr>
+								</tr> -->
 							</table>
 							<div class="profile--button--div">
 								<a href="${pageContext.request.contextPath}/info/student"><button>마이페이지</button></a> <a href="${pageContext.request.contextPath}/user/login"><button>로그아웃</button></a>
@@ -83,7 +83,7 @@
 							<table>
 								<tr>
 									<td>이메일</td>
-									<td>${staff.email}</td>
+									<td>${principal.email}</td>
 								</tr>
 								<tr>
 									<td>소속</td>
@@ -98,7 +98,7 @@
 							<table>
 								<tr>
 									<td>이메일</td>
-									<td>${userInfo.email}</td>
+									<td>${principal.email}</td>
 								</tr>
 								<tr>
 									<td>소속</td>

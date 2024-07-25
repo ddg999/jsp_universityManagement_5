@@ -72,10 +72,10 @@ public class StudentRepositoryImpl implements StudentRepository {
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				studentList.add(Student.builder().id(rs.getInt("id")).name(rs.getString("name"))
-						.birthDate(rs.getDate("birthDate")).gender(rs.getString("gender"))
+						.birthDate(rs.getDate("birth_date")).gender(rs.getString("gender"))
 						.address(rs.getString("address")).tel(rs.getString("tel")).email(rs.getString("email"))
-						.deptId(rs.getInt("deptId")).grade(rs.getInt("grade")).semester(rs.getInt("semester"))
-						.entranceDate(rs.getDate("entranceDate")).graduationDate(rs.getDate("graduationDate")).build());
+						.deptId(rs.getInt("dept_id")).grade(rs.getInt("grade")).semester(rs.getInt("semester"))
+						.entranceDate(rs.getDate("entrance_date")).graduationDate(rs.getDate("graduation_date")).build());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

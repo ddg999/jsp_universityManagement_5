@@ -192,7 +192,7 @@ public class UserRepositoryImpl implements UserRepository {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				principal = Principal.builder().id(rs.getInt("id")).password(rs.getString("password"))
-						.userRole(rs.getString("user_role")).name(rs.getString("name")).build();
+						.userRole(rs.getString("user_role")).name(rs.getString("name")).email(rs.getString("email")).build();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -210,7 +210,7 @@ public class UserRepositoryImpl implements UserRepository {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				principal = Principal.builder().id(rs.getInt("id")).password(rs.getString("password"))
-						.userRole(rs.getString("user_role")).name(rs.getString("name")).build();
+						.userRole(rs.getString("user_role")).name(rs.getString("name")).email(rs.getString("email")).build();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -227,7 +227,7 @@ public class UserRepositoryImpl implements UserRepository {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				principal = Principal.builder().id(rs.getInt("id")).password(rs.getString("password"))
-						.userRole(rs.getString("user_role")).name(rs.getString("name")).build();
+						.userRole(rs.getString("user_role")).name(rs.getString("name")).email(rs.getString("email")).build();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

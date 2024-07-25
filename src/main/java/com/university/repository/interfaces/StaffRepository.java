@@ -1,7 +1,11 @@
 package com.university.repository.interfaces;
 
+import com.university.model.Staff;
+
 public interface StaffRepository {
 	
-	String getStaffEmail(String email);
+	Staff getStaffInfo(String email);
+
+	Staff getStaffEmail(String email);
 
 }
