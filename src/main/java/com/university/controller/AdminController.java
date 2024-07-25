@@ -266,7 +266,7 @@ public class AdminController extends HttpServlet {
 	}
 
 	private void updateSubject(HttpServletRequest request, HttpServletResponse response, HttpSession session)
-			throws IOException {
+			throws IOException, ServletException {
 		int subjectId = Integer.parseInt(request.getParameter("id"));
 		String subDay = request.getParameter("subDay");
 		String name = request.getParameter("name");
@@ -275,20 +275,60 @@ public class AdminController extends HttpServlet {
 		int endTime = Integer.parseInt(request.getParameter("endTime"));
 		int capacity = Integer.parseInt(request.getParameter("capacity"));
 
-		Subject subject = Subject.builder().id(subjectId).subDay(subDay).name(name).roomId(roomId).startTime(startTime)
-				.endTime(endTime).capacity(capacity).build();
-		System.out.println(subject);
-		adminRepository.updateSubject(subject, subjectId);
+		try {
+			Subject subject = Subject.builder().id(subjectId).subDay(subDay).name(name).roomId(roomId)
+					.startTime(startTime).endTime(endTime).capacity(capacity).build();
+
+			// 강의 중복 검사
+			List<Subject> subjectList = adminRepository.getAllSubjects();
+			for (int i = 0; i < subjectList.size(); i++) {
+				boolean result = subject.subjectBoolean(subject, subjectList);
+				if (result == false) {
+					request.setAttribute("errorMessage", "해당 시간은 사용중인 강의실입니다");
+					request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+					return;
+				}
+			}
+
+			adminRepository.updateSubject(subject, subjectId);
+			System.out.println(subject);
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "강의실 입력 오류");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+
 		response.sendRedirect(request.getContextPath() + "/admin/subject?crud=select");
 	}
 
 	private void updateDepartment(HttpServletRequest request, HttpServletResponse response, HttpSession session)
-			throws IOException {
+			throws IOException, ServletException {
 		String departmentName = request.getParameter("name");
 		int departmentId = Integer.parseInt(request.getParameter("id"));
-		Department department = Department.builder().name(departmentName).id(departmentId).build();
-		System.out.println(department);
-		adminRepository.updateDepartment(department, departmentId);
+
+		try {
+			Department department = Department.builder().name(departmentName).id(departmentId).build();
+			adminRepository.updateDepartment(department, departmentId);
+			System.out.println(department);
+
+			// 학과 이름 중복 검사
+			List<Department> departmentList = adminRepository.getAllDepartments();
+			for (int i = 0; i < departmentList.size(); i++) {
+				if (departmentList.get(i).getName().equals(department.getName())) {
+					request.setAttribute("errorMessage", "이미 존재하는 학과입니다");
+					request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+					return;
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "학과 입력 오류");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+
 		response.sendRedirect(request.getContextPath() + "/admin/department?crud=select");
 	}
 
@@ -317,7 +357,6 @@ public class AdminController extends HttpServlet {
 		int grades = Integer.parseInt(request.getParameter("grades"));
 		int capacity = Integer.parseInt(request.getParameter("capacity"));
 
-		// TODO
 		try {
 			Subject subject = Subject.builder().name(subjectName).professorId(professorId).roomId(roomId).deptId(deptId)
 					.type(type).subYear(subYear).semester(semester).subDay(subDay).startTime(startTime).endTime(endTime)
@@ -327,12 +366,12 @@ public class AdminController extends HttpServlet {
 			List<Subject> subjectList = adminRepository.getAllSubjects();
 			for (int i = 0; i < subjectList.size(); i++) {
 				boolean result = subject.subjectBoolean(subject, subjectList);
-					if (result == false) {
-						request.setAttribute("errorMessage", "이미 존재하는 강의실입니다");
-						request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
-						return;
-					}
+				if (result == false) {
+					request.setAttribute("errorMessage", "해당 시간은 사용중인 강의실입니다");
+					request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+					return;
 				}
+			}
 
 			adminRepository.addSubject(subject);
 			response.sendRedirect(request.getContextPath() + "/admin/subject?crud=select");
@@ -412,6 +451,7 @@ public class AdminController extends HttpServlet {
 			String collegeName = request.getParameter("name");
 
 			College college = College.builder().name(collegeName).build();
+
 			// 단과 이름 중복 검사
 			List<College> collegeList = adminRepository.getAllColleges();
 			for (int i = 0; i < collegeList.size(); i++) {
