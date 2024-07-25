@@ -227,10 +227,6 @@ main h1:first-of-type {
 	text-overflow: ellipsis;
 }
 
-.second--tr {
-	border-bottom: 1px solid #031734;
-}
-
 .type {
 	width: 70px;
 }

@@ -13,8 +13,8 @@ import com.university.util.DBUtil;
 public class StudentRepositoryImpl implements StudentRepository {
 
 	private static final String SEARCH_STUDENT_ID_AND_DEPT_ID = " SELECT * FROM student_tb WHERE id LIKE ? OR dept_id LIKE ? ORDER BY id ASC LIMIT ? OFFSET ? ";
-	private static final String SEARCH_STUDNET_NAME = " SELECT * FROM student_tb WHERE name LIKE ? ORDER BY name ASC LIMIT ? OFFSET ? ";
-	private static final String SELECT_STUDENT_BY_NAME = " SELECT * FROM student_tb WHERE name LIKE ? ORDER BY name ASC LIMIT ? OFFSET ? ";
+	private static final String SEARCH_STUDNET_NAME = " SELECT * FROM student_tb WHERE name LIKE ? ORDER BY id ASC LIMIT ? OFFSET ? ";
+	private static final String SELECT_STUDENT_BY_NAME = " SELECT * FROM student_tb WHERE name LIKE ? ORDER BY id ASC LIMIT ? OFFSET ? ";
 	private static final String COUNT_SEARCH_STUDENT = " SELECT COUNT(*) as count FROM student_tb WHERE name LIKE ? ";	
 	
 	@Override

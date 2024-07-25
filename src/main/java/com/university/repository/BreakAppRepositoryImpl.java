@@ -163,4 +163,10 @@ public class BreakAppRepositoryImpl implements BreakAppRepository {
 		return breakApp;
 	}
 
+	@Override
+	public int getBreakAppCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
