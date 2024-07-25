@@ -7,14 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@AllArgsConstructor
 @Builder
-public class Principal {
-	private int id;
-	private String password;
-	private String userRole;
+@ToString
+public class SubTime {
 	private String name;
-	private String email;
+	private String subDay;
+	private int startTime;
+	private int endTime;
 }

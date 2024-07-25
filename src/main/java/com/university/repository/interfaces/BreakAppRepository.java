@@ -24,4 +24,5 @@ public interface BreakAppRepository {
 	// 직원 휴학 신청 처리
 	void updateAppById(int id, String status);
 	
+	int getBreakAppCount();
 }

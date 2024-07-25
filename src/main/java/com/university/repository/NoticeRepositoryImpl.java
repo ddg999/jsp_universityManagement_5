@@ -103,7 +103,7 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 	}
 
 	@Override
-	public void createNotice(Notice notice) {
+	public void addNotice(Notice notice) {
 		try (Connection conn = DBUtil.getConnection()) {
 			conn.setAutoCommit(false);
 			try (PreparedStatement pstmt = conn.prepareStatement(INSERT_NOTICE_SQL)) {

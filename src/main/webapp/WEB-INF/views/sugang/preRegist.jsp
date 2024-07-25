@@ -70,8 +70,17 @@
 				</form>
 			</div>
 			<!-- 예비 수강 신청 내역으로 가기 -->
-			<a href="/sugang/preAppList?type=0"><button class="preStuSubList--button">예비 수강 신청 내역</button></a>
+			<a href="/sugang/preRegist/result"><button class="preStuSubList--button">예비 수강 신청 내역</button></a>
 		</div>
+		<%
+			String message = (String) request.getAttribute("message");
+			if (message != null) {
+			%>
+			<p style="color: red">
+				<%=message%><br></p>
+			<%
+			}
+			%>
 		<c:choose>
 			<c:when test="${subjectList.isEmpty() == false}">
 				<h4>
@@ -117,15 +126,18 @@
 								<td class="sub--list--button--row"><c:choose>
 										<%-- 신청된 상태라면 --%>
 										<c:when test="${subject.status == true}">
-											<form action="/sugang/pre/${subject.id}?type=0" method="post">
-												<input type="hidden" name="_method" value="delete">
+											<form action="/sugang/pre/delete?subjectId=${subject.id}&call=list" method="post">
+												<input type="hidden" name="studentId" value="${principal.id}"> 
 												<button type="submit" onclick="return confirm('수강신청을 취소하시겠습니까?');" style="background-color: #a7a7a7;">취소</button>
 											</form>
 										</c:when>
-
+										<c:when test="${subject.numOfStudent == subject.capacity}">
+											<button type="button" style="background-color: #c5b; color: white" disabled>마감</button>
+										</c:when>
 										<%-- 신청되지 않은 상태라면 --%>
 										<c:otherwise>
-											<form action="/sugang/pre/${subject.id}" method="post">
+											<form action="/sugang/pre/add?subjectId=${subject.id}&call=list" method="post">
+												<input type="hidden" name="studentId" value="${principal.id}"> 
 												<button type="submit" onclick="return confirm('해당 강의를 수강신청하시겠습니까?');" style="background-color: #548AC2;">신청</button>
 											</form>
 										</c:otherwise>
@@ -135,20 +147,35 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				<c:if test="${pageCount != null}">
-					<ul class="page--list">
-						<c:forEach var="i" begin="1" end="${pageCount}" step="1">
-							<c:choose>
-								<c:when test="${i == page}">
-									<li><a href="/sugang/pre/${i}" style="font-weight: 700; color: #007bff">${i}</a>
-								</c:when>
-								<c:otherwise>
-									<li><a href="/sugang/pre/${i}">${i}</a>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</ul>
-				</c:if>
+				<div class="pagination">
+					<c:forEach begin="1" end="${totalPages}" var="i">
+						<c:choose>
+							<c:when test="${i == currentPage}">
+								<span class="current-page">${i}</span>
+							</c:when>
+							<c:otherwise>
+								<c:choose>
+									<c:when test="${not empty keyword}">
+										<c:if test="${type eq 'title'}">
+											<a
+												href="${pageContext.request.contextPath}/sugang/search?type=title&keyword=${keyword}&page=${i}">${i}</a>
+										</c:if>
+										<c:if test="${type eq 'keyword'}">
+											<a
+												href="${pageContext.request.contextPath}/sugang/search?type=keyword&keyword=${keyword}&page=${i}">${i}</a>
+										</c:if>
+									</c:when>
+									<c:otherwise>
+										<a
+											href="${pageContext.request.contextPath}/sugang/preRegist?page=${i}">${i}
+										</a>
+									</c:otherwise>
+								</c:choose>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+
+				</div>
 			</c:when>
 			<c:otherwise>
 				<p class="no--list--p">검색 결과가 없습니다.</p>

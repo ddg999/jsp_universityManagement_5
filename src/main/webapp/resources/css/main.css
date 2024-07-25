@@ -4,15 +4,19 @@
 	margin: 0;
 	padding: 0;
 	font-family: 'Noto Sans KR', sans-serif;
+	/* pointer-events: none; 바디에 커서 없애는 태그*/
+	caret-color: transparent;
 }
 
 a {
 	text-decoration: none;
 	color: inherit;
 }
-a:hover{
+
+a:hover {
 	text-decoration: none;
 }
+
 img {
 	border: 0;
 }
@@ -29,12 +33,11 @@ header {
 	width: 320px;
 	height: 80px;
 	margin: 5px 50px 5px 10px;
-	
 }
 
 .header--top {
 	min-width: 100em;
-	height: 40px; 
+	height: 40px;
 	background-color: #031734;
 	display: flex;
 	justify-content: right;
@@ -53,38 +56,145 @@ header {
 .header--top ul li a {
 	color: white;
 }
+
 .main--menu {
-    padding: 10px 5px;
-    min-width: 100em;
-    height: 100px;
-    background-color: white;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #e5e5e5;
+	padding: 10px 5px;
+	min-width: 100em;
+	height: 100px;
+	background-color: white;
+	display: flex;
+	align-items: center;
+	border-bottom: 1px solid #e5e5e5;
 }
+
 .main--menu ul {
-    display: flex;
-    align-items: center;
-    margin: 0;
+	display: flex;
+	align-items: center;
+	margin: 0;
 }
+
 .main--menu ul li {
-    margin: 0 20px;
+	margin: 0 20px;
 }
+
 .main--menu ul li a {
-    padding: 27px 50px;
-    font-size: 27px;
-    font-weight: 600;
+	padding: 27px 50px;
+	font-size: 27px;
+	font-weight: 600;
 }
+
 .main--menu ul li a:hover {
-    border-bottom: 4px solid #075AA4;
-    color: #075AA4;
+	border-bottom: 4px solid #075AA4;
+	color: #075AA4;
 }
+
 .flex-column {
-    -ms-flex-direction: column !important;
-    flex-direction: column !important;
+	-ms-flex-direction: column !important;
+	flex-direction: column !important;
 }
+
+.main--page--img {
+	width: 1500px;
+	height: 500px;
+	margin-bottom: 40px;
+}
+
+.main--page--div h3 a {
+	font-weight: 600;
+	color: #132A50;
+}
+
+.main--page--profile table {
+	margin-bottom: 25px;
+}
+
+.main--page--split {
+	height: 2px;
+	width: 100%;
+	background-color: #3c668a;
+	margin-bottom: 10px;
+}
+
+.main--page--profile {
+	min-width: 300px;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	border: 1px solid #E0E0E0;
+	border-radius: 20px;
+	justify-content: flex-start;
+	align-items: flex-start;
+	margin-left: 60px;
+}
+
+.material-symbols-rounded img {
+	width: 20px;
+	height: 20px;
+}
+
+.profile--button--div {
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+}
+
+.profile--button--div button {
+	background-color: #98afcb;
+	padding: 3px 13px 4px;
+	border: none;
+	border-radius: 5px;
+	color: white;
+}
+
+.main--page--notice {
+	margin-right: 120px;
+}
+
+.main--page--profile table td {
+	color: #585858;
+	height: 27px;
+	width: 65px;
+}
+
+.main--page--calander tr td {
+	padding-right: 20px;
+	text-align: right;
+}
+
+.main--page--calander tr td:last-of-type {
+	padding-right: 0;
+	text-align: left;
+	font-size: 18px;
+}
+
+.main--page--info {
+	border: 1px solid #E0E0E0;
+	border-radius: 20px;
+	margin-left: 60px;
+	padding: 20px;
+	margin-bottom: 40px;
+}
+
+.second-trr {
+	font-size: 18px;
+}
+
+.second-trr td{
+	padding-right: 20px;
+}
+.second-trr td:first-child{
+	font-size: 16px;
+}
+.second-trr td:last-of-type{
+	margin-right: 0;
+}
+
+.second-trr:hover {
+	cursor: pointer;
+}
+
 footer {
-    padding: 80px 0;
-    text-align: center;
-    border-top: 1px solid #ddd;
+	padding: 80px 0;
+	text-align: center;
+	border-top: 1px solid #ddd;
 }

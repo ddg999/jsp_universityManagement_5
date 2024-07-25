@@ -9,13 +9,18 @@ import java.util.Random;
 import com.university.model.Notice;
 import com.university.model.Principal;
 import com.university.model.Professor;
+import com.university.model.Schedule;
 import com.university.model.Staff;
 import com.university.model.Student;
 import com.university.model.User;
+import com.university.repository.NoticeRepositoryImpl;
 import com.university.repository.ProfessorRepositoryImpl;
+import com.university.repository.ScheduleRepositoryImpl;
 import com.university.repository.StudentRepositoryImpl;
 import com.university.repository.UserRepositoryImpl;
+import com.university.repository.interfaces.NoticeRepository;
 import com.university.repository.interfaces.ProfessorRepository;
+import com.university.repository.interfaces.ScheduleRepository;
 import com.university.repository.interfaces.StudentRepository;
 import com.university.repository.interfaces.UserRepository;
 
@@ -85,7 +90,6 @@ public class UserController extends HttpServlet {
 		case "/professorList/search":
 			professorSearch(request, response);
 			break;
-
 		case "/staff":
 			request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
 			break;
@@ -608,6 +612,9 @@ public class UserController extends HttpServlet {
 
 		int id = Integer.parseInt(request.getParameter("id"));
 		User user = userRepository.getUserByIdAndPassword(id, password);
+		NoticeRepository noticeRepository = new NoticeRepositoryImpl();
+		ScheduleRepository scheduleRepository = new ScheduleRepositoryImpl();
+		
 		Principal principal = null;
 
 		if (user != null) {
@@ -620,7 +627,9 @@ public class UserController extends HttpServlet {
 			}
 			if (principal != null && principal.getPassword().equals(password)) {
 				String checkbox = request.getParameter("rememberId");
-				String id1 = request.getParameter("id");
+				System.out.println("checkbox : " + checkbox);
+				String id1 = request.getParameter("userId");
+				System.out.println("id1 : " + id1);
 				response.setCharacterEncoding("UTF-8");
 				PrintWriter out = response.getWriter();
 				Cookie cookie = new Cookie("userId", id1);
@@ -637,7 +646,13 @@ public class UserController extends HttpServlet {
 				}
 				HttpSession session = request.getSession();
 				session.setAttribute("principal", principal);
-				// response.sendRedirect("/home.jsp");
+				System.out.println(principal.toString());
+				List<Schedule> scheduleList = scheduleRepository.getAllSchedules();
+				List<Notice> noticeList = noticeRepository.getAllNotices(5 , 1);
+				
+				request.setAttribute("breakAppSize", 2);
+				request.setAttribute("scheduleList", scheduleList);
+				request.setAttribute("noticeList", noticeList);
 				request.getRequestDispatcher("/home.jsp").forward(request, response);
 				// request.getRequestDispatcher("/login.jsp").forward(request, response);
 			}

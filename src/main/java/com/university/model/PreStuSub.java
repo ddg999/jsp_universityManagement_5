@@ -12,8 +12,8 @@ import lombok.ToString;
 @Builder
 @ToString
 public class PreStuSub {
-	
+
 	private int studentId;
 	private int subjectId;
-
+	
 }

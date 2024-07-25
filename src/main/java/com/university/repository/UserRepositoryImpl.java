@@ -34,8 +34,8 @@ public class UserRepositoryImpl implements UserRepository {
 	private static final String INSERT_PROFESSOR_SQL = " insert into professor_tb (name, birth_date, gender, address, tel, email, dept_id) values (?, ?, ?, ?, ?, ?, ?) ";
 	private static final String INSERT_STAFF_SQL = " insert into staff_tb (name, birth_date, gender, address, tel, email) values(?, ?, ?, ?, ?, ?) ";
 
-	private static final String SELECT_ALL_STUDENT = " SELECT * FROM student_tb ORDER BY name ASC LIMIT ? OFFSET ? ";
-	private static final String SELECT_ALL_PROFESSOR = " SELECT * FROM professor_tb ORDER BY name ASC LIMIT ? OFFSET ? ";
+	private static final String SELECT_ALL_STUDENT = " SELECT * FROM student_tb ORDER BY id ASC LIMIT ? OFFSET ? ";
+	private static final String SELECT_ALL_PROFESSOR = " SELECT * FROM professor_tb ORDER BY id ASC LIMIT ? OFFSET ? ";
 
 	private static final String COUNT_ALL_STUDENT = " SELECT COUNT(*) as count FROM student_tb ";
 	private static final String COUNT_ALL_PROFESSOR = " SELECT COUNT(*) as count FROM professor_tb ";
@@ -192,7 +192,7 @@ public class UserRepositoryImpl implements UserRepository {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				principal = Principal.builder().id(rs.getInt("id")).password(rs.getString("password"))
-						.userRole(rs.getString("user_role")).name(rs.getString("name")).build();
+						.userRole(rs.getString("user_role")).name(rs.getString("name")).email(rs.getString("email")).build();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -210,7 +210,7 @@ public class UserRepositoryImpl implements UserRepository {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				principal = Principal.builder().id(rs.getInt("id")).password(rs.getString("password"))
-						.userRole(rs.getString("user_role")).name(rs.getString("name")).build();
+						.userRole(rs.getString("user_role")).name(rs.getString("name")).email(rs.getString("email")).build();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -227,7 +227,7 @@ public class UserRepositoryImpl implements UserRepository {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				principal = Principal.builder().id(rs.getInt("id")).password(rs.getString("password"))
-						.userRole(rs.getString("user_role")).name(rs.getString("name")).build();
+						.userRole(rs.getString("user_role")).name(rs.getString("name")).email(rs.getString("email")).build();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
