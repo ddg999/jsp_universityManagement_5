@@ -3,7 +3,7 @@ package com.university.repository.interfaces;
 import java.util.List;
 
 import com.university.model.Department;
-import com.university.model.PreStuSub;
+import com.university.model.SubTime;
 import com.university.model.Subject;
 import com.university.model.SugangSubject;
 
@@ -17,8 +17,8 @@ public interface SugangRepository {
 
 	// 수강신청 내역 조회
 	List<SugangSubject> getSugangSubjectResult(int principalId, int pageSize, int offset);
-	
-	
+
+	// 수강신청 검색 조회
 	List<SugangSubject> getSearchSugangSubjects(String name, String type, String deptName, int pageSize, int offset);
 
 	// 수강신청 탭 강의수
@@ -35,6 +35,12 @@ public interface SugangRepository {
 
 	// 학생 수강 신청 추가
 	int addRegist(int studentId, int subjectId);
+
+	// 학생 수강 시간 조회
+	List<SubTime> getStuSubTime(int studentId);
+
+	// 해당 과목의 시간 조회
+	SubTime getSubTime(int subjectId);
 
 	// 학생 수강 신청 삭제
 	void deleteRegist(int studentId, int subjectId);

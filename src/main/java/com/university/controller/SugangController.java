@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.university.model.Department;
 import com.university.model.Principal;
+import com.university.model.SubTime;
 import com.university.model.SugangSubject;
 import com.university.repository.SugangRepositoryImpl;
 import com.university.repository.interfaces.SugangRepository;
@@ -275,6 +276,21 @@ public class SugangController extends HttpServlet {
 				request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
 				return;
 			}
+
+			// 시간표 중복방지 로직
+			List<SubTime> stuSubTimeList = sugangRepository.getStuSubTime(studentId);
+			SubTime subTime = sugangRepository.getSubTime(subjectId);
+			for (SubTime stuSubTime : stuSubTimeList) {
+				if (subTime.getSubDay().equals(stuSubTime.getSubDay())
+						&& (subTime.getStartTime() < stuSubTime.getEndTime())
+						&& subTime.getEndTime() > stuSubTime.getStartTime()) {
+					request.setAttribute("message", "이미 해당 시간에 수강 중인 강의가 있습니다. 새로운 시간대를 선택해주세요!<br>선택한 강의 : "
+							+ subTime.getName() + "<br> 중복된 강의 : " + stuSubTime.getName());
+					showPreRegist(request, response, session);
+					return;
+				}
+			}
+
 			sugangRepository.addRegist(studentId, subjectId);
 			response.sendRedirect(request.getContextPath() + "/sugang/preRegist");
 		} catch (Exception e) {

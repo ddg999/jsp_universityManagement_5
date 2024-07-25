@@ -72,6 +72,15 @@
 			<!-- 예비 수강 신청 내역으로 가기 -->
 			<a href="/sugang/preRegist/result"><button class="preStuSubList--button">예비 수강 신청 내역</button></a>
 		</div>
+		<%
+			String message = (String) request.getAttribute("message");
+			if (message != null) {
+			%>
+			<p style="color: red">
+				<%=message%><br></p>
+			<%
+			}
+			%>
 		<c:choose>
 			<c:when test="${subjectList.isEmpty() == false}">
 				<h4>
