@@ -92,6 +92,7 @@ public class SubjectController extends HttpServlet {
 				request.setAttribute("departmentList", departmentList);
 				request.setAttribute("subjectList", subjectList);
 				request.setAttribute("pageCount", totalPage);
+				request.setAttribute("subjectCount", totalPageSize);
 				request.setAttribute("i", page);
 				System.out.println("totalPage : " + totalPageSize);
 				request.getRequestDispatcher("/WEB-INF/views/subject/allSubList.jsp").forward(request, response);
@@ -140,7 +141,7 @@ public class SubjectController extends HttpServlet {
 			int subjectId = Integer.parseInt(request.getParameter("subjectId"));
 			Syllabus syllabus = subjectRepository.getSyllabusById(subjectId);
 			request.setAttribute("syllabus", syllabus);
-			request.getRequestDispatcher("/WEB-INF/views/subject/readSyllabus.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/subject/readsyllabus.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("errorMessage", "잘못된 접근입니다");
