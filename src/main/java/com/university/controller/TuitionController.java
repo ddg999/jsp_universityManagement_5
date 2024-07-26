@@ -26,11 +26,11 @@ public class TuitionController extends HttpServlet {
 		switch (action) {
 		// 등록금 내역 조회
 		case "/list":
-
+			request.getRequestDispatcher("/WEB-INF/views/tuition/tuitionlist.jsp").forward(request, response);
 			break;
 		// 등록금 납부 고지서
 		case "/payment":
-
+			request.getRequestDispatcher("/WEB-INF/views/tuition/tuitionpayment.jsp").forward(request, response);
 			break;
 		// 등록금 고지서 발송
 		case "/bill":
