@@ -109,14 +109,10 @@
 								<td>${subject.capacity}</td>
 								<td>
 									<ul class="d-flex justify-content-center sub--plan--view" style="margin: 0;">
-<<<<<<< HEAD
-										<li style="height: 24px;"><a href="/subject/syllabus?subjectId=${subject.id}" onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;">조회</a>
-										<li style="height: 24px;"><a href="/subject/syllabus?subjectId=${subject.id}" onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;"><span
-=======
-										<li style="height: 24px;"><a href="${pageContext.request.contextPath}/subject/syllabus/${subject.id}" onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;">조회</a>
-										<li style="height: 24px;"><a href="${pageContext.request.contextPath}/subject/syllabus/${subject.id}" onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;"><span
->>>>>>> 0e5a54a410fd28ae560e51eec2cbae8860ab641c
-												class="material-symbols-outlined">content_paste_search</span></a>
+										<li style="height: 24px;"><a href="${pageContext.request.contextPath}/subject/syllabus/${subject.id}"
+											onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;">조회</a>
+										<li style="height: 24px;"><a href="${pageContext.request.contextPath}/subject/syllabus/${subject.id}"
+											onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;"><span class="material-symbols-outlined">content_paste_search</span></a>
 									</ul>
 								</td>
 							</tr>
