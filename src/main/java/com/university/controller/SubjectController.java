@@ -43,7 +43,7 @@ public class SubjectController extends HttpServlet {
 		// 전체 강의 조회 페이지
 		case "/list":
 			showAllSubjectList(request, response, session);
-			request.getRequestDispatcher("/WEB-INF/views/subject/allsublist.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/subject/allSubList.jsp").forward(request, response);
 //			showListProfessor(request, response);
 			break;
 		// 강의 검색
@@ -94,7 +94,7 @@ public class SubjectController extends HttpServlet {
 				request.setAttribute("pageCount", totalPage);
 				request.setAttribute("i", page);
 				System.out.println("totalPage : " + totalPageSize);
-				request.getRequestDispatcher("/WEB-INF/views/subject/allsublist.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/views/subject/allSubList.jsp").forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -131,7 +131,7 @@ public class SubjectController extends HttpServlet {
 
 		System.out.println(departmentList);
 		System.out.println(subjectList);
-
+		
 	}
 
 	private void showSyllabus(HttpServletRequest request, HttpServletResponse response)
