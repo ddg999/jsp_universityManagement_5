@@ -81,6 +81,7 @@ public class SubjectController extends HttpServlet {
 				page = 1;
 				e.printStackTrace();
 			}
+			
 			int offset = (page - 1) * pageSize; // 시작 위치 계산 (offset 값 계산)
 			try {
 				List<Subject> subjectList = subjectRepository.getSubjectBySearch(year, semester, name, deptId, pageSize,
@@ -94,6 +95,10 @@ public class SubjectController extends HttpServlet {
 				request.setAttribute("pageCount", totalPage);
 				request.setAttribute("subjectCount", totalPageSize);
 				request.setAttribute("i", page);
+				request.setAttribute("subYear", year);
+				request.setAttribute("semester", semester);
+				request.setAttribute("deptId", deptId);
+				request.setAttribute("name", name);
 				System.out.println("totalPage : " + totalPageSize);
 				request.getRequestDispatcher("/WEB-INF/views/subject/allSubList.jsp").forward(request, response);
 			} catch (Exception e) {

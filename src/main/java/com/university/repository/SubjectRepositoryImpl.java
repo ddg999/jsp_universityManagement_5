@@ -238,9 +238,9 @@ public class SubjectRepositoryImpl implements SubjectRepository {
 		List<Subject> subjectList = new ArrayList<>();
 		try (Connection conn = DBUtil.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(SELECT_SUBJECT_BY_SEARCH)) {
-//			if (name == null) {
-//				name = "";
-//			}
+			if (name == null) {
+				name = "";
+			}
 			
 			pstmt.setInt(1, subYear);
 			pstmt.setInt(2, semester);

@@ -123,8 +123,8 @@
 					<ul class="page--list">
 						<c:forEach var="i" begin="1" end="${pageCount}" step="1">
 							<c:choose>
-								<c:when test="${not empty subject.subYear or subject.semester or subeject.deptId or subject.name}">
-									<li><a href="/list/search?subYear=${subject.subYear}&semester=${subject.semester}&deptId=${subject.deptId}&name=${subject.name}">${i}</a></li>
+								<c:when test="${not empty subYear or not empty semester or not empty deptId or not empty name}">
+									<li><a href="/subject/list/search?subYear=${subYear}&semester=${semester}&deptId=${deptId}&name=${name}">${i}</a></li>
 								</c:when>
 								<c:when test="${i == page}">
 									<li><a href="${pageContext.request.contextPath}/subject/list?page=${i}" style="font-weight: 700; color: #007bff">${i}</a>
