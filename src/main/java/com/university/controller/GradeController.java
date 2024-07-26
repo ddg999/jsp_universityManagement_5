@@ -68,12 +68,9 @@ public class GradeController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/views/grade/thisgrade.jsp").forward(request, response);
 	}
 
-	private void showGradeSearch(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-
-	}
-
 	private void showGradeSemester(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
+
 		if (session == null || session.getAttribute("principal") == null) {
 			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
@@ -86,6 +83,34 @@ public class GradeController extends HttpServlet {
 		}
 		List<GradeSemester> gradeList = gradeRepository.getGradeThisSemester(principal.getId(), 1, 2023);
 		List<GradeSemester> yearList = gradeRepository.getGradeYear(principal.getId());
+		request.setAttribute("yearList", yearList);
+		request.setAttribute("gradeList", gradeList);
+		request.getRequestDispatcher("/WEB-INF/views/grade/semester.jsp").forward(request, response);
+	}
+
+	private void showGradeSearch(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
+		if (session == null || session.getAttribute("principal") == null) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("student")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+		int studentId = Integer.parseInt(request.getParameter("studentId"));
+		int subYear = Integer.parseInt(request.getParameter("subYear"));
+		int semester = Integer.parseInt(request.getParameter("semester"));
+		String type = request.getParameter("type");
+
+		List<GradeSemester> gradeList = gradeRepository.getGradeThisSemester(studentId, semester, subYear);
+		List<GradeSemester> yearList = gradeRepository.getGradeYear(studentId);
+
+		request.setAttribute("selectedSubYear", subYear);
+		request.setAttribute("selectedSemester", semester);
+		request.setAttribute("selectedType", type);
 		request.setAttribute("yearList", yearList);
 		request.setAttribute("gradeList", gradeList);
 		request.getRequestDispatcher("/WEB-INF/views/grade/semester.jsp").forward(request, response);

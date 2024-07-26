@@ -57,19 +57,20 @@
 			<c:when test="${gradeList.isEmpty() == false}">
 				<div class="sub--filter">
 					<%-- 타입 받아서 조회 --%>
-					<form action="/grade/read" method="post">
+					<form action="/grade/search" method="get">
 						<div>
+							<input type="hidden" name="studentId" value="${principal.id}">
 							<select name="subYear">
 								<c:forEach var="grade" items="${yearList}">
 									<option value="${grade.subYear}">${grade.subYear}년</option>
 								</c:forEach>
-							</select> <select name="sesmeter">
-								<option value="1">1학기</option>
-								<option value="1">2학기</option>
+							</select> <select name="semester">
+								<option value="1" ${selectedSemester == 1 ? 'selected' : ''}>1학기</option>
+								<option value="2" ${selectedSemester == 2 ? 'selected' : ''}>2학기</option>
 							</select> <select name="type">
 								<option value="전체">전체</option>
-								<option value="전공">전공</option>
-								<option value="교양">교양</option>
+								<option value="전공" ${selectedType eq '전공' ? 'selected' : ''}>전공</option>
+								<option value="교양" ${selectedType eq '교양' ? 'selected' : ''}>교양</option>
 							</select>
 							<!-- 검색 버튼 -->
 							<button type="submit">
