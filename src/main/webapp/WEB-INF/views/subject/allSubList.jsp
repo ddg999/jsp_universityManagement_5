@@ -109,9 +109,9 @@
 								<td>${subject.capacity}</td>
 								<td>
 									<ul class="d-flex justify-content-center sub--plan--view" style="margin: 0;">
-										<li style="height: 24px;"><a href="${pageContext.request.contextPath}/subject/syllabus/${subject.id}"
+										<li style="height: 24px;"><a href="${pageContext.request.contextPath}/subject/syllabus?subjectId=${subject.id}"
 											onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;">조회</a>
-										<li style="height: 24px;"><a href="${pageContext.request.contextPath}/subject/syllabus/${subject.id}"
+										<li style="height: 24px;"><a href="${pageContext.request.contextPath}/subject/syllabus?subjectId=${subject.id}"
 											onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;"><span class="material-symbols-outlined">content_paste_search</span></a>
 									</ul>
 								</td>
