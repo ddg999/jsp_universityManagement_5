@@ -73,31 +73,6 @@ public class SugangRepositoryImpl implements SugangRepository {
 	}
 
 	@Override
-	public List<SugangSubject> getSugangSubjectResult(int principalId, int pageSize, int offset) {
-		List<SugangSubject> subjectList = new ArrayList<>();
-		try (Connection conn = DBUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(SELECT_SUGANG_SUBJECT_RESULT)) {
-			pstmt.setInt(1, principalId);
-			pstmt.setInt(2, principalId);
-			pstmt.setInt(3, pageSize);
-			pstmt.setInt(4, offset);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				subjectList.add(SugangSubject.builder().collName(rs.getString("coll_name"))
-						.deptName(rs.getString("dept_name")).id(rs.getInt("id")).type(rs.getString("type"))
-						.name(rs.getString("name")).professorName(rs.getString("professor_name"))
-						.grades(rs.getInt("grades")).subDay(rs.getString("sub_day")).startTime(rs.getInt("start_time"))
-						.endTime(rs.getInt("end_time")).roomId(rs.getString("room_id"))
-						.numOfStudent(rs.getInt("num_of_student")).capacity(rs.getInt("capacity"))
-						.status(rs.getString("status")).build());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return subjectList;
-	}
-
-	@Override
 	public int getTotalSubjectsCount() {
 		int count = 0;
 		try (Connection conn = DBUtil.getConnection();
@@ -171,6 +146,31 @@ public class SugangRepositoryImpl implements SugangRepository {
 			e.printStackTrace();
 		}
 		return count;
+	}
+
+	@Override
+	public List<SugangSubject> getSugangSubjectResult(int principalId, int pageSize, int offset) {
+		List<SugangSubject> subjectList = new ArrayList<>();
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_SUGANG_SUBJECT_RESULT)) {
+			pstmt.setInt(1, principalId);
+			pstmt.setInt(2, principalId);
+			pstmt.setInt(3, pageSize);
+			pstmt.setInt(4, offset);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				subjectList.add(SugangSubject.builder().collName(rs.getString("coll_name"))
+						.deptName(rs.getString("dept_name")).id(rs.getInt("id")).type(rs.getString("type"))
+						.name(rs.getString("name")).professorName(rs.getString("professor_name"))
+						.grades(rs.getInt("grades")).subDay(rs.getString("sub_day")).startTime(rs.getInt("start_time"))
+						.endTime(rs.getInt("end_time")).roomId(rs.getString("room_id"))
+						.numOfStudent(rs.getInt("num_of_student")).capacity(rs.getInt("capacity"))
+						.status(rs.getString("status")).build());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return subjectList;
 	}
 
 	// 수강 신청하기
