@@ -210,14 +210,4 @@
     <servlet-name>EvaluationController</servlet-name>
     <url-pattern>/EvaluationController</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>home</display-name>
-    <servlet-name>home</servlet-name>
-    <servlet-class>com.university.controller.home</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>home</servlet-name>
-    <url-pattern>/home</url-pattern>
-  </servlet-mapping>
 </web-app>
