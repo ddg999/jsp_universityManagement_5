@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../layout/header.jsp"%>
 <link rel="stylesheet" href="../../resources/css/subject.css">
@@ -144,15 +145,10 @@
 							</c:when>
 							<c:otherwise>
 								<c:choose>
-									<c:when test="${not empty keyword}">
-										<c:if test="${type eq 'title'}">
-											<a
-												href="${pageContext.request.contextPath}/sugang/search?type=title&keyword=${keyword}&page=${i}">${i}</a>
-										</c:if>
-										<c:if test="${type eq 'keyword'}">
-											<a
-												href="${pageContext.request.contextPath}/sugang/search?type=keyword&keyword=${keyword}&page=${i}">${i}</a>
-										</c:if>
+									<c:when
+										test="${!empty selectedType || !empty selectedDeptName || !empty selectedName}">
+										<a
+											href="${pageContext.request.contextPath}/sugang/subject/search?page=${i}&type=${selectedType}&deptName=${selectedDeptName}&name=${selectedName}">${i}</a>
 									</c:when>
 									<c:otherwise>
 										<a

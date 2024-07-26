@@ -191,8 +191,8 @@ public class SugangController extends HttpServlet {
 		}
 		int offset = (page - 1) * pageSize; // 시작 위치 계산( offset 값 계산)
 		List<SugangSubject> subjectList = sugangRepository.getAllSugangSubject(principal.getId(), pageSize, offset);
-		int totalSubjects = sugangRepository.getTotalSubjectsCount();
 		List<Department> deptList = sugangRepository.getAllDepartment();
+		int totalSubjects = sugangRepository.getTotalSubjectsCount();
 		int totalPages = (int) Math.ceil((double) totalSubjects / pageSize);
 
 		request.setAttribute("subjectCount", totalSubjects);
@@ -224,11 +224,13 @@ public class SugangController extends HttpServlet {
 			String deptName = request.getParameter("deptName");
 
 			int totalSubjects = sugangRepository.getSearchSugangSubjectCount(name, type, deptName);
+			int searchTotalSubjects = sugangRepository.getSearchSugangSubjectCount(name, type, deptName);
 			List<Department> deptList = sugangRepository.getAllDepartment();
 			List<SugangSubject> subjectList = sugangRepository.getSearchSugangSubjects(name, type, deptName, pageSize,
 					offset);
-			int totalPages = (int) Math.ceil((double) totalSubjects / pageSize);
-			request.setAttribute("subjectCount", totalSubjects);
+			int totalPages = (int) Math.ceil((double) searchTotalSubjects / pageSize);
+
+			request.setAttribute("subjectCount", searchTotalSubjects);
 			request.setAttribute("totalPages", totalPages);
 			request.setAttribute("currentPage", page);
 			request.setAttribute("deptList", deptList);

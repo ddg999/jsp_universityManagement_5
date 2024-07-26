@@ -16,10 +16,10 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tr>
-					<td><a href="/info/professor" class="selected--menu">내 정보 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/info/professor" class="selected--menu">내 정보 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/info/password">비밀번호 변경</a></td>
+					<td><a href="${pageContext.request.contextPath}/info/password">비밀번호 변경</a></td>
 				</tr>
 			</table>
 		</div>

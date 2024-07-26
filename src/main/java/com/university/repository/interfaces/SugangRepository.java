@@ -12,20 +12,21 @@ public interface SugangRepository {
 	// TODO 수강 신청 기간 설정
 	void updatePeriod();
 
-	// 수강신청 탭 강의시간표 조회
+	// 수강신청-강의시간표 조회
 	List<SugangSubject> getAllSugangSubject(int principalId, int pageSize, int offset);
+
+	// 수강신청-강의시간표 조회 강의수
+	int getTotalSubjectsCount();
+
+	// 수강신청-강의시간표 검색
+	List<SugangSubject> getSearchSugangSubjects(String name, String type, String deptName, int pageSize, int offset);
+	
+	// 수강신청-강의시간표 검색 강의수
+	int getSearchSugangSubjectCount(String name, String type, String deptName);
 
 	// 수강신청 내역 조회
 	List<SugangSubject> getSugangSubjectResult(int principalId, int pageSize, int offset);
 
-	// 수강신청 검색 조회
-	List<SugangSubject> getSearchSugangSubjects(String name, String type, String deptName, int pageSize, int offset);
-
-	// 수강신청 탭 강의수
-	int getTotalSubjectsCount();
-
-	// 검색한 수강신청 탭 강의수
-	int getSearchSugangSubjectCount(String name, String type, String deptName);
 
 	// 모든 학과 조회
 	List<Department> getAllDepartment();

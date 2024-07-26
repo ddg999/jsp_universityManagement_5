@@ -159,7 +159,7 @@
 				</c:if>
 			</c:when>
 			<c:otherwise>
-				<p class="no--list--p">검색 결과가 없습니다.</p>
+				<p class="no--list--p">신청 내역이 없습니다</p>
 			</c:otherwise>
 		</c:choose>
 	</main>
