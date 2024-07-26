@@ -19,12 +19,12 @@
 				</tr>
 				<c:if test="${principal.userRole.equals(\"professor\") }">
 					<tr>
-						<td><a href="/professor/subject">내 강의 조회</a></td>
+						<td><a href="${pageContext.request.contextPath}/professor/subject">내 강의 조회</a></td>
 					</tr>
 				</c:if>
 				<c:if test="${principal.userRole.equals(\"professor\") }">
 					<tr>
-						<td><a href="/evaluation/read"> 내 강의 평가</a></td>
+						<td><a href="${pageContext.request.contextPath}/evaluation/read"> 내 강의 평가</a></td>
 					</tr>
 				</c:if>
 			</table>
@@ -109,9 +109,10 @@
 								<td>${subject.capacity}</td>
 								<td>
 									<ul class="d-flex justify-content-center sub--plan--view" style="margin: 0;">
-										<li style="height: 24px;"><a href="/subject/syllabus/${subject.id}" onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;">조회</a>
-										<li style="height: 24px;"><a href="/subject/syllabus/${subject.id}" onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;"><span
-												class="material-symbols-outlined">content_paste_search</span></a>
+										<li style="height: 24px;"><a href="${pageContext.request.contextPath}/subject/syllabus?subjectId=${subject.id}"
+											onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;">조회</a>
+										<li style="height: 24px;"><a href="${pageContext.request.contextPath}/subject/syllabus?subjectId=${subject.id}"
+											onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;"><span class="material-symbols-outlined">content_paste_search</span></a>
 									</ul>
 								</td>
 							</tr>
@@ -122,11 +123,14 @@
 					<ul class="page--list">
 						<c:forEach var="i" begin="1" end="${pageCount}" step="1">
 							<c:choose>
+								<c:when test="${not empty subYear or not empty semester or not empty deptId or not empty name}">
+									<li><a href="/subject/list/search?subYear=${subYear}&semester=${semester}&deptId=${deptId}&name=${name}">${i}</a></li>
+								</c:when>
 								<c:when test="${i == page}">
-									<li><a href="/subject/list?page=${i}" style="font-weight: 700; color: #007bff">${i}</a>
+									<li><a href="${pageContext.request.contextPath}/subject/list?page=${i}" style="font-weight: 700; color: #007bff">${i}</a>
 								</c:when>
 								<c:otherwise>
-									<li><a href="/subject/list?page=${i}">${i}</a>
+									<li><a href="${pageContext.request.contextPath}/subject/list?page=${i}">${i}</a>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>

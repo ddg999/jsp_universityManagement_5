@@ -20,9 +20,9 @@ public class SugangRepositoryImpl implements SugangRepository {
 	private static final String SELECT_SUB_BY_STUDENT_ID_AND_SEMESTER = " SELECT student_id, subject_id, su.name AS subject_name, p.name AS professor_name, grades, sub_day, start_time, end_time, num_of_student, capacity, room_id FROM stu_sub_tb AS ss LEFT JOIN subject_tb AS su ON ss.subject_id = su.id LEFT JOIN professor_tb AS p ON su.professor_id = p.id WHERE student_id = ? AND sub_year = ? AND semester = ? ";
 
 	private static final String SELECT_ALL_SUGANG_SUBJECT = " SELECT c.name coll_name, d.name dept_name, su.id, su.type, su.name, p.name professor_name, su.grades, su.sub_day, su.start_time, su.end_time, su.room_id, su.num_of_student, su.capacity, IF(pr.student_id IS NOT NULL, 'true', 'false') status FROM subject_tb su JOIN department_tb d ON su.dept_id = d.id JOIN college_tb c ON d.college_id = c.id JOIN professor_tb p ON su.professor_id = p.id LEFT JOIN pre_stu_sub_tb pr ON pr.subject_id = su.id AND pr.student_id = ? ORDER BY id ASC LIMIT ? OFFSET ? ";
-	private static final String SELECT_SUGANG_SUBJECT_RESULT = " SELECT c.name coll_name, d.name dept_name, su.id, su.type, su.name, p.name professor_name, su.grades, su.sub_day, su.start_time, su.end_time, su.room_id, su.num_of_student, su.capacity, IF(pr.student_id IS NOT NULL, 'true', 'false') status FROM subject_tb su JOIN department_tb d ON su.dept_id = d.id JOIN college_tb c ON d.college_id = c.id JOIN professor_tb p ON su.professor_id = p.id LEFT JOIN pre_stu_sub_tb pr ON pr.subject_id = su.id AND pr.student_id = ? WHERE pr.student_id = ? ORDER BY FIELD(sub_day, '월', '화', '수', '목', '금') ASC LIMIT ? OFFSET ? ";
+	private static final String SELECT_SEARCH_SUGANG_SUBJECT = " SELECT c.name coll_name, d.name dept_name, su.id, su.type, su.name, p.name professor_name, su.grades, su.sub_day, su.start_time, su.end_time, su.room_id, su.num_of_student, su.capacity, IF(pr.student_id IS NOT NULL, 'true', 'false') status FROM subject_tb su JOIN department_tb d ON su.dept_id = d.id JOIN college_tb c ON d.college_id = c.id JOIN professor_tb p ON su.professor_id = p.id LEFT JOIN pre_stu_sub_tb pr ON pr.subject_id = su.id AND pr.student_id = ? WHERE su.name LIKE CONCAT('%', COALESCE(NULLIF(?, ''), su.name), '%') AND su.type like CONCAT('%', COALESCE(NULLIF(?, ''), su.type), '%') AND d.name like CONCAT('%', COALESCE(NULLIF(?, ''), d.name), '%') ORDER BY id ASC LIMIT ? OFFSET ? ";
+	private static final String SELECT_SUGANG_SUBJECT_RESULT = " SELECT c.name coll_name, d.name dept_name, su.id, su.type, su.name, p.name professor_name, su.grades, su.sub_day, su.start_time, su.end_time, su.room_id, su.num_of_student, su.capacity, IF(pr.student_id IS NOT NULL, 'true', 'false') status FROM subject_tb su JOIN department_tb d ON su.dept_id = d.id JOIN college_tb c ON d.college_id = c.id JOIN professor_tb p ON su.professor_id = p.id LEFT JOIN pre_stu_sub_tb pr ON pr.subject_id = su.id AND pr.student_id = ? WHERE pr.student_id = ? ORDER BY FIELD(sub_day, '월', '화', '수', '목', '금') ASC, start_time ASC LIMIT ? OFFSET ? ";
 
-	private static final String SELECT_SEARCH_SUGANG_SUBJECT = " SELECT c.name coll_name, d.name dept_name, su.id, su.type, su.name, p.name professor_name, su.grades, su.sub_day, su.start_time, su.end_time, su.room_id, su.num_of_student, su.capacity FROM subject_tb su JOIN department_tb d ON su.dept_id = d.id JOIN college_tb c ON d.college_id = c.id JOIN professor_tb p ON su.professor_id = p.id WHERE su.name LIKE CONCAT('%', COALESCE(NULLIF(?, ''), su.name), '%') AND su.type like CONCAT('%', COALESCE(NULLIF(?, ''), su.type), '%') AND d.name like CONCAT('%', COALESCE(NULLIF(?, ''), d.name), '%') ORDER BY id ASC LIMIT ? OFFSET ? ";
 	private static final String COUNT_ALL_SUGANG_SUBJECTS = " SELECT count(*) count from subject_tb ";
 	private static final String COUNT_SEARCH_SUGANG_SUBJECT = " SELECT count(*) count FROM subject_tb su JOIN department_tb d ON su.dept_id = d.id JOIN college_tb c ON d.college_id = c.id JOIN professor_tb p ON su.professor_id = p.id WHERE su.name LIKE CONCAT('%', COALESCE(NULLIF(?, ''), su.name), '%') AND su.type like CONCAT('%', COALESCE(NULLIF(?, ''), su.type), '%') AND d.name like CONCAT('%', COALESCE(NULLIF(?, ''), d.name), '%') ";
 	private static final String SELECT_ALL_DEPARTMENTS = " SELECT * FROM department_tb ";
@@ -73,31 +73,6 @@ public class SugangRepositoryImpl implements SugangRepository {
 	}
 
 	@Override
-	public List<SugangSubject> getSugangSubjectResult(int principalId, int pageSize, int offset) {
-		List<SugangSubject> subjectList = new ArrayList<>();
-		try (Connection conn = DBUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(SELECT_SUGANG_SUBJECT_RESULT)) {
-			pstmt.setInt(1, principalId);
-			pstmt.setInt(2, principalId);
-			pstmt.setInt(3, pageSize);
-			pstmt.setInt(4, offset);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				subjectList.add(SugangSubject.builder().collName(rs.getString("coll_name"))
-						.deptName(rs.getString("dept_name")).id(rs.getInt("id")).type(rs.getString("type"))
-						.name(rs.getString("name")).professorName(rs.getString("professor_name"))
-						.grades(rs.getInt("grades")).subDay(rs.getString("sub_day")).startTime(rs.getInt("start_time"))
-						.endTime(rs.getInt("end_time")).roomId(rs.getString("room_id"))
-						.numOfStudent(rs.getInt("num_of_student")).capacity(rs.getInt("capacity"))
-						.status(rs.getString("status")).build());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return subjectList;
-	}
-
-	@Override
 	public int getTotalSubjectsCount() {
 		int count = 0;
 		try (Connection conn = DBUtil.getConnection();
@@ -129,17 +104,18 @@ public class SugangRepositoryImpl implements SugangRepository {
 	}
 
 	@Override
-	public List<SugangSubject> getSearchSugangSubjects(String name, String type, String deptName, int pageSize,
-			int offset) {
+	public List<SugangSubject> getSearchSugangSubjects(int principalId, String name, String type, String deptName,
+			int pageSize, int offset) {
 		// 과목명, 강의구분, 학과번호 순서
 		List<SugangSubject> subjectList = new ArrayList<>();
 		try (Connection conn = DBUtil.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(SELECT_SEARCH_SUGANG_SUBJECT)) {
-			pstmt.setString(1, name);
-			pstmt.setString(2, type);
-			pstmt.setString(3, deptName);
-			pstmt.setInt(4, pageSize);
-			pstmt.setInt(5, offset);
+			pstmt.setInt(1, principalId);
+			pstmt.setString(2, name);
+			pstmt.setString(3, type);
+			pstmt.setString(4, deptName);
+			pstmt.setInt(5, pageSize);
+			pstmt.setInt(6, offset);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				subjectList.add(SugangSubject.builder().collName(rs.getString("coll_name"))
@@ -147,7 +123,8 @@ public class SugangRepositoryImpl implements SugangRepository {
 						.name(rs.getString("name")).professorName(rs.getString("professor_name"))
 						.grades(rs.getInt("grades")).subDay(rs.getString("sub_day")).startTime(rs.getInt("start_time"))
 						.endTime(rs.getInt("end_time")).roomId(rs.getString("room_id"))
-						.numOfStudent(rs.getInt("num_of_student")).capacity(rs.getInt("capacity")).build());
+						.numOfStudent(rs.getInt("num_of_student")).capacity(rs.getInt("capacity"))
+						.status(rs.getString("status")).build());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -171,6 +148,31 @@ public class SugangRepositoryImpl implements SugangRepository {
 			e.printStackTrace();
 		}
 		return count;
+	}
+
+	@Override
+	public List<SugangSubject> getPreSugangResult(int principalId, int pageSize, int offset) {
+		List<SugangSubject> subjectList = new ArrayList<>();
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_SUGANG_SUBJECT_RESULT)) {
+			pstmt.setInt(1, principalId);
+			pstmt.setInt(2, principalId);
+			pstmt.setInt(3, pageSize);
+			pstmt.setInt(4, offset);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				subjectList.add(SugangSubject.builder().collName(rs.getString("coll_name"))
+						.deptName(rs.getString("dept_name")).id(rs.getInt("id")).type(rs.getString("type"))
+						.name(rs.getString("name")).professorName(rs.getString("professor_name"))
+						.grades(rs.getInt("grades")).subDay(rs.getString("sub_day")).startTime(rs.getInt("start_time"))
+						.endTime(rs.getInt("end_time")).roomId(rs.getString("room_id"))
+						.numOfStudent(rs.getInt("num_of_student")).capacity(rs.getInt("capacity"))
+						.status(rs.getString("status")).build());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return subjectList;
 	}
 
 	// 수강 신청하기

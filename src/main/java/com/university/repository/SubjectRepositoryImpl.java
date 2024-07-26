@@ -38,7 +38,7 @@ public class SubjectRepositoryImpl implements SubjectRepository {
 	private static final String SELECT_ALL_SUBJECT_LIST = " SELECT sub.*, dept.name AS dept_name, coll.name AS coll_name, prof.name AS professor_name FROM subject_tb AS sub JOIN department_tb AS dept ON sub.dept_id = dept.id JOIN college_tb AS coll ON dept.college_id = coll.id JOIN professor_tb AS prof ON sub.professor_id = prof.id ORDER BY id ASC limit ? offset ? ";
 	private static final String COUNT_ALL_SUBJECT = " SELECT count(*) as count FROM subject_tb ";
 
-	private static final String SELECT_SUBJECT_BY_SEARCH = " select sub.*, dept.name AS dept_name, coll.name AS coll_name, prof.name AS professor_name "
+	private static final String SELECT_SUBJECT_BY_SEARCH = " select  sub.*, dept.name AS dept_name, coll.name AS coll_name, prof.name AS professor_name "
 			+ " FROM subject_tb AS sub " + " JOIN department_tb AS dept " + " ON sub.dept_id = dept.id "
 			+ " JOIN college_tb AS coll " + " ON dept.college_id = coll.id " + " JOIN professor_tb AS prof "
 			+ " ON sub.professor_id = prof.id "
@@ -238,9 +238,9 @@ public class SubjectRepositoryImpl implements SubjectRepository {
 		List<Subject> subjectList = new ArrayList<>();
 		try (Connection conn = DBUtil.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(SELECT_SUBJECT_BY_SEARCH)) {
-//			if (name == null) {
-//				name = "";
-//			}
+			if (name == null) {
+				name = "";
+			}
 			
 			pstmt.setInt(1, subYear);
 			pstmt.setInt(2, semester);
