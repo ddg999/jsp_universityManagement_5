@@ -64,8 +64,7 @@
 					</select>
 					<!-- 강의 검색 -->
 					<label for="subName">강의명</label> <input type="text" name="name"
-						list="subName"
-						value="${not empty selectedName ? selectedName : ''}">
+						list="subName" value="${!empty selectedName ? selectedName : ''}">
 					<!-- 검색 버튼 -->
 					<button type="submit">
 						<ul class="d-flex justify-content-center" style="margin: 0;">

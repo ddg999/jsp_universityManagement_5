@@ -19,14 +19,13 @@ public interface SugangRepository {
 	int getTotalSubjectsCount();
 
 	// 수강신청-강의시간표 검색
-	List<SugangSubject> getSearchSugangSubjects(String name, String type, String deptName, int pageSize, int offset);
+	List<SugangSubject> getSearchSugangSubjects(int principalId, String name, String type, String deptName, int pageSize, int offset);
 	
 	// 수강신청-강의시간표 검색 강의수
 	int getSearchSugangSubjectCount(String name, String type, String deptName);
 
-	// 수강신청 내역 조회
-	List<SugangSubject> getSugangSubjectResult(int principalId, int pageSize, int offset);
-
+	// 예비수강신청 내역 조회
+	List<SugangSubject> getPreSugangResult(int principalId, int pageSize, int offset);
 
 	// 모든 학과 조회
 	List<Department> getAllDepartment();
@@ -34,16 +33,16 @@ public interface SugangRepository {
 	// 학생 수강 신청 내역 조회
 	List<Subject> selectSubStudent(int limit, int offset);
 
-	// 학생 수강 신청 추가
+	// 예비 수강 신청 추가
 	int addRegist(int studentId, int subjectId);
 
-	// 학생 수강 시간 조회
+	// 예비 수강 신청 시간표 조회
 	List<SubTime> getStuSubTime(int studentId);
 
-	// 해당 과목의 시간 조회
+	// 해당 과목의 시간표 조회
 	SubTime getSubTime(int subjectId);
 
-	// 학생 수강 신청 삭제
+	// 예비 수강 신청 삭제
 	void deleteRegist(int studentId, int subjectId);
 
 }
