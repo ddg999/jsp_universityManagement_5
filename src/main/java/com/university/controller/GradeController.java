@@ -3,7 +3,7 @@ package com.university.controller;
 import java.io.IOException;
 import java.util.List;
 
-import com.university.model.GradeThisSemester;
+import com.university.model.GradeSemester;
 import com.university.model.Principal;
 import com.university.repository.GradeRepositoryImpl;
 import com.university.repository.interfaces.GradeRepository;
@@ -36,11 +36,14 @@ public class GradeController extends HttpServlet {
 			break;
 		// 학기별 성적 조회 페이지
 		case "/semester":
-
+			showGradeSemester(request, response, session);
 			break;
 		// 누계 성적 페이지
 		case "/total":
-
+			showGradeTotal(request, response, session);
+			break;
+		case "/search":
+			showGradeSearch(request, response, session);
 			break;
 		default:
 			break;
@@ -59,14 +62,50 @@ public class GradeController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
 			return;
 		}
-		List<GradeThisSemester> gradeList = gradeRepository.getGradeThisSemester(principal.getId(), 1, 2023);
+		List<GradeSemester> gradeList = gradeRepository.getGradeThisSemester(principal.getId(), 1, 2023);
 
 		request.setAttribute("gradeList", gradeList);
 		request.getRequestDispatcher("/WEB-INF/views/grade/thisgrade.jsp").forward(request, response);
 	}
 
+	private void showGradeSearch(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+
+	}
+
+	private void showGradeSemester(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
+		if (session == null || session.getAttribute("principal") == null) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("student")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+		List<GradeSemester> gradeList = gradeRepository.getGradeThisSemester(principal.getId(), 1, 2023);
+		List<GradeSemester> yearList = gradeRepository.getGradeYear(principal.getId());
+		request.setAttribute("yearList", yearList);
+		request.setAttribute("gradeList", gradeList);
+		request.getRequestDispatcher("/WEB-INF/views/grade/semester.jsp").forward(request, response);
+	}
+
+	private void showGradeTotal(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/views/grade/totalgrade.jsp").forward(request, response);
+	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		String action = request.getPathInfo();
+		switch (action) {
+		case "":
+			break;
+		default:
+			break;
+		}
 	}
 
 }

@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <link rel="stylesheet" href="../../resources/css/subject.css">
 <%@ include file="../layout/header.jsp"%>
@@ -20,7 +21,8 @@
 <!-- 학기별 성적 조회 -->
 
 <!-- 세부 메뉴 + 메인 -->
-<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+<div class="d-flex justify-content-center align-items-start"
+	style="min-width: 100em;">
 	<!-- 세부 메뉴 div-->
 	<div class="sub--menu">
 		<div class="sub--menu--top">
@@ -30,13 +32,18 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tr>
-					<td><a href="/grade/thisSemester">금학기 성적 조회</a></td>
+					<td><a
+						href="${pageContext.request.contextPath}/grade/thisSemester">금학기
+							성적 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/grade/semester" class="selected--menu">학기별 성적 조회</a></td>
+					<td><a
+						href="${pageContext.request.contextPath}/grade/semester"
+						class="selected--menu">학기별 성적 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/grade/total">누계 성적</a></td>
+					<td><a href="${pageContext.request.contextPath}/grade/total">누계
+							성적</a></td>
 				</tr>
 			</table>
 		</div>
@@ -57,9 +64,8 @@
 									<option value="${grade.subYear}">${grade.subYear}년</option>
 								</c:forEach>
 							</select> <select name="sesmeter">
-								<c:forEach var="grade" items="${semesterList}">
-									<option value="${grade.semester}">${grade.semester}학기</option>
-								</c:forEach>
+								<option value="1">1학기</option>
+								<option value="1">2학기</option>
 							</select> <select name="type">
 								<option value="전체">전체</option>
 								<option value="전공">전공</option>
@@ -69,13 +75,14 @@
 							<button type="submit">
 								<ul class="d-flex justify-content-center" style="margin: 0;">
 									<li style="height: 24px; margin-right: 2px;">조회
-									<li style="height: 24px;"><span class="material-symbols-outlined" style="font-size: 18px; padding-top: 4px;">search</span>
+									<li style="height: 24px;"><span
+										class="material-symbols-outlined"
+										style="font-size: 18px; padding-top: 4px;">search</span>
 								</ul>
 							</button>
 						</div>
 					</form>
 				</div>
-				<h4 style="font-weight: 600">과목별 성적</h4>
 				<table border="1" class="sub--list--table">
 					<thead>
 						<tr>
@@ -84,7 +91,8 @@
 							<th>과목번호</th>
 							<th>과목명</th>
 							<th>강의구분</th>
-							<th>학점</th>
+							<th>이수학점</th>
+							<th>성적</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -94,8 +102,9 @@
 								<td>${grade.subYear}년</td>
 								<td>${grade.semester}학기</td>
 								<td>${grade.subjectId}</td>
-								<td>${grade.name}</td>
+								<td>${grade.subjectName}</td>
 								<td>${grade.type}</td>
+								<td>${grade.grades}</td>
 								<td>${grade.grade}</td>
 							</tr>
 						</c:forEach>

@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%@ include file="../layout/header.jsp"%>
@@ -16,7 +17,8 @@
 </style>
 
 <!-- 세부 메뉴 + 메인 -->
-<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+<div class="d-flex justify-content-center align-items-start"
+	style="min-width: 100em;">
 	<!-- 세부 메뉴 div-->
 	<div class="sub--menu">
 		<div class="sub--menu--top">
@@ -26,13 +28,18 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tr>
-					<td><a href="/grade/thisSemester" class="selected--menu">금학기 성적 조회</a></td>
+					<td><a
+						href="${pageContext.request.contextPath}/grade/thisSemester"
+						class="selected--menu">금학기 성적 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/grade/semester">학기별 성적 조회</a></td>
+					<td><a
+						href="${pageContext.request.contextPath}/grade/semester">학기별
+							성적 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/grade/total">누계 성적</a></td>
+					<td><a href="${pageContext.request.contextPath}/grade/total">누계
+							성적</a></td>
 				</tr>
 			</table>
 		</div>
@@ -46,7 +53,6 @@
 		<c:choose>
 			<c:when test="${gradeList.isEmpty() == false}">
 				<div>
-					<h4 style="font-weight: 600">과목별 성적</h4>
 					<table border="1" class="sub--list--table">
 						<thead>
 							<tr>
@@ -56,8 +62,8 @@
 								<th>과목명</th>
 								<th>강의구분</th>
 								<th>이수학점</th>
-								<th>성적
-								<th>강의평가
+								<th>성적</th>
+								<th>강의평가</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -72,7 +78,8 @@
 									<td>${grade.grade}</td>
 									<td><c:choose>
 											<c:when test="${grade.evaluationId == 0}">
-												<a href="/evaluation?subjectId=${grade.subjectId}" onclick="window.open(this.href, '_blank', 'width=720, height=1000'); return false;">Click</a>
+												<a href="/evaluation?subjectId=${grade.subjectId}"
+													onclick="window.open(this.href, '_blank', 'width=720, height=1000'); return false;">Click</a>
 											</c:when>
 											<c:otherwise>
 												<span style="color: gray;">완료</span>
@@ -82,7 +89,6 @@
 							</c:forEach>
 						</tbody>
 					</table>
-					<p style="color: #888; margin-bottom: 40px;">※ 강의 평가 후 성적 조회 가능</p>
 				</div>
 				<hr>
 				<br>
@@ -110,6 +116,7 @@
 						</tbody>
 					</table>
 				</div> --%>
+
 			</c:when>
 			<c:otherwise>
 				<p class="no--list--p">강의 신청 및 수강 이력 확인 바랍니다.</p>

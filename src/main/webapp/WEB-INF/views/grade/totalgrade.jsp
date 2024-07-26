@@ -23,13 +23,13 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tr>
-					<td><a href="/grade/thisSemester">금학기 성적 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/grade/thisSemester">금학기 성적 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/grade/semester">학기별 성적 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/grade/semester">학기별 성적 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/grade/total" class="selected--menu">누계 성적</a></td>
+					<td><a href="${pageContext.request.contextPath}/grade/total" class="selected--menu">누계 성적</a></td>
 				</tr>
 			</table>
 		</div>

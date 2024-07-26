@@ -11,7 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @ToString
-public class GradeThisSemester {
+public class GradeSemester {
 	private int subYear;
 	private int semester;
 	private int subjectId;
