@@ -24,12 +24,12 @@
 		</div>
 
 		<nav class="main--menu">
-			<a href="${pageContext.request.contextPath}/home.jsp"><img class="logo" alt="" src="/resources/images/logo.png"></a>
+			<a href="${pageContext.request.contextPath}/home"><img class="logo" alt="" src="/resources/images/logo.png"></a>
 			<!-- userRole에 따라 메뉴 다르게 표시 -->
 			<c:choose>
 				<c:when test="${principal.userRole.equals(\"student\")}">
 					<ul>
-						<li><a href="${pageContext.request.contextPath}/home.jsp">홈</a>
+						<li><a href="${pageContext.request.contextPath}/home">홈</a>
 						<li><a href="${pageContext.request.contextPath}/info/student">MY</a>
 						<li><a href="${pageContext.request.contextPath}/subject/list">수업</a>
 						<li><a href="${pageContext.request.contextPath}/sugang/subject">수강신청</a>
@@ -40,7 +40,7 @@
 
 				<c:when test="${principal.userRole.equals(\"professor\")}">
 					<ul>
-						<li><a href="${pageContext.request.contextPath}/home.jsp">홈</a>
+						<li><a href="${pageContext.request.contextPath}/home">홈</a>
 						<li><a href="${pageContext.request.contextPath}/info/professor">MY</a>
 						<li><a href="${pageContext.request.contextPath}/subject/list">수업</a>
 						<li><a href="${pageContext.request.contextPath}/notice/list">학사정보</a>
@@ -48,7 +48,7 @@
 				</c:when>
 				<c:otherwise>
 					<ul>
-						<li><a href="${pageContext.request.contextPath}/home.jsp">홈</a>
+						<li><a href="${pageContext.request.contextPath}/home">홈</a>
 						<li><a href="${pageContext.request.contextPath}/info/staff">MY</a>
 						<li><a href="${pageContext.request.contextPath}/user/studentList">학사관리</a>
 						<li><a href="${pageContext.request.contextPath}/admin/college?crud=select">등록</a>

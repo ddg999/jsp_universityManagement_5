@@ -42,11 +42,15 @@ public class SugangController extends HttpServlet {
 			break;
 		// 강의 시간표 검색 페이지
 		case "/subject/search":
-			showSugangSubjectSearch(request, response);
+			showSugangSubjectSearch(request, response, session);
 			break;
 		// 예비 수강 신청 페이지
 		case "/preRegist":
 			showPreRegist(request, response, session);
+			break;
+		// 예비 수강 신청 검색 페이지
+		case "/preRegist/search":
+			showPreRegistSearch(request, response, session);
 			break;
 		// 예비 수강 신청 내역 페이지
 		case "/preRegist/result":
@@ -103,7 +107,7 @@ public class SugangController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/views/sugang/regist.jsp").forward(request, response);
 	}
 
-	// 예비 수강 신청 TODO 검색기능
+	// 예비 수강 신청
 	private void showPreRegist(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
 		Principal principal = (Principal) session.getAttribute("principal");
@@ -136,6 +140,54 @@ public class SugangController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/views/sugang/preRegist.jsp").forward(request, response);
 	}
 
+	// 예비 수강 신청 검색 TODO 신청,취소 했을 때 페이징처리
+	private void showPreRegistSearch(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("student")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+		int page = 1;
+		int pageSize = 20; // 한 페이지당 보여질 게시글 수
+		try {
+			String pageStr = request.getParameter("page");
+			if (pageStr != null) {
+				page = Integer.parseInt(pageStr);
+			}
+		} catch (Exception e) {
+			page = 1;
+		}
+		int offset = (page - 1) * pageSize; // 시작 위치 계산( offset 값 계산)
+		try {
+			String name = request.getParameter("name");
+			String type = request.getParameter("type");
+			String deptName = request.getParameter("deptName");
+
+			int searchTotalSubjects = sugangRepository.getSearchSugangSubjectCount(name, type, deptName);
+			List<Department> deptList = sugangRepository.getAllDepartment();
+			List<SugangSubject> subjectList = sugangRepository.getSearchSugangSubjects(principal.getId(), name, type,
+					deptName, pageSize, offset);
+			int totalPages = (int) Math.ceil((double) searchTotalSubjects / pageSize);
+
+			request.setAttribute("subjectCount", searchTotalSubjects);
+			request.setAttribute("totalPages", totalPages);
+			request.setAttribute("currentPage", page);
+			request.setAttribute("deptList", deptList);
+			request.setAttribute("subjectList", subjectList);
+			request.setAttribute("selectedName", name);
+			request.setAttribute("selectedType", type);
+			request.setAttribute("selectedDeptName", deptName);
+			request.getRequestDispatcher("/WEB-INF/views/sugang/preRegist.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "잘못된 접근입니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+	}
+
 	// 예비 수강 신청 내역
 	private void showPreRegistResult(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
@@ -156,7 +208,7 @@ public class SugangController extends HttpServlet {
 			page = 1;
 		}
 		int offset = (page - 1) * pageSize; // 시작 위치 계산( offset 값 계산)
-		List<SugangSubject> subjectList = sugangRepository.getSugangSubjectResult(principal.getId(), pageSize, offset);
+		List<SugangSubject> subjectList = sugangRepository.getPreSugangResult(principal.getId(), pageSize, offset);
 		int totalSubjects = sugangRepository.getTotalSubjectsCount();
 		List<Department> deptList = sugangRepository.getAllDepartment();
 		int totalPages = (int) Math.ceil((double) totalSubjects / pageSize);
@@ -191,8 +243,8 @@ public class SugangController extends HttpServlet {
 		}
 		int offset = (page - 1) * pageSize; // 시작 위치 계산( offset 값 계산)
 		List<SugangSubject> subjectList = sugangRepository.getAllSugangSubject(principal.getId(), pageSize, offset);
-		int totalSubjects = sugangRepository.getTotalSubjectsCount();
 		List<Department> deptList = sugangRepository.getAllDepartment();
+		int totalSubjects = sugangRepository.getTotalSubjectsCount();
 		int totalPages = (int) Math.ceil((double) totalSubjects / pageSize);
 
 		request.setAttribute("subjectCount", totalSubjects);
@@ -203,10 +255,15 @@ public class SugangController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/views/sugang/sugangSubject.jsp").forward(request, response);
 	}
 
-	// 수강신청 탭 강의시간표 검색
-	private void showSugangSubjectSearch(HttpServletRequest request, HttpServletResponse response)
+	// 수강신청 - 강의시간표 검색
+	private void showSugangSubjectSearch(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
-		// TODO 검색했을때 페이징 처리
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("student")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
 		int page = 1;
 		int pageSize = 20; // 한 페이지당 보여질 게시글 수
 		try {
@@ -223,12 +280,13 @@ public class SugangController extends HttpServlet {
 			String type = request.getParameter("type");
 			String deptName = request.getParameter("deptName");
 
-			int totalSubjects = sugangRepository.getSearchSugangSubjectCount(name, type, deptName);
+			int searchTotalSubjects = sugangRepository.getSearchSugangSubjectCount(name, type, deptName);
 			List<Department> deptList = sugangRepository.getAllDepartment();
-			List<SugangSubject> subjectList = sugangRepository.getSearchSugangSubjects(name, type, deptName, pageSize,
-					offset);
-			int totalPages = (int) Math.ceil((double) totalSubjects / pageSize);
-			request.setAttribute("subjectCount", totalSubjects);
+			List<SugangSubject> subjectList = sugangRepository.getSearchSugangSubjects(principal.getId(), name, type,
+					deptName, pageSize, offset);
+			int totalPages = (int) Math.ceil((double) searchTotalSubjects / pageSize);
+
+			request.setAttribute("subjectCount", searchTotalSubjects);
 			request.setAttribute("totalPages", totalPages);
 			request.setAttribute("currentPage", page);
 			request.setAttribute("deptList", deptList);
@@ -265,6 +323,7 @@ public class SugangController extends HttpServlet {
 		}
 	}
 
+	// 예비 수강 신청 추가
 	private void addPreStuSub(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
 		try {
@@ -301,6 +360,7 @@ public class SugangController extends HttpServlet {
 		}
 	}
 
+	// 예비 수강 신청 삭제
 	private void deletePreStuSub(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
 		try {

@@ -93,7 +93,6 @@ public class UserController extends HttpServlet {
 		case "/staff":
 			request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
 			break;
-
 		default:
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			break;
@@ -111,7 +110,9 @@ public class UserController extends HttpServlet {
 			// 로그인 기능 처리
 			handleSignin(request, response);
 			break;
-
+		case "/home":
+			request.getRequestDispatcher("/home.jsp").forward(request, response);
+			break;
 		case "/findId":
 			handleFindId(request, response);
 			break;
@@ -612,8 +613,6 @@ public class UserController extends HttpServlet {
 
 		int id = Integer.parseInt(request.getParameter("id"));
 		User user = userRepository.getUserByIdAndPassword(id, password);
-		NoticeRepository noticeRepository = new NoticeRepositoryImpl();
-		ScheduleRepository scheduleRepository = new ScheduleRepositoryImpl();
 		
 		Principal principal = null;
 
@@ -642,18 +641,18 @@ public class UserController extends HttpServlet {
 				} else {
 					cookie.setMaxAge(0);
 					response.addCookie(cookie);
-					System.out.println("실행xxx");
 				}
 				HttpSession session = request.getSession();
 				session.setAttribute("principal", principal);
 				System.out.println(principal.toString());
-				List<Schedule> scheduleList = scheduleRepository.getAllSchedules();
-				List<Notice> noticeList = noticeRepository.getAllNotices(5 , 1);
+				response.sendRedirect("/home");
+				// List<Schedule> scheduleList = scheduleRepository.getAllSchedules();
+				//List<Notice> noticeList = noticeRepository.getAllNotices(5 , 1);
 				
-				request.setAttribute("breakAppSize", 2);
-				request.setAttribute("scheduleList", scheduleList);
-				request.setAttribute("noticeList", noticeList);
-				request.getRequestDispatcher("/home.jsp").forward(request, response);
+//				request.setAttribute("breakAppSize", 2);
+//				request.setAttribute("scheduleList", scheduleList);
+//				request.setAttribute("noticeList", noticeList);
+//				request.getRequestDispatcher("/home.jsp").forward(request, response);
 				// request.getRequestDispatcher("/login.jsp").forward(request, response);
 			}
 		} else {

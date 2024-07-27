@@ -32,16 +32,16 @@
 					<td><a href="/info/password">비밀번호 변경</a></td>
 				</tr>
 				<tr>
-					<td><a href="/info/break/application">휴학 신청</a></td>
+					<td><a href="/break/application">휴학 신청</a></td>
 				</tr>
 				<tr>
-					<td><a href="/info/break/list">휴학 내역 조회</a></td>
+					<td><a href="/break/list">휴학 내역 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/info/tuition/list">등록금 내역 조회</a></td>
+					<td><a href="/tuition/list">등록금 내역 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/info/tuition/payment" class="selected--menu">등록금 납부 고지서</a></td>
+					<td><a href="/tuition/payment" class="selected--menu">등록금 납부 고지서</a></td>
 				</tr>
 			</table>
 		</div>
@@ -55,41 +55,38 @@
 		<div class="d-flex flex-column align-items-center" style="width: 100%">
 			<div class="document--layout">
 				<h3>등록금 고지서</h3>
-				<p>${tuition.tuiYear}년도${tuition.semester}학기</p>
+				<p>${"2024"}년도 ${tuition.semester}학기</p>
 				<table class="tuition--payment--table" border="1">
 					<thead>
 						<tr>
 							<th>단 과 대</th>
-							<td>${collName}</td>
-							<!-- 여기 고쳐야 함 !  -->
+							<td>${tuition.collegeName}</td>
 							<th>학 과</th>
-							<td>${deptName}</td>
-							<!-- 여기 고쳐야 함 !  -->
+							<td>${tuition.deptName}</td>
 						</tr>
 						<tr>
 							<th>학 번</th>
 							<td>${tuition.studentId}</td>
 							<th>성 명</th>
-							<td>${student.name}</td>
-							<!-- 여기 고쳐야 함 !  -->
+							<td>${tuition.studentName}</td>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<th colspan="2">장 학 유 형</th>
-							<td colspan="2">${tuition.schType}유형</td>
+							<td colspan="2">${tuition.scholarshipId}유형</td>
 						</tr>
 						<tr>
 							<th colspan="2">등 록 금</th>
-							<td colspan="2">${tuition.tuiFormat()}</td>
+							<td colspan="2">${tuition.tuitionAmount}</td>
 						</tr>
 						<tr>
 							<th colspan="2">장 학 금</th>
-							<td colspan="2">${tuition.schFormat()}</td>
+							<td colspan="2">${tuition.scholarshipAmount}</td>
 						</tr>
 						<tr>
 							<th colspan="2">납 부 금</th>
-							<td colspan="2">${tuition.paymentFormat()}</td>
+							<td colspan="2">${tuition.payment}</td>
 						</tr>
 						<tr>
 							<th colspan="2">납 부 계 좌</th>

@@ -41,10 +41,10 @@
 					<td><a href="${pageContext.request.contextPath}/break/list">휴학 내역 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/info/tuition/list">등록금 내역 조회</a></td>
+					<td><a href="/tuition/list">등록금 내역 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/info/tuition/payment">등록금 납부 고지서</a></td>
+					<td><a href="/tuition/payment">등록금 납부 고지서</a></td>
 				</tr>
 			</table>
 		</div>

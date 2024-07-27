@@ -112,6 +112,7 @@
 					</c:choose>
 				</div>
 				<br>
+				<c:if test="${principal.getUserRole().equals('staff')}">
 				<c:choose>
 					<c:when test="${breakAppSize > 0}">
 						<div class="main--page--info">
@@ -134,6 +135,7 @@
 						</div>
 					</c:when>
 				</c:choose>
+				</c:if>
 			</div>
 		</div>
 	</div>
