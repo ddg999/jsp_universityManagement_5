@@ -9,7 +9,7 @@ import com.university.model.TuitionInfo;
 
 public interface TuitionRepository {
 	//
-	List<Tuition> getAllTuition();
+	List<Tuition> selectByStudentIdAndStatus(int studentId);
 	
 	TuitionInfo getTuitionInfoById(int principalId);
 	

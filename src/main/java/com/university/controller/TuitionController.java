@@ -1,6 +1,7 @@
 package com.university.controller;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import com.university.model.AvgGrade;
@@ -59,14 +60,18 @@ public class TuitionController extends HttpServlet {
 			break;
 		}
 	}
-
+	// 금액 포맷
+	public static String numberFormat(Integer number) {
+		
+		DecimalFormat df = new DecimalFormat("#,###");
+		return df.format(number);
+	}
+	
 	private void viewTuitionInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
 		Principal principal = (Principal) session.getAttribute("principal");
-		Tuition tuition = tuitionRepository.getTuitionBYId(principal.getId());
-		request.setAttribute("tuition", tuition);
+		List<Tuition> tuitionList = tuitionRepository.selectByStudentIdAndStatus(principal.getId());
+		request.setAttribute("tuitionList", tuitionList);
 
-		request.getRequestDispatcher("/WEB-INF/views/tuition/tuitionlist.jsp").forward(request, response);
-		
 	}
 
 	private void getTuirionInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session)

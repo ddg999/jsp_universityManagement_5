@@ -75,10 +75,33 @@ public class TuitionRepositoryImpl implements TuitionRepository{
 	}
 	
 	@Override
-	public List<Tuition> getAllTuition() {
-		
-		return null;
+	public List<Tuition> selectByStudentIdAndStatus(int studentId) {
+		List<Tuition> tuitionList = new ArrayList<>();
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_TUITION_SQL_BY_ID)) {
+			pstmt.setInt(1, studentId);
+			try (ResultSet rs = pstmt.executeQuery()) {
+				while (rs.next()) {
+					tuitionList.add(Tuition.builder()
+							.studentId(rs.getInt("student_id"))
+							.tuiYear(rs.getInt("tui_year"))
+							.semester(rs.getInt("semester"))
+							.tuiAmount(rs.getInt("tui_amount"))
+							.schType(rs.getInt("sch_type"))
+							.schAmount(rs.getInt("sch_amount"))
+							.status(rs.getInt("status"))							
+							.build());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return tuitionList;
 	}
+		
+	
 
 	@Override
 	public TuitionInfo getTuitionInfoById(int principalId) {
