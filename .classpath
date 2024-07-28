@@ -16,6 +16,5 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/slf4j-simple-2.0.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v10.1"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lombok.jar"/>
-	<classpathentry kind="lib" path="C:/tools/sts-4.24.0.RELEASE/lombok.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

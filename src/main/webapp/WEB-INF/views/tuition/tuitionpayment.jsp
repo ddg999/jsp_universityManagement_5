@@ -102,7 +102,7 @@
 			</div>
 
 			<c:choose>
-				<c:when test="${tuition.status == true}">
+				<c:when test="${tuition1.status == 1}">
 					<p class="no--list--p">이번 학기 등록금 납부가 완료되었습니다.</p>
 				</c:when>
 				<c:otherwise>
