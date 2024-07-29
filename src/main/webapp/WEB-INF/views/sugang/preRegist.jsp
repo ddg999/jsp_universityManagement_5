@@ -24,24 +24,21 @@
 				<tr>
 					<td><a
 						href="${pageContext.request.contextPath}/sugang/preRegist"
-						class="selected--menu">예비 수강 신청</a></td>
+						class="selected--menu">수강 신청</a></td>
+				</tr>
+				<!--<tr>
+					<td><a href="${pageContext.request.contextPath}/sugang/regist">수강 신청</a></td>
 				</tr>
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/sugang/regist">수강
-							신청</a></td>
-				</tr>
-				<tr>
-					<td><a
-						href="${pageContext.request.contextPath}/sugang/registResult">수강
-							신청 내역</a></td>
-				</tr>
+					<td><a href="${pageContext.request.contextPath}/sugang/registResult">수강 신청 내역</a></td>
+				</tr>-->
 			</table>
 		</div>
 	</div>
 
 	<!-- 메인 div -->
 	<main>
-		<h1>예비 수강 신청</h1>
+		<h1>수강 신청</h1>
 		<div class="split--div"></div>
 		<div class="d-flex justify-content-between align-items-start">
 			<!-- 필터 및 검색 -->
@@ -80,7 +77,7 @@
 			</div>
 			<!-- 예비 수강 신청 내역으로 가기 -->
 			<a href="/sugang/preRegist/result"><button
-					class="preStuSubList--button">예비 수강 신청 내역</button></a>
+					class="preStuSubList--button">수강 신청 내역</button></a>
 		</div>
 		<%
 		String message = (String) request.getAttribute("message");

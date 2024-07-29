@@ -40,9 +40,9 @@
 				<tr>
 					<td><a href="/tuition/list">등록금 내역 조회</a></td>
 				</tr>
-				<tr>
-					<td><a href="/tuition/payment" class="selected--menu">등록금 납부 고지서</a></td>
-				</tr>
+				<!--<tr>
+					<td><a href="/sugang/period">수강 신청 기간 설정</a></td>
+				</tr>-->
 			</table>
 		</div>
 	</div>

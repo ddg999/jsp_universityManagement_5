@@ -39,7 +39,7 @@
 					<td><a href="/user/professor">교수 등록</a></td>
 				</tr>
 				<tr>
-					<td><a href="/user/staff">직원 등록</a></td>
+					<td><a href="${pageContext.request.contextPath}/user/staff">직원 등록</a></td>
 				</tr>
 				<tr>
 					<td><a href="/tuition/bill">등록금 고지서 발송</a></td>
@@ -47,9 +47,9 @@
 				<tr>
 					<td><a href="/break/list/staff" class="selected--menu">휴학 처리</a></td>
 				</tr>
-				<tr>
+				<!--<tr>
 					<td><a href="/sugang/period">수강 신청 기간 설정</a></td>
-				</tr>
+				</tr>-->
 			</table>
 		</div>
 	</div>

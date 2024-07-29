@@ -34,9 +34,9 @@
 				<tr>
 					<td><a href="/break/list/staff">휴학 처리</a></td>
 				</tr>
-				<tr>
+				<!--<tr>
 					<td><a href="/sugang/period">수강 신청 기간 설정</a></td>
-				</tr>
+				</tr>-->
 			</table>
 		</div>
 	</div>
