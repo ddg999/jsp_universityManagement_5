@@ -178,10 +178,6 @@ main h1:first-of-type {
 	justify-content: center;
 }
 
-.page--list li {
-	margin: 30px 20px;
-}
-
 .selected--page {
 	font-weight: 700;
 	color: #007bff;
@@ -297,11 +293,11 @@ main h1:first-of-type {
 	border: 1px solid #ddd;
 	border-radius: 4px;
 	text-decoration: none;
-	color: #007bff;
+	color: #C72D2D;
 }
 
 .pagination a:hover {
-	background-color: #007bff;
+	background-color: #C72D2D;
 	color: white;
 }
 

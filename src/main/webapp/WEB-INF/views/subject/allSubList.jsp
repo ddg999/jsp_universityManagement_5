@@ -119,23 +119,25 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				<c:if test="${pageCount != null}">
-					<ul class="page--list">
-						<c:forEach var="i" begin="1" end="${pageCount}" step="1">
-							<c:choose>
-								<c:when test="${not empty subYear or not empty semester or not empty deptId or not empty name}">
-									<li><a href="/subject/list/search?subYear=${subYear}&semester=${semester}&deptId=${deptId}&name=${name}">${i}</a></li>
-								</c:when>
-								<c:when test="${i == page}">
-									<li><a href="${pageContext.request.contextPath}/subject/list?page=${i}" style="font-weight: 700; color: #007bff">${i}</a>
-								</c:when>
-								<c:otherwise>
-									<li><a href="${pageContext.request.contextPath}/subject/list?page=${i}">${i}</a>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</ul>
-				</c:if>
+				<div class="pagination">
+					<c:if test="${pageCount != null}">
+						<ul class="page--list">
+							<c:forEach var="i" begin="1" end="${pageCount}" step="1">
+								<c:choose>
+									<c:when test="${not empty subYear or not empty semester or not empty deptId or not empty name}">
+										<li><a href="/subject/list/search?subYear=${subYear}&semester=${semester}&deptId=${deptId}&name=${name}">${i}</a></li>
+									</c:when>
+							<c:when test="${i == currentPage}">
+								<span class="current-page">${i}</span>
+							</c:when>
+									<c:otherwise>
+										<li><a href="${pageContext.request.contextPath}/subject/list?page=${i}">${i}</a>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</ul>
+					</c:if>
+				</div>
 			</c:when>
 			<c:otherwise>
 				<p class="no--list--p">검색 결과가 없습니다.</p>

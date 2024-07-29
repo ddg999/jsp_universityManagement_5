@@ -101,7 +101,7 @@ header {
 
 .main--page--div h3 a {
 	font-weight: 600;
-	color: #132A50;
+	color: #C05151;
 }
 
 .main--page--profile table {
@@ -111,7 +111,7 @@ header {
 .main--page--split {
 	height: 2px;
 	width: 100%;
-	background-color: #3c668a;
+	background-color: #C05151;
 	margin-bottom: 10px;
 }
 
@@ -139,7 +139,7 @@ header {
 }
 
 .profile--button--div button {
-	background-color: #98afcb;
+	background-color: #C05151;
 	padding: 3px 13px 4px;
 	border: none;
 	border-radius: 5px;

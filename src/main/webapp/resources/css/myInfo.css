@@ -4,6 +4,12 @@ form {
 	margin-left: 30px;
 }
 
+.btn-dark:hover {
+    color: #fff;
+    background-color: #921515 !important;
+    border-color: #921515 !important;
+}
+
 .input--table {
 	margin: 10px 0;
 	width: 900px;
@@ -11,7 +17,7 @@ form {
 
 .input--table th {
 	text-align: center;
-	background-color: #F0EFEF;
+	background-color: #ffe9e9;
 }
 
 .half--table {
@@ -43,7 +49,7 @@ form {
 }
 
 .stat--table th {
-	background-color: #F0EFEF;
+	background-color: #ffe9e9;
 	text-align: center;
 }
 

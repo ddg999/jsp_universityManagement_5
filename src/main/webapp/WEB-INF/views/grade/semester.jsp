@@ -10,7 +10,6 @@
 }
 
 .sub--filter form div {
-	background-color: buttonshadow;
 	padding: 13px 10px;
 }
 

@@ -3,7 +3,7 @@
 .sub--list--table th {
 	padding: 3px 9px;
 	text-align: center;
-	background-color: #F0EFEF;
+	background-color: #ffe9e9;
 }
 
 .sub--list--table td {
@@ -24,7 +24,6 @@
 }
 
 .sub--filter form div {
-	background-color: buttonshadow;
 	padding: 13px 13px 7px 10px;
 }
 
@@ -86,4 +85,18 @@
 	background-color: gray;
 	font-size: 20px;
 	margin-right: 20px;
+}
+
+a:hover {
+    color: #C72D2D;
+    text-decoration: underline;
+}
+
+.current-page {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #C72D2D;
+    border: 1px solid #C72D2D;
+    border-radius: 4px;
+    color: white;
 }
