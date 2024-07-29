@@ -627,11 +627,11 @@ public class UserController extends HttpServlet {
 			if (principal != null && principal.getPassword().equals(password)) {
 				String checkbox = request.getParameter("rememberId");
 				System.out.println("checkbox : " + checkbox);
-				String id1 = request.getParameter("userId");
-				System.out.println("id1 : " + id1);
+//				String id1 = request.getParameter("userId");
+//				System.out.println("id1 : " + id1);
 				response.setCharacterEncoding("UTF-8");
 				PrintWriter out = response.getWriter();
-				Cookie cookie = new Cookie("userId", id1);
+				Cookie cookie = new Cookie("userId", request.getParameter("id"));
 				System.out.println(checkbox);
 				System.out.println(cookie.getName());
 				if (checkbox != null) {
@@ -645,14 +645,14 @@ public class UserController extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.setAttribute("principal", principal);
 				System.out.println(principal.toString());
-				response.sendRedirect("/home");
+//				response.sendRedirect("/home");
 				// List<Schedule> scheduleList = scheduleRepository.getAllSchedules();
 				//List<Notice> noticeList = noticeRepository.getAllNotices(5 , 1);
 				
 //				request.setAttribute("breakAppSize", 2);
 //				request.setAttribute("scheduleList", scheduleList);
 //				request.setAttribute("noticeList", noticeList);
-//				request.getRequestDispatcher("/home.jsp").forward(request, response);
+				request.getRequestDispatcher("/home.jsp").forward(request, response);
 				// request.getRequestDispatcher("/login.jsp").forward(request, response);
 			}
 		} else {
@@ -660,6 +660,7 @@ public class UserController extends HttpServlet {
 			Cookie cookie = new Cookie("userId", id1);
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
+			System.out.println(cookie.getName()+"dsasdasadsda");
 			request.setAttribute("errorMessage", "아이디 비밀번호가 틀렸습니다.");
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}

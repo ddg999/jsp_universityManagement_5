@@ -117,7 +117,18 @@ hr {
 
 			<div class="button--row">
 				<button type="submit" class="btn btn-dark update--button">제출하기</button>
+				<%
+			String message = (String) request.getAttribute("message");
+			if (message != null) {
+			%>
+			<p style="color: red; display: inline; font-size:18px;">
+				<%=message%></p>
+			<%
+			}
+			%>
 			</div>
+			
+			
 		</form>
 	</main>
 <%@ include file="../layout/footer.jsp"%>
