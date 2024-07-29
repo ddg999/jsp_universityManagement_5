@@ -20,11 +20,14 @@ public interface ProfessorRepository {
 
 
 	// TODO 내 강의 학기별 조회 (교수)
-	List<SubjectList> getProfessorSubjectbyYear(int professorID, int subYear);
+	List<SubjectList> getProfessorSubjectbyYear(String professorName, int subYear);
 
-	List<SubjectList> getProfessorSubjectbyYearandSemester(int professorID, int subYear, int semester);
+	List<SubjectList> getProfessorSubjectbyYearandSemester(String professorName, int subYear, int semester);
 	
-	List<SubjectList> getProfessorSubjectAll();
+	List<SubjectList> getProfessorSubject(String professorName, int limit, int offset);
 
-	int getTotalProfessorSubject();
+
+	List<SubjectList> getProfessorSubjectAll();
+	
+	int getTotalProfessorSubject(int id);
 }

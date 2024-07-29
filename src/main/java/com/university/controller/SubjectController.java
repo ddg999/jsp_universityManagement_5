@@ -166,7 +166,7 @@ public class SubjectController extends HttpServlet {
 
 		System.out.println(departmentList);
 		System.out.println(subjectList);
-		request.getRequestDispatcher("/WEB-INF/views/subject/allSubList.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/subject/allSubList2.jsp").forward(request, response);
 
 	}
 
@@ -185,14 +185,6 @@ public class SubjectController extends HttpServlet {
 		}
 	}
 
-	private void showListProfessor(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		List<SubjectList> subjectList = professorRepository.getProfessorSubjectAll();
-
-		request.setAttribute("subjectList", subjectList);
-		request.getRequestDispatcher("/WEB-INF/views/professor/professorsublist.jsp").forward(request, response);
-	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

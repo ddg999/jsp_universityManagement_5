@@ -199,4 +199,28 @@ public class SubjectRepositoryImpl implements SubjectRepository {
 		return count;
 	}
 
+	@Override
+	public List<SubjectList> getProfessorSubjectbyYear(int professorID, int subYear) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SubjectList> getProfessorSubjectbyYearandSemester(int professorID, int subYear, int semester) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SubjectList> getProfessorSubjectAll(int pageSize, int offset) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getTotalProfessorSubject() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
