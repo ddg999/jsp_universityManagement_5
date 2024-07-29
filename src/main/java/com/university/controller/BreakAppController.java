@@ -1,6 +1,7 @@
 package com.university.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import com.university.model.BreakApp;
@@ -45,7 +46,6 @@ public class BreakAppController extends HttpServlet {
 		// 휴학 신청 페이지
 		case "/application":
 			getAppStudentInfo(request, response, principal.getId());
-			request.getRequestDispatcher("/WEB-INF/views/break/application.jsp").forward(request, response);
 			break;
 		// 휴학 내역 조회 페이지
 		case "/list":
@@ -81,7 +81,7 @@ public class BreakAppController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
 			return;
 		}
-
+		
 		List<BreakApp> breakAppList = breakAppRepository.selectAppByStatus("처리중");
 		request.setAttribute("breakAppList", breakAppList);
 		System.out.println(breakAppList);
@@ -113,11 +113,11 @@ public class BreakAppController extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Principal principal = (Principal) session.getAttribute("principal");
-		if (!principal.getUserRole().equals("student")) {
-			request.setAttribute("errorMessage", "권한이 없습니다");
-			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
-			return;
-		}
+//		if (!principal.getUserRole().equals("student")) {
+//			request.setAttribute("errorMessage", "권한이 없습니다");
+//			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+//			return;
+//		}
 
 		int breakAppId = Integer.parseInt(request.getParameter("id"));
 		int studentId = Integer.parseInt(request.getParameter("student_id"));
@@ -157,10 +157,22 @@ public class BreakAppController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
 			return;
 		}
+		
+
 
 		StudentInfo student = infoRepository.getStudentInfo(principalId);
 		System.out.println(student);
 		request.setAttribute("student", student);
+		List<BreakApp> breakList = breakAppRepository.selectAppByStudentId(principalId);
+		if (breakList.isEmpty() == false) {
+			if (breakList.get(0).getStatus().equals("처리중")) {
+				response.setContentType("text/html;charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>alert('이미 신청된 내역이 있습니다.'); history.back();</script>");
+				return;
+			}
+		}
+		request.getRequestDispatcher("/WEB-INF/views/break/application.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -197,7 +209,7 @@ public class BreakAppController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
 			return;
 		}
-		
+
 		int breakAppId = Integer.parseInt(request.getParameter("id"));
 		String status = request.getParameter("status");
 		try {
@@ -220,7 +232,7 @@ public class BreakAppController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
 			return;
 		}
-		
+
 		int studentId = Integer.parseInt(request.getParameter("student_id"));
 		int studentGrade = Integer.parseInt(request.getParameter("student_grade"));
 		int fromYear = Integer.parseInt(request.getParameter("from_year"));

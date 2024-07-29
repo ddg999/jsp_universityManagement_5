@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../layout/header.jsp"%>
 <link rel="stylesheet" href="../../resources/css/subject.css">
@@ -16,24 +17,17 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tr>
-					<td><a
-						href="${pageContext.request.contextPath}/sugang/subject"
-						class="selected--menu">강의 시간표 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/sugang/subject" class="selected--menu">강의 시간표 조회</a></td>
 				</tr>
 				<tr>
-					<td><a
-						href="${pageContext.request.contextPath}/sugang/preRegist">예비
-							수강 신청</a></td>
+					<td><a href="${pageContext.request.contextPath}/sugang/preRegist">수강 신청</a></td>
+				</tr>
+				<!--<tr>
+					<td><a href="${pageContext.request.contextPath}/sugang/regist">수강 신청</a></td>
 				</tr>
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/sugang/regist">수강
-							신청</a></td>
-				</tr>
-				<tr>
-					<td><a
-						href="${pageContext.request.contextPath}/sugang/registResult">수강
-							신청 내역</a></td>
-				</tr>
+					<td><a href="${pageContext.request.contextPath}/sugang/registResult">수강 신청 내역</a></td>
+				</tr>-->
 			</table>
 		</div>
 	</div>
@@ -63,8 +57,7 @@
 					</select>
 					<!-- 강의 검색 -->
 					<label for="subName">강의명</label> <input type="text" name="name"
-						list="subName"
-						value="${not empty selectedName ? selectedName : ''}">
+						list="subName" value="${!empty selectedName ? selectedName : ''}">
 					<!-- 검색 버튼 -->
 					<button type="submit">
 						<ul class="d-flex justify-content-center" style="margin: 0;">
@@ -124,10 +117,10 @@
 									<ul class="d-flex justify-content-center sub--plan--view"
 										style="margin: 0;">
 										<li style="height: 24px;"><a
-											href="/subject/syllabus?subjectId=${subject.id}"
+											href="${pageContext.request.contextPath}/subject/syllabus?subjectId=${subject.id}"
 											onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;">조회</a>
 										<li style="height: 24px;"><a
-											href="/subject/syllabus?subjectId=${subject.id}"
+											href="${pageContext.request.contextPath}/subject/syllabus?subjectId=${subject.id}"
 											onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;"><span
 												class="material-symbols-outlined">content_paste_search</span></a>
 									</ul>
@@ -144,15 +137,10 @@
 							</c:when>
 							<c:otherwise>
 								<c:choose>
-									<c:when test="${not empty keyword}">
-										<c:if test="${type eq 'title'}">
-											<a
-												href="${pageContext.request.contextPath}/sugang/search?type=title&keyword=${keyword}&page=${i}">${i}</a>
-										</c:if>
-										<c:if test="${type eq 'keyword'}">
-											<a
-												href="${pageContext.request.contextPath}/sugang/search?type=keyword&keyword=${keyword}&page=${i}">${i}</a>
-										</c:if>
+									<c:when
+										test="${!empty selectedType || !empty selectedDeptName || !empty selectedName}">
+										<a
+											href="${pageContext.request.contextPath}/sugang/subject/search?page=${i}&type=${selectedType}&deptName=${selectedDeptName}&name=${selectedName}">${i}</a>
 									</c:when>
 									<c:otherwise>
 										<a

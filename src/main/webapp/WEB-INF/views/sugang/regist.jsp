@@ -128,7 +128,7 @@
 										<%-- 정원이 가득 찬 상태라면 --%>
 										<c:when test="${subject.numOfStudent >= subject.capacity}">
 											<%-- 높이 맞추느라 버튼으로 함 --%>
-											<button type="button" style="background-color: white; color: gray" disabled>신청마감</button>
+											<button type="button" style="background-color: #c5b; color: white" disabled>마감</button>
 										</c:when>
 
 										<%-- 신청되지 않은 상태라면 --%>
@@ -159,7 +159,7 @@
 				</c:if>
 			</c:when>
 			<c:otherwise>
-				<p class="no--list--p">검색 결과가 없습니다.</p>
+				<p class="no--list--p">신청 내역이 없습니다</p>
 			</c:otherwise>
 		</c:choose>
 	</main>

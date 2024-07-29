@@ -15,8 +15,10 @@ import com.university.util.DBUtil;
 
 public class ProfessorRepositoryImpl implements ProfessorRepository {
 
-	private static final String SELECT_PROFESSOR_NAME = " SELECT * FROM professor_tb WHERE name LIKE ? ORDER BY name ASC LIMIT ? OFFSET ?  ";
-	private static final String COUNT_SEARCH_PROFESSOR = " SELECT COUNT(*) as count FROM professor_tb ORDER BY name ASC WHERE name LIKE ? ";
+	private static final String SELECT_PROFESSOR_NAME = " SELECT * FROM professor_tb WHERE name LIKE ? ORDER BY id ASC LIMIT ? OFFSET ?  ";
+	// private static final String COUNT_SEARCH_PROFESSOR = " SELECT COUNT(*) as count FROM professor_tb ORDER BY id ASC WHERE name LIKE ? ";
+	private static final String COUNT_SEARCH_PROFESSOR = "SELECT COUNT(*) as count FROM professor_tb WHERE name LIKE ?";
+
 
 	private static final String GETTING_PROFESSOR_SUBJECT =
 			" select subject_tb.sub_year as 'year', subject_tb.semester as 'semester', college_tb.name as 'university' , department_tb.name as 'department', subject_tb.id as 'subjectNum', subject_tb.type as 'type', subject_tb.name as 'subject', professor_tb.name as 'teacher', subject_tb.grades as 'grade', subject_tb.num_of_student as 'stu_Num', subject_tb.capacity as 'capacity' from subject_tb join professor_tb on subject_tb.professor_id = professor_tb.id join department_tb on department_tb.id = subject_tb.dept_id join college_tb on department_tb.college_id = college_tb.id ORDER BY id DESC LIMIT ? OFFSET ? " ;
@@ -47,43 +49,42 @@ public class ProfessorRepositoryImpl implements ProfessorRepository {
 
 	@Override
 	public List<Professor> getProfessorName(String keyword, int pageSize, int offset) {
-		List<Professor> professorList = new ArrayList<>();
-		try (Connection conn = DBUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(SELECT_PROFESSOR_NAME)) {
-			pstmt.setString(1, "%" + keyword + "%");
-			pstmt.setInt(2, pageSize);
-			pstmt.setInt(3, offset);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				professorList.add(Professor.builder().id(rs.getInt("id")).name(rs.getString("name"))
-						.birthDate(rs.getDate("birth_date")).gender(rs.getString("gender"))
-						.address(rs.getString("address")).tel(rs.getString("tel")).email(rs.getString("email"))
-						.deptId(rs.getInt("dept_id")).hireDate(rs.getDate("hire_date"))
-						.build());
-			}
+	    List<Professor> professorList = new ArrayList<>();
+	    try (Connection conn = DBUtil.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(SELECT_PROFESSOR_NAME)) {
+	        pstmt.setString(1, "%" + keyword + "%");
+	        pstmt.setInt(2, pageSize);
+	        pstmt.setInt(3, offset);
+	        ResultSet rs = pstmt.executeQuery();
+	        while (rs.next()) {
+	            professorList.add(Professor.builder().id(rs.getInt("id")).name(rs.getString("name"))
+	                    .birthDate(rs.getDate("birth_date")).gender(rs.getString("gender"))
+	                    .address(rs.getString("address")).tel(rs.getString("tel")).email(rs.getString("email"))
+	                    .deptId(rs.getInt("dept_id")).hireDate(rs.getDate("hire_date"))
+	                    .build());
+	        }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return professorList;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return professorList;
 	}
 
-	@Override
 	public int getTotalgetProfessorNameCount(String processName) {
-		int count = 0;
+	    int count = 0;
 
-		try (Connection conn = DBUtil.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(COUNT_SEARCH_PROFESSOR)) {
-			pstmt.setString(1, "%" + processName + "%");
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next()) {
-				count = rs.getInt("count");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println("searchStudent totalCount : " + count);
-		return count;
+	    try (Connection conn = DBUtil.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(COUNT_SEARCH_PROFESSOR)) {
+	        pstmt.setString(1, "%" + processName + "%");
+	        ResultSet rs = pstmt.executeQuery();
+	        if (rs.next()) {
+	            count = rs.getInt("count");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    System.out.println("professortotalCount : " + count);
+	    return count;
 	}
 	
 	@Override

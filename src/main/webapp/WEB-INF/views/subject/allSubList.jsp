@@ -15,16 +15,16 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tr>
-					<td><a href="/subject/list/1" class="selected--menu">전체 강의 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/subject/list" class="selected--menu">전체 강의 조회</a></td>
 				</tr>
 				<c:if test="${principal.userRole.equals(\"professor\") }">
 					<tr>
-						<td><a href="/professor/subject">내 강의 조회</a></td>
+						<td><a href="${pageContext.request.contextPath}/professor/subject">내 강의 조회</a></td>
 					</tr>
 				</c:if>
 				<c:if test="${principal.userRole.equals(\"professor\") }">
 					<tr>
-						<td><a href="/evaluation/read"> 내 강의 평가</a></td>
+						<td><a href="${pageContext.request.contextPath}/evaluation/read"> 내 강의 평가</a></td>
 					</tr>
 				</c:if>
 			</table>
@@ -42,7 +42,7 @@
 			<form action="/subject/list/search" method="get">
 				<div>
 					<!-- 개설연도 숫자 -->
-					<label for="subYear">연도 </label> <input type="number" value="" name="subYear" id="subYear" min="2005" max="2023">
+					<label for="subYear">연도 </label> <input type="number" value="2023" name="subYear" id="subYear" min="2023" max="2024">
 					<!-- 개설학기 콤보박스-->
 					<label for="subSemester">학기 </label> <select name="semester" id="subSemester">
 						<option value="1">1학기</option>
@@ -51,15 +51,15 @@
 					<!-- 대상학과 콤보박스 -->
 					<label for="deptId">개설학과</label> <select name="deptId" id="deptId">
 						<option value="-1">전체</option>
-						<c:forEach var="dept" items="${deptList}">
-							<option value="${dept.id}">${dept.name}</option>
+						<c:forEach var="department" items="${departmentList}">
+							<option value="${department.id}">${department.name}</option>
 						</c:forEach>
 					</select>
 					<!-- 강의 검색 -->
 					<label for="subName">강의명</label> <input type="text" name="name" list="subName">
 					<datalist id="subName">
-						<c:forEach var="subName" items="${subNameList}">
-							<option value="${subName}">
+						<c:forEach var="subName" items="${subjectList}">
+							<option value="${subject.name}">
 						</c:forEach>
 					</datalist>
 					<!-- 검색 버튼 -->
@@ -109,9 +109,10 @@
 								<td>${subject.capacity}</td>
 								<td>
 									<ul class="d-flex justify-content-center sub--plan--view" style="margin: 0;">
-										<li style="height: 24px;"><a href="/subject/syllabus/${subject.id}" onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;">조회</a>
-										<li style="height: 24px;"><a href="/subject/syllabus/${subject.id}" onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;"><span
-												class="material-symbols-outlined">content_paste_search</span></a>
+										<li style="height: 24px;"><a href="${pageContext.request.contextPath}/subject/syllabus?subjectId=${subject.id}"
+											onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;">조회</a>
+										<li style="height: 24px;"><a href="${pageContext.request.contextPath}/subject/syllabus?subjectId=${subject.id}"
+											onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;"><span class="material-symbols-outlined">content_paste_search</span></a>
 									</ul>
 								</td>
 							</tr>
@@ -122,11 +123,14 @@
 					<ul class="page--list">
 						<c:forEach var="i" begin="1" end="${pageCount}" step="1">
 							<c:choose>
+								<c:when test="${not empty subYear or not empty semester or not empty deptId or not empty name}">
+									<li><a href="/subject/list/search?subYear=${subYear}&semester=${semester}&deptId=${deptId}&name=${name}">${i}</a></li>
+								</c:when>
 								<c:when test="${i == page}">
-									<li><a href="/subject/list/${i}" style="font-weight: 700; color: #007bff">${i}</a>
+									<li><a href="${pageContext.request.contextPath}/subject/list?page=${i}" style="font-weight: 700; color: #007bff">${i}</a>
 								</c:when>
 								<c:otherwise>
-									<li><a href="/subject/list/${i}">${i}</a>
+									<li><a href="${pageContext.request.contextPath}/subject/list?page=${i}">${i}</a>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>

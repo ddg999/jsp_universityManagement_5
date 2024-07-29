@@ -16,4 +16,5 @@ public class Principal {
 	private String password;
 	private String userRole;
 	private String name;
+	private String email;
 }

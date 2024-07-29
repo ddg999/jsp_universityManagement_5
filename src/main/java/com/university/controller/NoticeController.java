@@ -276,7 +276,7 @@ public class NoticeController extends HttpServlet {
 			String content = request.getParameter("content");
 			Notice notice = Notice.builder().category(category).title(title).content(content).build();
 
-			noticeRepository.createNotice(notice);
+			noticeRepository.addNotice(notice);
 			response.sendRedirect(request.getContextPath() + "/notice/list");
 		} catch (Exception e) {
 			e.printStackTrace();
