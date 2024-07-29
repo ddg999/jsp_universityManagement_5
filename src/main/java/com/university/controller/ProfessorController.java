@@ -84,7 +84,7 @@ public class ProfessorController extends HttpServlet {
 		request.setAttribute("subjectCount", totalSubject);
 		request.setAttribute("i", page);
 		
-		System.out.println(principal.getName());
+		System.out.println("현재 로그인 된 교수님 : " + principal.getName());
 		request.getRequestDispatcher("/WEB-INF/views/professor/professorsublist.jsp").forward(request, response);
 		
 	}
