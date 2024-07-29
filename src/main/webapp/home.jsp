@@ -140,4 +140,4 @@
 		</div>
 	</div>
 </div>
-<%@ include file="WEB-INF/views/layout/footer.jsp"%>
+<%@ include file="/WEB-INF/views/layout/footer.jsp"%>

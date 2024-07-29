@@ -6,21 +6,15 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Random;
 
-import com.university.model.Notice;
 import com.university.model.Principal;
 import com.university.model.Professor;
-import com.university.model.Schedule;
 import com.university.model.Staff;
 import com.university.model.Student;
 import com.university.model.User;
-import com.university.repository.NoticeRepositoryImpl;
 import com.university.repository.ProfessorRepositoryImpl;
-import com.university.repository.ScheduleRepositoryImpl;
 import com.university.repository.StudentRepositoryImpl;
 import com.university.repository.UserRepositoryImpl;
-import com.university.repository.interfaces.NoticeRepository;
 import com.university.repository.interfaces.ProfessorRepository;
-import com.university.repository.interfaces.ScheduleRepository;
 import com.university.repository.interfaces.StudentRepository;
 import com.university.repository.interfaces.UserRepository;
 
@@ -59,7 +53,7 @@ public class UserController extends HttpServlet {
 //			response.sendRedirect("/login.jsp");
 //			return;
 //		}
-		
+
 		String action = request.getPathInfo();
 		System.out.println(action);
 		switch (action) {
@@ -70,7 +64,8 @@ public class UserController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/find/findpassword.jsp").forward(request, response);
 			break;
 		case "/login":
-			request.getRequestDispatcher("/login.jsp").forward(request, response);
+			session.invalidate();
+			request.getRequestDispatcher("/WEB-INF/views/layout/login.jsp").forward(request, response);
 			break;
 		case "/studentList":
 			studentAllView(request, response, session);
@@ -93,15 +88,23 @@ public class UserController extends HttpServlet {
 		case "/staff":
 			request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
 			break;
+		case "/logout":
+			logout(request, response, session);
+			break;
 		default:
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			break;
 		}
 	}
 
+	private void logout(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException {
+		session.invalidate();
+		response.sendRedirect(request.getContextPath() + "/user/login");
+	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 
 		String action = request.getPathInfo();
 
@@ -137,18 +140,20 @@ public class UserController extends HttpServlet {
 			break;
 		}
 	}
-	
+
 	/**
 	 * 교수 이름 검색 조회
+	 * 
 	 * @param request
 	 * @param response
-	 * @throws IOException 
-	 * @throws ServletException 
+	 * @throws IOException
+	 * @throws ServletException
 	 */
-	private void professorSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void professorSearch(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		System.out.println("됨요?????");
 		List<Professor> professorList = null;
-		//int totalStudent = 0;
+		// int totalStudent = 0;
 		String professorName = null;
 
 		int page = 1; // 기본 페이지 번호
@@ -165,35 +170,37 @@ public class UserController extends HttpServlet {
 
 		try {
 			professorName = request.getParameter("professorName");
-		
+
 			professorList = professorRepository.getProfessorName(professorName, pageSize, offset);
 			int totalProfessor = professorRepository.getTotalgetProfessorNameCount(professorName);
 			System.out.println("totalStudent1 : " + totalProfessor);
 			int totalPages = (int) Math.ceil((double) totalProfessor / pageSize);
-			
+
 			request.setAttribute("keyword", professorName);
 			request.setAttribute("professorList", professorList);
 			request.setAttribute("listCount", totalPages);
 			request.setAttribute("totalStudent", totalProfessor);
 			request.setAttribute("index", page);
-			
+
 			request.getRequestDispatcher("/WEB-INF/views/user/professorlist.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 학생 이름 검색 조회
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	private void studentSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void studentSearch(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		List<Student> studentList = null;
-		//int totalStudent = 0;
+		// int totalStudent = 0;
 		String studentName = null;
 
 		int page = 1; // 기본 페이지 번호
@@ -215,88 +222,91 @@ public class UserController extends HttpServlet {
 			int totalStudent1 = studentRepository.getTotalStudentNameCount(studentName);
 			System.out.println("totalStudent1 : " + totalStudent1);
 			int totalPages = (int) Math.ceil((double) totalStudent1 / pageSize);
-			
+
 			request.setAttribute("keyword", studentName);
 			request.setAttribute("studentList", studentList);
 			request.setAttribute("listCount", totalPages);
 			request.setAttribute("totalStudent", totalStudent1);
 			request.setAttribute("index", page);
-			
+
 			request.getRequestDispatcher("/WEB-INF/views/user/studentlist.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	/**
 	 * 교수 명단 조회
+	 * 
 	 * @param request
 	 * @param response
 	 * @param session
-	 * @throws IOException 
-	 * @throws ServletException 
+	 * @throws IOException
+	 * @throws ServletException
 	 */
-	private void professorAllView(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+	private void professorAllView(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
 		int page = 1;
 		int pageSize = 20;
-		
+
 		try {
 			String pageStr = request.getParameter("page");
-			if(pageStr != null) {
+			if (pageStr != null) {
 				page = Integer.parseInt(pageStr);
 			}
 		} catch (Exception e) {
 			page = 1;
 			e.printStackTrace();
 		}
-		
-		int offset = (page -1) * pageSize;
+
+		int offset = (page - 1) * pageSize;
 		List<Professor> professorList = userRepository.getAllProfessor(pageSize, offset);
-		
+
 		int totalBoards = userRepository.getTotalProfessorCount();
-		int totalPage = (int)Math.ceil((double)totalBoards / pageSize);
+		int totalPage = (int) Math.ceil((double) totalBoards / pageSize);
 
 		request.setAttribute("professorList", professorList);
 		request.setAttribute("listCount", totalPage);
 		request.setAttribute("index", page);
-		
+
 		request.getRequestDispatcher("/WEB-INF/views/user/professorlist.jsp").forward(request, response);
 	}
 
 	/**
 	 * 학생 명단 조회
+	 * 
 	 * @param request
 	 * @param response
-	 * @throws IOException 
-	 * @throws ServletException 
+	 * @throws IOException
+	 * @throws ServletException
 	 */
-	private void studentAllView(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+	private void studentAllView(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
 
 		int page = 1;
 		int pageSize = 20;
-		
+
 		try {
 			String pageStr = request.getParameter("page");
-			if(pageStr != null) {
+			if (pageStr != null) {
 				page = Integer.parseInt(pageStr);
 			}
 		} catch (Exception e) {
 			page = 1;
 			e.printStackTrace();
 		}
-		
-		int offset = (page -1) * pageSize;
+
+		int offset = (page - 1) * pageSize;
 		List<Student> studentList = userRepository.getAllBoards(pageSize, offset);
-		
+
 		int totalBoards = userRepository.getTotalBoardCount();
-		int totalPage = (int)Math.ceil((double)totalBoards / pageSize);
-	
+		int totalPage = (int) Math.ceil((double) totalBoards / pageSize);
+
 		request.setAttribute("studentList", studentList);
 		request.setAttribute("listCount", totalPage);
 		request.setAttribute("index", page);
-		
-		
+
 //		if(session != null) {
 //			Principal principal = (Principal)session.getAttribute("principal");
 //			if(principal != null) {
@@ -426,6 +436,7 @@ public class UserController extends HttpServlet {
 
 	/**
 	 * 학생 등록
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws IOException
@@ -613,7 +624,7 @@ public class UserController extends HttpServlet {
 
 		int id = Integer.parseInt(request.getParameter("id"));
 		User user = userRepository.getUserByIdAndPassword(id, password);
-		
+
 		Principal principal = null;
 
 		if (user != null) {
@@ -647,13 +658,13 @@ public class UserController extends HttpServlet {
 				System.out.println(principal.toString());
 				response.sendRedirect("/home");
 				// List<Schedule> scheduleList = scheduleRepository.getAllSchedules();
-				//List<Notice> noticeList = noticeRepository.getAllNotices(5 , 1);
-				
+				// List<Notice> noticeList = noticeRepository.getAllNotices(5 , 1);
+
 //				request.setAttribute("breakAppSize", 2);
 //				request.setAttribute("scheduleList", scheduleList);
 //				request.setAttribute("noticeList", noticeList);
-				
-				//request.getRequestDispatcher("/home.jsp").forward(request, response);
+
+				// request.getRequestDispatcher("/home.jsp").forward(request, response);
 				// request.getRequestDispatcher("/login.jsp").forward(request, response);
 			}
 		} else {
@@ -661,7 +672,7 @@ public class UserController extends HttpServlet {
 			Cookie cookie = new Cookie("userId", id1);
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
-			System.out.println(cookie.getName()+"dsasdasadsda");
+			System.out.println(cookie.getName() + "dsasdasadsda");
 			request.setAttribute("errorMessage", "아이디 비밀번호가 틀렸습니다.");
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}

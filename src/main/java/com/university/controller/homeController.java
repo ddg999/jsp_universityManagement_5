@@ -15,30 +15,36 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/home")
-public class homeController extends HttpServlet {
+public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	public homeController() {
+
+	public HomeController() {
 		super();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		HttpSession session = request.getSession(false);
+		if (session == null || session.getAttribute("principal") == null) {
+			response.sendRedirect(request.getContextPath() + "/user/login");
+			return;
+		}
+
 		NoticeRepository noticeRepository = new NoticeRepositoryImpl();
 		ScheduleRepository scheduleRepository = new ScheduleRepositoryImpl();
-		
-		List<Schedule> scheduleList = scheduleRepository.getAllSchedules();
-        List<Notice> noticeList = noticeRepository.getAllNotices(5, 1);
 
-		 request.setAttribute("breakAppSize", 2);
+		List<Schedule> scheduleList = scheduleRepository.getAllSchedules();
+		List<Notice> noticeList = noticeRepository.getAllNotices(5, 1);
+
+		request.setAttribute("breakAppSize", 2);
 		request.setAttribute("scheduleList", scheduleList);
 		request.setAttribute("noticeList", noticeList);
 		request.getRequestDispatcher("/home.jsp").forward(request, response);
-		
-	}
 
+	}
 
 }
