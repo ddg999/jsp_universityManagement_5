@@ -100,20 +100,28 @@ public class GradeController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
 			return;
 		}
-		int studentId = Integer.parseInt(request.getParameter("studentId"));
-		int subYear = Integer.parseInt(request.getParameter("subYear"));
-		int semester = Integer.parseInt(request.getParameter("semester"));
-		String type = request.getParameter("type");
+		try {
+			int studentId = Integer.parseInt(request.getParameter("studentId"));
+			int subYear = Integer.parseInt(request.getParameter("subYear"));
+			int semester = Integer.parseInt(request.getParameter("semester"));
+			String type = request.getParameter("type");
+			System.out.println(studentId + " " + subYear + " " + semester + " " + type);
 
-		List<GradeSemester> gradeList = gradeRepository.getGradeThisSemester(studentId, semester, subYear);
-		List<GradeSemester> yearList = gradeRepository.getGradeYear(studentId);
+			List<GradeSemester> gradeList = gradeRepository.getGradeSemesterSearch(studentId, subYear, semester, type);
+			List<GradeSemester> yearList = gradeRepository.getGradeYear(studentId);
 
-		request.setAttribute("selectedSubYear", subYear);
-		request.setAttribute("selectedSemester", semester);
-		request.setAttribute("selectedType", type);
-		request.setAttribute("yearList", yearList);
-		request.setAttribute("gradeList", gradeList);
-		request.getRequestDispatcher("/WEB-INF/views/grade/semester.jsp").forward(request, response);
+			request.setAttribute("selectedSubYear", subYear);
+			request.setAttribute("selectedSemester", semester);
+			request.setAttribute("selectedType", type);
+			request.setAttribute("yearList", yearList);
+			request.setAttribute("gradeList", gradeList);
+			request.getRequestDispatcher("/WEB-INF/views/grade/semester.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "잘못된 접근입니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
 	}
 
 	private void showGradeTotal(HttpServletRequest request, HttpServletResponse response, HttpSession session)
