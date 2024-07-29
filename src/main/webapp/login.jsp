@@ -48,6 +48,7 @@ input[type=number] {
 							class="material-symbols-outlined">person</span></label> <input
 							type="number" max="2147483647" name="id" id="userId"
 							placeholder="아이디를 입력하세요" required value="<%=cookie%>">
+							placeholder="아이디를 입력하세요" required value="${cookie.userId.value}">
 						<div class="checkbox--id">
 							<input type="checkbox" name="rememberId" <%= cookie == null ? "" : "checked"%>>&nbsp;ID 저장
 						</div>
