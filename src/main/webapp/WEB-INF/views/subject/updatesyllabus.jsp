@@ -17,7 +17,7 @@
 .header--top {
 	width: 100%;
 	height: 40px;
-	background-color: #031734;
+	background-color: #921515;
 }
 
 section {

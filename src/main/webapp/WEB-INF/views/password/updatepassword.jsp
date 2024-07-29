@@ -4,6 +4,18 @@
 
 <%@ include file="../layout/header.jsp"%>
 <link rel="stylesheet" href="../../css/admin.css">
+
+<style>
+	input[type="submit"] {
+	background-color: gray;
+	border-radius: 5px;
+	border: hidden;
+	color: #fff;
+	text-decoration: none;
+	margin: 5px;
+	padding: 3px;
+}
+</style>
 <!-- 세부 메뉴 + 메인 -->
 <div class="d-flex justify-content-center align-items-start"
 	style="min-width: 100em;">

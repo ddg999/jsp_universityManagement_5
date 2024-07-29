@@ -217,7 +217,7 @@ main h1:first-of-type {
 }
 
 .first--tr {
-	background-color: #f7f6f6;
+	background-color: #ffe9e9;
 	font-weight: bolder;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -244,22 +244,17 @@ main h1:first-of-type {
 }
 
 .button {
-	border: 1px solid #031734;
+	border: 1px solid gray;
 	border-radius: 3px;
-	background-color: #031734;
+	background-color: gray;
 	color: #fff;
 	text-decoration: none;
 	padding: 3px;
 	height: 31px;
-	margin-left: 10px;
 }
 
 .button:hover {
 	color: #fff;
-}
-
-.select--button {
-	margin-left: 200px;
 }
 
 .input--box {
@@ -270,8 +265,7 @@ main h1:first-of-type {
 }
 
 .form--container {
-	display: flex;
-	justify-content: center;
+	display: blcok;
 	margin: 0 90px 20px 0;
 }
 
@@ -302,12 +296,12 @@ main h1:first-of-type {
 }
 
 .current-page {
-	display: inline-block;
-	padding: 5px 10px;
-	background-color: #007bff;
-	border: 1px solid #007bff;
-	border-radius: 4px;
-	color: white;
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #C72D2D;
+    border: 1px solid #C72D2D;
+    border-radius: 4px;
+    color: white;
 }
 
 .split--div {

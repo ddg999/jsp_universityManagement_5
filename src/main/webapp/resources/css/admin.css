@@ -30,7 +30,7 @@ table tr, td {
 }
 
 .button {
-	background-color: #023268;
+	background-color: #23272b;
 	border-radius: 5px;
 	color: #fff;
 	text-decoration: none;
@@ -39,7 +39,7 @@ table tr, td {
 }
 
 input[type="submit"] {
-	background-color: #023268;
+	background-color: gray;
 	border-radius: 5px;
 	border: hidden;
 	color: #fff;
