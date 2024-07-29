@@ -631,7 +631,7 @@ public class UserController extends HttpServlet {
 //				System.out.println("id1 : " + id1);
 				response.setCharacterEncoding("UTF-8");
 				PrintWriter out = response.getWriter();
-				Cookie cookie = new Cookie("userId", String.valueOf(id));
+				Cookie cookie = new Cookie("userId", request.getParameter("id"));
 				System.out.println(checkbox);
 				System.out.println(cookie.getName());
 				if (checkbox != null) {
