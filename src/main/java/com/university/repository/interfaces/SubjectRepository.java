@@ -30,13 +30,15 @@ public interface SubjectRepository {
 
 	// 전체 강의 조회
 	List<Subject> getAllSubject(int limit, int offset);
+
 	int getTotalSubjectCount();
-	
+
 	// 강의 검색
 	List<Subject> getSubjectBySearch(int subYear, int semester, String name, int deptId, int limit, int offset);
+
 	int getTotalSubjectBySearch(int subYear, int semester, String name, int deptId);
-	
+
 	// 교수 강의 계획서 업데이트
 	int updateSyllabus(String overview, String objective, String textbook, String program, int subjectId);
-	
+
 }
