@@ -27,7 +27,6 @@
 }
 
 .sub--filter form div {
-	background-color: buttonshadow;
 	padding: 13px 13px 7px 10px;
 }
 
@@ -61,7 +60,7 @@
 
 .sub--plan--view li a:hover {
 	color: black;
-}	
+}
 
 .paging--container {
 	display: flex;
@@ -119,8 +118,7 @@
 			<form action="/user/professorList/search" method="get">
 				<div>
 					<!-- 개설연도 숫자 -->
-					<label for="professorName">이름</label>
-					<input type="text" name="professorName" id="professorName">
+					<label for="professorName">이름</label> <input type="text" name="professorName" id="professorName">
 					<!-- 검색 버튼 -->
 					<button type="submit">
 						<ul class="d-flex justify-content-center" style="margin: 0;">
@@ -167,9 +165,10 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				<ul class="page--list">
-					<c:forEach var="index" begin="1" end="${listCount}">
-				
+				<div class="pagination">
+					<ul class="page--list">
+						<c:forEach var="index" begin="1" end="${listCount}">
+
 							<!--  
 						<c:choose>
 							<c:when test="${deptId != null && index != page}">
@@ -187,23 +186,24 @@
 						</c:choose>
 						
 						-->
-						<c:choose>
-							<c:when test="${not empty keyword}">
-								<li><a href="/user/professorList/search?professorName=${keyword}&page=${index}">${index}</a></li>
-							</c:when>
-							<c:otherwise>
-								<c:choose>
-									<c:when test="${index == page}">
-										<li><a href="/user/professorList?page=${index}" class="selected--page">${index}</a></li>
-									</c:when>
-									<c:otherwise>
-										<li><a href="/user/professorList?page=${index}">${index}</a></li>
-									</c:otherwise>
-								</c:choose>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-				</ul>
+							<c:choose>
+								<c:when test="${not empty keyword}">
+									<li><a href="/user/professorList/search?professorName=${keyword}&page=${index}">${index}</a></li>
+								</c:when>
+								<c:otherwise>
+									<c:choose>
+										<c:when test="${index == page}">
+											<li><a href="/user/professorList?page=${index}" class="current-page">${index}</a></li>
+										</c:when>
+										<c:otherwise>
+											<li><a href="/user/professorList?page=${index}">${index}</a></li>
+										</c:otherwise>
+									</c:choose>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</ul>
+				</div>
 			</c:when>
 			<c:otherwise>
 				<p class="no--list--p">검색 결과가 없습니다.</p>

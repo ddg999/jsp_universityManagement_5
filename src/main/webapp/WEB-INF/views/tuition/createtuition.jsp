@@ -2,6 +2,20 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../layout/header.jsp"%>
 
+<style>
+.btn-primary {
+    color: #fff;
+    background-color: gray;
+    border-color: gray;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #921515;
+    border-color: #921515;
+}
+
+</style>
 <!-- 세부 메뉴 + 메인 -->
 <div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
 	<!-- 세부 메뉴 div-->

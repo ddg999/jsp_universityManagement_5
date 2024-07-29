@@ -27,7 +27,6 @@
 }
 
 .sub--filter form div {
-	background-color: buttonshadow;
 	padding: 13px 13px 7px 10px;
 }
 
@@ -67,6 +66,7 @@
 	display: flex;
 	justify-content: center;
 }
+
 </style>
 
 <!-- 세부 메뉴 + 메인 -->
@@ -177,25 +177,27 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				<ul class="page--list">
-					<c:forEach var="index" begin="1" end="${listCount}">
-						<c:choose>
-							<c:when test="${not empty keyword}">
-								<li><a href="/user/studentList/search?studentName=${keyword}&page=${index}">${index}</a></li>
-							</c:when>
-							<c:otherwise>
-								<c:choose>
-									<c:when test="${index == page}">
-										<li><a href="/user/studentList?page=${index}" class="selected--page">${index}</a></li>
-									</c:when>
-									<c:otherwise>
-										<li><a href="/user/studentList?page=${index}">${index}</a></li>
-									</c:otherwise>
-								</c:choose>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-				</ul>
+				<div class="pagination">
+					<ul class="page--list">
+						<c:forEach var="index" begin="1" end="${listCount}">
+							<c:choose>
+								<c:when test="${not empty keyword}">
+									<li><a href="/user/studentList/search?studentName=${keyword}&page=${index}">${index}</a></li>
+								</c:when>
+								<c:otherwise>
+									<c:choose>
+										<c:when test="${index == page}">
+											<li><a href="/user/studentList?page=${index}" class="current-page">${index}</a></li>
+										</c:when>
+										<c:otherwise>
+											<li><a href="/user/studentList?page=${index}">${index}</a></li>
+										</c:otherwise>
+									</c:choose>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</ul>
+				</div>
 			</c:when>
 			<c:otherwise>
 				<p class="no--list--p">검색 결과가 없습니다.</p>
