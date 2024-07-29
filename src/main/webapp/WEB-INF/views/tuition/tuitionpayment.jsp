@@ -26,7 +26,7 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tr>
-					<td><a href="/info/student" >내 정보 조회</a></td>
+					<td><a href="/info/student">내 정보 조회</a></td>
 				</tr>
 				<tr>
 					<td><a href="/info/password">비밀번호 변경</a></td>
@@ -53,9 +53,14 @@
 		<div class="split--div"></div>
 
 		<div class="d-flex flex-column align-items-center" style="width: 100%">
+	<c:choose>
+	<c:when test="${tuition.studentName == null}">
+		<p class="no--list--p">등록금 납부 고지서가 없습니다.</p>
+	</c:when>
+	<c:otherwise>
 			<div class="document--layout">
 				<h3>등록금 고지서</h3>
-				<p>${"2024"}년도 ${tuition.semester}학기</p>
+				<p>${"2024"}년도${tuition.semester}학기</p>
 				<table class="tuition--payment--table" border="1">
 					<thead>
 						<tr>
@@ -112,6 +117,8 @@
 				</c:otherwise>
 			</c:choose>
 
+	</c:otherwise>
+	</c:choose>
 		</div>
 	</main>
 </div>
