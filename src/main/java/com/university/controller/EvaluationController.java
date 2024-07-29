@@ -45,9 +45,7 @@ public class EvaluationController extends HttpServlet {
 		switch (action) {
 		// 강의 평가 조회(학생)
 		case "/write":
-			System.out.println("조회 들어왔나?111111111111");
 			getEvaluation(request, response);
-			System.out.println("조회 들어왔나?222222222222");
 			break;
 
 			
@@ -74,6 +72,8 @@ public class EvaluationController extends HttpServlet {
 					.answer2(answer2).answer3(answer3).answer4(answer4).answer5(answer5).answer6(answer6).answer7(answer7)
 					.improvements(improvements).build();
 			evaluationRepository.insertEvaluation(evaluation);
+			System.out.println("ㅇㅁㄴㅇㄴㅁㅇㄴㅁㄴㅇㅁㄴㅇㅁㄴㅁㅇㄴㅁㅇ");
+			
 			request.setAttribute("message", "등록 완료");
 			request.getRequestDispatcher("/WEB-INF/views/evaluation/evaluation.jsp").forward(request, response);
 		} catch (Exception e) {
