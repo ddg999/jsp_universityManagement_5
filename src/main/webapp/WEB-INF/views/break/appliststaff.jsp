@@ -39,7 +39,7 @@
 					<td><a href="/user/professor">교수 등록</a></td>
 				</tr>
 				<tr>
-					<td><a href="/user/staff">직원 등록</a></td>
+					<td><a href="${pageContext.request.contextPath}/user/staff">직원 등록</a></td>
 				</tr>
 				<tr>
 					<td><a href="/tuition/bill">등록금 고지서 발송</a></td>

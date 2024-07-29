@@ -55,7 +55,7 @@ public class BreakAppController extends HttpServlet {
 		// 직원 휴학 처리 페이지
 		case "/list/staff":
 			getApplistStaff(request, response, principal.getId());
-			//request.getRequestDispatcher("/WEB-INF/views/break/appliststaff.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/break/appliststaff.jsp").forward(request, response);
 			break;
 		case "/detail":
 			// 휴학 신청서 확인 페이지
@@ -113,11 +113,11 @@ public class BreakAppController extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Principal principal = (Principal) session.getAttribute("principal");
-		if (!principal.getUserRole().equals("student")) {
-			request.setAttribute("errorMessage", "권한이 없습니다");
-			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
-			return;
-		}
+//		if (!principal.getUserRole().equals("student")) {
+//			request.setAttribute("errorMessage", "권한이 없습니다");
+//			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+//			return;
+//		}
 
 		int breakAppId = Integer.parseInt(request.getParameter("id"));
 		int studentId = Integer.parseInt(request.getParameter("student_id"));
