@@ -37,10 +37,9 @@
 						href="${pageContext.request.contextPath}/grade/semester">학기별
 							성적 조회</a></td>
 				</tr>
-				<tr>
-					<td><a href="${pageContext.request.contextPath}/grade/total">누계
-							성적</a></td>
-				</tr>
+				<!--<tr>
+					<td><a href="${pageContext.request.contextPath}/grade/total">누계 성적</a></td>
+				</tr>-->
 			</table>
 		</div>
 	</div>

@@ -32,19 +32,14 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tr>
-					<td><a
-						href="${pageContext.request.contextPath}/grade/thisSemester">금학기
-							성적 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/grade/thisSemester">금학기 성적 조회</a></td>
 				</tr>
 				<tr>
-					<td><a
-						href="${pageContext.request.contextPath}/grade/semester"
-						class="selected--menu">학기별 성적 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/grade/semester" class="selected--menu">학기별 성적 조회</a></td>
 				</tr>
-				<tr>
-					<td><a href="${pageContext.request.contextPath}/grade/total">누계
-							성적</a></td>
-				</tr>
+				<!--<tr>
+					<td><a href="${pageContext.request.contextPath}/grade/total">누계 성적</a></td>
+				</tr>-->
 			</table>
 		</div>
 	</div>
@@ -52,23 +47,19 @@
 	<main>
 		<h1>학기별 성적 조회</h1>
 		<div class="split--div"></div>
-		<c:choose>
-			<%-- 수강연도 조회해서 검사 --%>
-			<c:when test="${gradeList.isEmpty() == false}">
-				<div class="sub--filter">
-					<%-- 타입 받아서 조회 --%>
+		<div class="sub--filter">
 					<form action="/grade/search" method="get">
 						<div>
 							<input type="hidden" name="studentId" value="${principal.id}">
 							<select name="subYear">
 								<c:forEach var="grade" items="${yearList}">
-									<option value="${grade.subYear}">${grade.subYear}년</option>
+									<option value="${grade.subYear}" ${selectedSubYear eq grade.subYear ? 'selected' : ''}>${grade.subYear}년</option>
 								</c:forEach>
 							</select> <select name="semester">
 								<option value="1" ${selectedSemester == 1 ? 'selected' : ''}>1학기</option>
 								<option value="2" ${selectedSemester == 2 ? 'selected' : ''}>2학기</option>
 							</select> <select name="type">
-								<option value="전체">전체</option>
+								<option value="">전체</option>
 								<option value="전공" ${selectedType eq '전공' ? 'selected' : ''}>전공</option>
 								<option value="교양" ${selectedType eq '교양' ? 'selected' : ''}>교양</option>
 							</select>
@@ -84,6 +75,8 @@
 						</div>
 					</form>
 				</div>
+		<c:choose>
+			<c:when test="${gradeList.isEmpty() == false}">
 				<table border="1" class="sub--list--table">
 					<thead>
 						<tr>
@@ -117,9 +110,6 @@
 				<p class="no--list--p">강의 신청 및 수강 이력 확인 바랍니다.</p>
 			</c:otherwise>
 		</c:choose>
-		<br> <br>
-
-
 	</main>
 </div>
 

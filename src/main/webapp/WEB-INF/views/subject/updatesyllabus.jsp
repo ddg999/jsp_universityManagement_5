@@ -54,7 +54,7 @@ textarea {
 	<section>
 		<h2>강의 계획서 수정</h2>
 		<br>
-		<form action="/professor/syllabus/update/${syllabus.subjectId}" method="post">
+		<form action="/subject/syllabus/update?subjectId=${syllabus.subjectId}" method="post">
 			<input type="hidden" name="_method" value="put" /> <label>강의 개요</label> <br>
 			<textarea rows="5" cols="50" name="overview">${syllabus.overview}</textarea>
 			<br> <label>수업 목표</label> <br>

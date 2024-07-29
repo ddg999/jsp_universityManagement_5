@@ -2,6 +2,7 @@ package com.university.controller;
 
 import java.io.IOException;
 
+import com.university.model.Evaluation;
 import com.university.repository.EvaluationRepositoryImpl;
 import com.university.repository.interfaces.EvaluationRepository;
 
@@ -42,13 +43,11 @@ public class EvaluationController extends HttpServlet {
 			throws ServletException, IOException {
 		String action = request.getPathInfo();
 		switch (action) {
-		// 내정보조회(학생)
-		case "/":
+		// 강의 평가 조회(학생)
+		case "/write":
 			System.out.println("조회 들어왔나?111111111111");
 			getEvaluation(request, response);
 			System.out.println("조회 들어왔나?222222222222");
-			request.getRequestDispatcher("/WEB-INF/views/evaluation/evaluation.jsp").forward(request, response);
-			System.out.println("조회 들어왔나?333333333333");
 			break;
 
 			
@@ -57,9 +56,31 @@ public class EvaluationController extends HttpServlet {
 		}
 	}
 
-	private void getEvaluation(HttpServletRequest request, HttpServletResponse response) {
-//		Evaluation evaluation = evaluationRepository./();
-//		request.setAttribute("write", evaluation);
+	private void getEvaluation(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		try {
+			int studentId = Integer.parseInt(request.getParameter("student_id"));
+			int subjectId = Integer.parseInt(request.getParameter("subject_id"));
+			int answer1 = Integer.parseInt(request.getParameter("answer1"));
+			int answer2 = Integer.parseInt(request.getParameter("answer2"));
+			int answer3 = Integer.parseInt(request.getParameter("answer3"));
+			int answer4 = Integer.parseInt(request.getParameter("answer4"));
+			int answer5 = Integer.parseInt(request.getParameter("answer5"));
+			int answer6 = Integer.parseInt(request.getParameter("answer6"));
+			int answer7 = Integer.parseInt(request.getParameter("answer7"));
+			String improvements = request.getParameter("improvements");
+			
+			Evaluation evaluation = Evaluation.builder().studentId(studentId).subjectId(subjectId).answer1(answer1)
+					.answer2(answer2).answer3(answer3).answer4(answer4).answer5(answer5).answer6(answer6).answer7(answer7)
+					.improvements(improvements).build();
+			evaluationRepository.insertEvaluation(evaluation);
+			request.setAttribute("message", "등록 완료");
+			request.getRequestDispatcher("/WEB-INF/views/evaluation/evaluation.jsp").forward(request, response);
+		} catch (Exception e) {
+			request.setAttribute("message", "입력된 정보가 잘못되었습니다.");
+			request.getRequestDispatcher("/WEB-INF/views/evaluation/evaluation.jsp").forward(request, response);
+		}
+		
 	}
 
 }

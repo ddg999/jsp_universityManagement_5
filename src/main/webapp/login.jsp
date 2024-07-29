@@ -36,7 +36,7 @@ input[type=number] {
 		if (cookies != null && cookies.length > 0)
 			for (int i = 0; i < cookies.length; i++) {
 				if (cookies[i].getName().equals("userId")) { 
-			cookie = cookies[i].getValue();
+					cookie = cookies[i].getValue();
 				}
 			}
 		%>
@@ -49,7 +49,7 @@ input[type=number] {
 							type="number" max="2147483647" name="id" id="userId"
 							placeholder="아이디를 입력하세요" required value="${cookie.userId.value}">
 						<div class="checkbox--id">
-							<input type="checkbox" name="rememberId" <%= cookie == null ? "" : "checked"%>>&nbsp;ID 저장
+							<input type="checkbox" name="rememberId" <%=cookie == null ? "" : "checked"%>>&nbsp;ID 저장
 						</div>
 					</div>
 				</div>

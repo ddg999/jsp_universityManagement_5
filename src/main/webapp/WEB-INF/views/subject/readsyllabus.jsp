@@ -168,7 +168,7 @@ a:hover {
 				<table>
 					<tr>
 						<td><a
-							href="/professor/syllabus/update/${syllabus.subjectId }">수정하기</a></td>
+							href="${pageContext.request.contextPath}/subject/syllabus/update?subjectId=${syllabus.subjectId}">수정하기</a></td>
 					</tr>
 				</table>
 			</c:when>
