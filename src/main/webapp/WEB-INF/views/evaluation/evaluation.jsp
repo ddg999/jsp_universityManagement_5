@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ include file="../layout/header.jsp"%>
 
 <style>
 li {
@@ -119,5 +120,4 @@ hr {
 			</div>
 		</form>
 	</main>
-</body>
-</html>
+<%@ include file="../layout/footer.jsp"%>
