@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.university.model.Evaluation;
 import com.university.model.Principal;
+import com.university.model.Subject;
 import com.university.repository.EvaluationRepositoryImpl;
 import com.university.repository.interfaces.EvaluationRepository;
 
@@ -42,10 +43,32 @@ public class EvaluationController extends HttpServlet {
 		case "/read":
 			showMyEvaluation(request, response, session);
 			break;
+		case "/search":
+			showMyEvaluationSearch(request, response, session);
+			break;
 		default:
 			break;
 		}
 
+	}
+
+	private void showMyEvaluationSearch(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("professor")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+
+		String subjectName = request.getParameter("subjectName");
+
+		List<Evaluation> evaluationList = evaluationRepository.getEvaluationByProfessorId(principal.getId(),
+				subjectName);
+		List<Subject> subjectList = evaluationRepository.getEvaluationSubjects(principal.getId());
+		request.setAttribute("evaluationList", evaluationList);
+		request.setAttribute("subjectList", subjectList);
+		request.getRequestDispatcher("/WEB-INF/views/evaluation/myevaluation.jsp").forward(request, response);
 	}
 
 	private void showMyEvaluation(HttpServletRequest request, HttpServletResponse response, HttpSession session)
@@ -56,9 +79,13 @@ public class EvaluationController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
 			return;
 		}
+		String subjectName = request.getParameter("subjectName");
 
-		List<Evaluation> evaluationList = evaluationRepository.getEvaluationByProfessorId(principal.getId());
+		List<Evaluation> evaluationList = evaluationRepository.getEvaluationByProfessorId(principal.getId(), subjectName);
+		List<Subject> subjectList = evaluationRepository.getEvaluationSubjects(principal.getId());
+		request.setAttribute("selectedSubjectName", subjectName);
 		request.setAttribute("evaluationList", evaluationList);
+		request.setAttribute("subjectList", subjectList);
 		request.getRequestDispatcher("/WEB-INF/views/evaluation/myevaluation.jsp").forward(request, response);
 	}
 

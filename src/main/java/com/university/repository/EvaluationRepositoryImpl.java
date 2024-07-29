@@ -7,15 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.university.model.Evaluation;
+import com.university.model.Subject;
 import com.university.repository.interfaces.EvaluationRepository;
 import com.university.util.DBUtil;
 
 public class EvaluationRepositoryImpl implements EvaluationRepository {
 
 	private static final String ADD_EVALUATION = " INSERT INTO evaluation_tb (student_id, subject_id, answer1, answer2, answer3, answer4, answer5, answer6, answer7, improvements) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
-	private static final String SELECT_EVALUATION_BY_PRO_ID = " SELECT * FROM evaluation_tb e JOIN subject_tb s ON e.subject_id = s.id WHERE professor_id = ? ";
+	private static final String SELECT_EVALUATION_BY_PRO_ID = " SELECT * FROM evaluation_tb e JOIN subject_tb s ON e.subject_id = s.id WHERE s.professor_id = ? AND s.name like CONCAT('%', COALESCE(NULLIF(?, ''), s.name), '%') ";
 	private static final String SELECT_EVALUATION_BY_ID = " SELECT * FROM evluation_tb WHERE subject_id = ? AND student_id = ? ";
-
+	private static final String SELECT_EVALUATION_SUBJECTS = " SELECT name FROM evaluation_tb e JOIN subject_tb s ON e.subject_id = s.id WHERE professor_id = ? GROUP BY name; ";
+	
 	@Override
 	public void insertEvaluation(Evaluation evaluation) {
 		try (Connection conn = DBUtil.getConnection()) {
@@ -43,11 +45,12 @@ public class EvaluationRepositoryImpl implements EvaluationRepository {
 	}
 
 	@Override
-	public List<Evaluation> getEvaluationByProfessorId(int professorId) {
+	public List<Evaluation> getEvaluationByProfessorId(int professorId, String subjectName) {
 		List<Evaluation> evaluationList = new ArrayList<>();
 		try (Connection conn = DBUtil.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(SELECT_EVALUATION_BY_PRO_ID)) {
 			pstmt.setInt(1, professorId);
+			pstmt.setString(2, subjectName);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				evaluationList.add(Evaluation.builder().subjectName(rs.getString("name")).answer1(rs.getInt("answer1"))
@@ -76,6 +79,22 @@ public class EvaluationRepositoryImpl implements EvaluationRepository {
 			e.printStackTrace();
 		}
 		return rowCount;
+	}
+
+	@Override
+	public List<Subject> getEvaluationSubjects(int professorId) {
+		List<Subject> subjectList = new ArrayList<>();
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_EVALUATION_SUBJECTS)) {
+			pstmt.setInt(1, professorId);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				subjectList.add(Subject.builder().name(rs.getString("name")).build());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return subjectList;
 	}
 
 }
