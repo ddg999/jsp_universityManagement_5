@@ -2,128 +2,149 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	background-color: #f7f6f6;
-	font-family: 'Noto Sans KR', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f7f6f6;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+body {
+    background-color: #f7f6f6;
 }
 
 .login--div {
-	height: 600px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .logo {
-	width: 400px;
-	height: 100px;
+    width: 400px;
+    height: 100px;
 }
 
 .main--container {
-	width: 400px;
-	padding-top: 15px;
+    width: 400px;
+    padding-top: 15px;
 }
 
 .material-symbols-outlined {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-color: #fff;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #002147; /* Oxford blue */
 }
 
 .login--container {
-	border: 1px solid #e8e6e6;
-	border-radius: 10px;
-	margin-top: 20px;
-	padding: 0 10px;
-	font-size: 15px;
-	background-color: #fff;
+    border: 1px solid #d1d3d4; /* Subtle gray */
+    border-radius: 10px;
+    margin-top: 20px;
+    padding: 0 10px;
+    font-size: 15px;
+    background-color: #ffffff;
 }
 
 .id--container {
-	border-bottom: 1px solid #e8e6e6;
-	background-color: #fff;
-	display: flex;
-	align-items: center;
+    border-bottom: 1px solid #d1d3d4; /* Subtle gray */
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
 }
 
 .pwd--container {
-	display: flex;
-	align-items: center;
-	background-color: #fff;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
 }
+
 label {
-	background-color: #fff;
-	margin: 0 0 0 3px;
-	padding-top: 3px;
+    background-color: #ffffff;
+    margin: 0 0 0 3px;
+    padding-top: 3px;
+    color: #002147; /* Oxford blue */
 }
+
 .login--id {
-	display: flex;
-	align-items: center;
-	height: 30px;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	background-color: #fff;
+    display: flex;
+    align-items: center;
+    height: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
 }
 
 .login--pwd {
-	display: flex;
-	align-items: center;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	background-color: #fff;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
 }
 
 .checkbox--id {
-	background-color: #fff;
-	font-size: 12px;
-	display: flex;
-	align-items: center;
+    background-color: #ffffff;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
 }
 
 #userId, #password {
-	border: hidden;
-	background-color: #fff;
-	margin-left: 5px;
-	padding: 1px 3px;
+    border: none;
+    background-color: #f7f9fc;
+    margin-left: 5px;
+    padding: 1px 3px;
 }
 
 #userId { 
-	margin-right: 70px;
+    margin-right: 70px;
 }
-
 
 #input--submit {
-	height: 50px; 
-	width: 400px;
-	border: 1px solid #e8e6e6;
-	margin-top: 40px;
-	background-color: #031734;
-	color: white;
+    height: 50px; 
+    width: 400px;
+    border: none;
+    margin-top: 40px;
+    background-color: #002147;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.login--info{
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	font-size: 20x;
-	margin-top: 20px;
+#input--submit:hover {
+    background-color: #921515;
+}
+
+.login--info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: 14px;
+    margin-top: 20px;
 }
 
 .login--info li {
-	margin-right: 20px;
-	list-style: none;
+    margin-right: 20px;
+    list-style: none;
 }
 
 .login--info li a {
-	text-decoration: none;
-	color: black;
+    text-decoration: none;
+    color: #002147; /* Oxford blue */
+    transition: color 0.3s ease;
 }
 
-.login--info li a :hover{
-	color: black;
+.login--info li a:hover {
+    color: #001a33; /* Darker Oxford blue */
+}
+
+pre {
+    text-align: left;
+    font-size: 14px;
+    color: #555;
+    margin-top: 20px;
 }

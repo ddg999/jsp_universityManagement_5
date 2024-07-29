@@ -156,7 +156,7 @@ public class SubjectController extends HttpServlet {
 		request.setAttribute("subjectList", subjectList);
 		request.setAttribute("pageCount", totalPage);
 		request.setAttribute("subjectCount", totalSubject);
-		request.setAttribute("i", page);
+		request.setAttribute("currentPage", page);
 
 		System.out.println(departmentList);
 		System.out.println(subjectList);

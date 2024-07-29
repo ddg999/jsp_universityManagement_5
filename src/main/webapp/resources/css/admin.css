@@ -1,24 +1,34 @@
- @charset "UTF-8";
+@charset "UTF-8";
 
 .split--div {
 	margin: 20px 0 20px;
 }
+
 .table--container {
 	width: 500px;
 	border: 1px solid #D2D1D1;
 	border-width: 1px 0px;
 	margin-top: 50px;
 }
+
+.btn .btn-dark .update--button:hover {
+	color: #fff;
+	background-color: #921515 !important;
+	border-color: #921515 !important;
+}
+
 .first--tr {
 	background-color: #f7f6f6;
 	height: 30px;
 	font-weight: bolder;
 }
+
 table tr, td {
 	border: 1px solid #D2D1D1;
 	border-width: 1px 0px;
 	padding: 5px 15px;
 }
+
 .button {
 	background-color: #023268;
 	border-radius: 5px;
@@ -27,7 +37,8 @@ table tr, td {
 	margin: 5px;
 	padding: 3px;
 }
-input[type="submit"]{
+
+input[type="submit"] {
 	background-color: #023268;
 	border-radius: 5px;
 	border: hidden;
@@ -36,10 +47,11 @@ input[type="submit"]{
 	margin: 5px;
 	padding: 3px;
 }
+
 .button:hover {
 	color: #fff;
-
 }
+
 .select--button {
 	margin-bottom: 30px;
 }
@@ -51,12 +63,15 @@ input[type="submit"]{
 	margin-right: 20px;
 	padding: 5px;
 }
+
 .form--container {
 	margin-top: 30px;
 }
+
 .delete {
 	font-weight: bold;
 }
+
 .button--container {
 	margin-left: 200px;
 }

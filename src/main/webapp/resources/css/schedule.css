@@ -50,7 +50,7 @@ header {
 .header--top {
 	min-width: 100em;
 	height: 40px; 
-	background-color: #031734;
+	background-color: #921515;
 	display: flex;
 	justify-content: right;
 }
@@ -96,8 +96,8 @@ header {
 }
 
 .main--menu ul li a:hover {
-	border-bottom: 4px solid #075AA4;
-	color: #075AA4;
+	border-bottom: 4px solid #921515;
+	color: #921515;
 }
 
 .sub--menu {
@@ -108,13 +108,13 @@ header {
 .sub--menu--top {
 	text-align: center;
 	padding: 25px 0;
-	border-bottom: 3px solid #33688F;
+	border-bottom: 3px solid #C05151;
 }
 
 .sub--menu--top h2 {
 	margin: 0;
 	font-weight: 600;
-	color: #133c63;
+	color: #C05151;
 }
 
 .sub--menu--mid {
@@ -168,7 +168,7 @@ main h1:first-of-type {
 
 .selected--menu,
 .sub--menu--table td a:hover {
-	color: #075AA4;
+	color: #921515;
 	font-weight: 600;
 }
 
@@ -181,10 +181,6 @@ main h1:first-of-type {
 .page--list {
 	display: flex;
 	justify-content: center;
-}
-
-.page--list li {
-	margin: 30px 20px;
 }
 
 .selected--page {
