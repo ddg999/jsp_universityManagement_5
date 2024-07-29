@@ -19,25 +19,25 @@
 					<td><a href="${pageContext.request.contextPath}/sugang/subject">강의 시간표 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/sugang/preRegist" class="selected--menu">예비 수강 신청</a></td>
+					<td><a href="${pageContext.request.contextPath}/sugang/preRegist" class="selected--menu">수강 신청</a></td>
 				</tr>
-				<tr>
+				<!--<tr>
 					<td><a href="${pageContext.request.contextPath}/sugang/regist">수강 신청</a></td>
 				</tr>
 				<tr>
 					<td><a href="${pageContext.request.contextPath}/sugang/registResult">수강 신청 내역</a></td>
-				</tr>
+				</tr>-->
 			</table>
 		</div>
 	</div>
 
 	<!-- 메인 div -->
 	<main>
-		<h1>예비 수강 신청 내역</h1>
+		<h1>수강 신청 내역</h1>
 		<div class="split--div"></div>
 		<div class="d-flex justify-content-between align-items-start">
 			<!-- 예비 수강 신청 내역으로 가기 -->
-			<a href="/sugang/preRegist"><button class="preStuSubList--button" style="margin-bottom: 30px; margin-top: 0;">예비 수강 신청 하기</button></a>
+			<a href="/sugang/preRegist"><button class="preStuSubList--button" style="margin-bottom: 30px; margin-top: 0;">수강 신청 하기</button></a>
 		</div>
 		<c:choose>
 			<c:when test="${subjectList.isEmpty() == false}">

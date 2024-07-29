@@ -17,24 +17,17 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tr>
-					<td><a
-						href="${pageContext.request.contextPath}/sugang/subject"
-						class="selected--menu">강의 시간표 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/sugang/subject" class="selected--menu">강의 시간표 조회</a></td>
 				</tr>
 				<tr>
-					<td><a
-						href="${pageContext.request.contextPath}/sugang/preRegist">예비
-							수강 신청</a></td>
+					<td><a href="${pageContext.request.contextPath}/sugang/preRegist">수강 신청</a></td>
+				</tr>
+				<!--<tr>
+					<td><a href="${pageContext.request.contextPath}/sugang/regist">수강 신청</a></td>
 				</tr>
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/sugang/regist">수강
-							신청</a></td>
-				</tr>
-				<tr>
-					<td><a
-						href="${pageContext.request.contextPath}/sugang/registResult">수강
-							신청 내역</a></td>
-				</tr>
+					<td><a href="${pageContext.request.contextPath}/sugang/registResult">수강 신청 내역</a></td>
+				</tr>-->
 			</table>
 		</div>
 	</div>
