@@ -53,7 +53,7 @@ hr {
 			<h1>강의 평가</h1>
 		</div>
 		<hr>
-		<form action="/evaluation/write/${subjectId}" method="post">
+		<form action="/evaluation/write?id=${subjectId}" method="post">
 			<ul class="radio--check">
 				<li>1.&nbsp;${dto.question1}</li>
 				<li>&nbsp;<input type="radio" name="answer1" value="5" id="a11"> <label for="a11"> 매우 그렇다</label></li>

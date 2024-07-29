@@ -645,14 +645,15 @@ public class UserController extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.setAttribute("principal", principal);
 				System.out.println(principal.toString());
-//				response.sendRedirect("/home");
+				response.sendRedirect("/home");
 				// List<Schedule> scheduleList = scheduleRepository.getAllSchedules();
 				//List<Notice> noticeList = noticeRepository.getAllNotices(5 , 1);
 				
 //				request.setAttribute("breakAppSize", 2);
 //				request.setAttribute("scheduleList", scheduleList);
 //				request.setAttribute("noticeList", noticeList);
-				request.getRequestDispatcher("/home.jsp").forward(request, response);
+				
+				//request.getRequestDispatcher("/home.jsp").forward(request, response);
 				// request.getRequestDispatcher("/login.jsp").forward(request, response);
 			}
 		} else {
