@@ -42,7 +42,6 @@ public class TuitionController extends HttpServlet {
 		// 등록금 내역 조회
 		case "/list":
 			viewTuitionInfo(request, response, session);
-			request.getRequestDispatcher("/WEB-INF/views/tuition/tuitionlist.jsp").forward(request, response);
 			break;
 		// 등록금 납부 고지서
 		case "/payment":
@@ -60,18 +59,22 @@ public class TuitionController extends HttpServlet {
 			break;
 		}
 	}
+
 	// 금액 포맷
 	public static String numberFormat(Integer number) {
-		
+
 		DecimalFormat df = new DecimalFormat("#,###");
 		return df.format(number);
 	}
-	
-	private void viewTuitionInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+
+	private void viewTuitionInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
 		Principal principal = (Principal) session.getAttribute("principal");
 		List<Tuition> tuitionList = tuitionRepository.selectByStudentIdAndStatus(principal.getId());
+		Tuition tuition = tuitionRepository.getTuitionBYId(principal.getId());
 		request.setAttribute("tuitionList", tuitionList);
-
+		request.setAttribute("tuition", tuition);
+		request.getRequestDispatcher("/WEB-INF/views/tuition/tuitionlist.jsp").forward(request, response);
 	}
 
 	private void getTuirionInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session)
@@ -123,18 +126,21 @@ public class TuitionController extends HttpServlet {
 		}
 	}
 
-	private void updateStatus(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+	private void updateStatus(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
 		Principal principal = (Principal) session.getAttribute("principal");
 		tuitionRepository.updateStatus(principal.getId());
-		request.getRequestDispatcher("/WEB-INF/views/tuition/tuitionpayment.jsp").forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/tuition/payment");
 	}
 
-	private void createTuition(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+	private void createTuition(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
 
 		// 1. 학생아이디, 학생 평균값 구하기
 		try {
 			List<AvgGrade> avgGradeList = tuitionRepository.getAvgGrade();
 			int rowCount = 0;
+			int count = 0;
 			for (AvgGrade avgGrade : avgGradeList) {
 				int id = avgGrade.getStudentId();
 				int sch;
@@ -144,18 +150,18 @@ public class TuitionController extends HttpServlet {
 					sch = 2;
 				}
 				tuitionRepository.createStuSch(id, sch);
-				
-				// 등록금 고지서 
+
+				// 등록금 고지서
 				Tuition tuition = tuitionRepository.getTuitionByIdAndSemester(id, 1);
 				// 등록금 고지서 생성 학생
 				rowCount = tuitionRepository.createTuition(tuition);
+				count += rowCount;
 			}
-			request.setAttribute("insertCount", rowCount);
+			request.setAttribute("insertCount", count);
 			request.getRequestDispatcher("/WEB-INF/views/tuition/createtuition.jsp").forward(request, response);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-	
 
 	}
 }

@@ -52,7 +52,7 @@
 		<h1>등록금 내역 조회</h1>
 		<div class="split--div"></div>
 		<c:choose>
-			<c:when test="${tuitionList.size() > 0}">
+			<c:when test="${tuition.status == 1}">
 				<table border="1" class="list--table">
 					<thead>
 						<tr>

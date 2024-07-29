@@ -17,12 +17,12 @@ public class TuitionRepositoryImpl implements TuitionRepository{
 
 	private static final String INSERT_TUITION = " INSERT INTO tuition_tb (student_id, tui_year, semester, tui_amount, sch_type, sch_amount) VALUES (?, ?, ?, ?, ?, ?) ";
 	private static final String SELECT_TUITION_BY_ID_SQL = " SELECT s.semester, c.name AS cname, d.name AS dname, s.id, s.name, ctt.amount, sst.sch_type, st.max_amount, (ctt.amount-st.max_amount) as payment FROM college_tb AS c JOIN department_tb AS d ON c.id = d.college_id JOIN student_tb AS s ON d.id = s.dept_id JOIN coll_tuit_tb AS ctt ON c.id = ctt.college_id join stu_sch_tb as sst on sst.student_id = s.id  join  scholarship_tb as st on st.type = sst.sch_type WHERE s.id = ?; ";
-	private static final String SELECT_TUITION_BY_ID_SEMESTER_SQL = " SELECT s.id, ct.amount, sst.sch_type, st.max_amount FROM student_tb AS s JOIN department_tb AS d ON s.dept_id = d.id JOIN college_tb AS c ON c.id = d.college_id JOIN coll_tuit_tb AS ct ON c.id = ct.college_id join stu_sch_tb as sst on sst.student_id = s.id join scholarship_tb as st on st.type = sst.sch_type WHERE s.id = ? AND s.semester = ?; ";
+	private static final String SELECT_TUITION_BY_ID_SEMESTER_SQL = " SELECT s.id, ct.amount, sst.sch_type, st.max_amount FROM student_tb AS s JOIN department_tb AS d ON s.dept_id = d.id JOIN college_tb AS c ON c.id = d.college_id JOIN coll_tuit_tb AS ct ON c.id = ct.college_id join stu_sch_tb as sst on sst.student_id = s.id join scholarship_tb as st on st.type = sst.sch_type WHERE s.id = ? AND s.semester = ? ";
 	
 	private static final String SELECT_TUITION_SQL_BY_ID = " select * from tuition_tb where student_id = ? ";
 	
 	// 학생아이디를 통해 학생 아이디, 평균 점수 구하는 쿼리	
-	private static final String SELECT_AVGGRADE_BY_ID = " select s.student_id, avg(grade_value) as avgGrade from stu_sub_tb as s join grade_tb as g on s.grade = g.grade ";
+	private static final String SELECT_AVGGRADE_BY_ID = " SELECT s.student_id, AVG(g.grade_value) AS avgGrade FROM stu_sub_tb AS s JOIN grade_tb AS g ON s.grade = g.grade GROUP BY s.student_id; ";
 	
 	// 장학금 유형별 인설트 쿼리
 	private static final String INSERT_STU_SCH = " insert into stu_sch_tb (student_id, sch_year, semester, sch_type) values (?,?,?,?) ";
@@ -172,7 +172,7 @@ public class TuitionRepositoryImpl implements TuitionRepository{
 							.tuiAmount(rs.getInt("amount"))
 							.schType(rs.getInt("sch_type"))
 							.schAmount(rs.getInt("max_amount"))
-							.status(rs.getInt("status"))							
+							.status(0)							
 							.build();
 				}
 			} catch (Exception e) {
