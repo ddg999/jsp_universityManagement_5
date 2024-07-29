@@ -1,9 +1,11 @@
 package com.university.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import com.university.model.Department;
+import com.university.model.Principal;
 import com.university.model.Subject;
 import com.university.model.SubjectList;
 import com.university.model.Syllabus;
@@ -49,16 +51,37 @@ public class SubjectController extends HttpServlet {
 		// 강의 검색
 		case "/list/search":
 			subjectSearch(request, response, session);
-			
 			break;
 		// 강의 계획서 조회
 		case "/syllabus":
 			showSyllabus(request, response);
 			break;
+			// 강의 계획서 수정
+		case "/syllabus/update":
+			showSyllabusUpdate(request, response);
+			
+//			showupdateSyllabus(request, response, session);
+			break;
 		case "/student":
 			break;
 		default:
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			break;
+		}
+	}
+
+
+	private void showSyllabusUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			int subjectId = Integer.parseInt(request.getParameter("subjectId"));
+			Syllabus syllabus = subjectRepository.getSyllabusById(subjectId);
+			request.setAttribute("syllabus", syllabus);
+			request.getRequestDispatcher("/WEB-INF/views/subject/updatesyllabus.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "잘못된 접근입니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
 		}
 	}
 
@@ -176,6 +199,50 @@ public class SubjectController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		HttpSession session = request.getSession(false);
+		if (session == null || session.getAttribute("principal") == null) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+		String action = request.getPathInfo();
+		switch (action) {
+		// 강의 계획서 수정
+		case "/syllabus/update":
+			updateSyllabus(request, response, session);
+			break;
+		default:
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			break;
+		}
+		
+	}
+
+	private void updateSyllabus(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+		Principal principal = (Principal) session.getAttribute("principal");
+		if (!principal.getUserRole().equals("professor")) {
+			request.setAttribute("errorMessage", "권한이 없습니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
+		
+		try {
+			String overview = request.getParameter("overview");
+			String objective = request.getParameter("objective");
+			String textbook = request.getParameter("textbook");
+			String program = request.getParameter("program");
+			int subjectId = Integer.parseInt(request.getParameter("subjectId"));
+			subjectRepository.updateSyllabus(overview, objective, textbook, program, subjectId);
+
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('수정되었습니다.'); window.close();</script>");
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 }
