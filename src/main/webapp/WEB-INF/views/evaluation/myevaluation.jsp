@@ -45,14 +45,14 @@
 		<div class="split--div"></div>
 
 		<c:choose>
-			<c:when test="${subjectName.isEmpty() == false}">
+			<c:when test="${evaluationList.isEmpty() == false}">
 				<div class="sub--filter">
 					<!-- 강의평가 과목 조회 -->
 					<form action="/evaluation/read" method="post">
 						<div>
 							<select name="subjectId">
-								<c:forEach var="dto" items="${subjectName}">
-									<option value="${dto.name}">${dto.name}</option>
+								<c:forEach var="evaluation" items="${evaluationList}">
+									<option value="${evaluation.subjectName}">${evaluation.subjectName}</option>
 								</c:forEach>
 							</select>
 							<!-- 검색 버튼 -->
@@ -73,11 +73,11 @@
 							<th>건의 사항</th>
 						</tr>
 					</thead>
-					<c:forEach var="eval" items="${eval}">
+					<c:forEach var="evaluation" items="${evaluationList}">
 						<tr>
-							<td>${eval.name}</td>
-							<td>${eval.answerSum()}</td>
-							<td>${eval.improvements}</td>
+							<td>${evaluation.subjectName}</td>
+							<td>${evaluation.answerSum()}</td>
+							<td>${evaluation.improvements}</td>
 						</tr>
 					</c:forEach>
 				</table>

@@ -15,11 +15,11 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/subject/list" >전체 강의 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/subject/list" class="selected--menu">전체 강의 조회</a></td>
 				</tr>
 				<c:if test="${principal.userRole.equals(\"professor\") }">
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/professor/subject" class="selected--menu">내 강의 조회</a></td>
+						<td><a href="${pageContext.request.contextPath}/professor/subject">내 강의 조회</a></td>
 					</tr>
 				</c:if>
 				<c:if test="${principal.userRole.equals(\"professor\") }">
@@ -33,13 +33,13 @@
 
 	<!-- 메인 div -->
 	<main>
-		<h1>내 강의 조회</h1>
+		<h1>전체 강의 조회</h1>
 		<div class="split--div"></div>
 		<!-- 여기에 내용 넣기 -->
 
 		<!-- 필터 및 검색 -->
 		<div class="sub--filter">
-			<form action="/professor/subject" method="get">
+			<form action="/subject/list/search" method="get">
 				<div>
 					<!-- 개설연도 숫자 -->
 					<label for="subYear">연도 </label> <input type="number" value="2023" name="subYear" id="subYear" min="2023" max="2024">
@@ -97,21 +97,21 @@
 					<tbody>
 						<c:forEach var="subject" items="${subjectList}">
 							<tr>
-								<td>${subject.year}-${subject.semester}학기</td>
-								<td>${subject.university}</td>
-								<td>${subject.department}</td>
-								<td>${subject.subjectNum}</td>
+								<td>${subject.subYear}-${subject.semester}학기</td>
+								<td>${subject.collName}</td>
+								<td>${subject.deptName}</td>
+								<td>${subject.id}</td>
 								<td>${subject.type}</td>
-								<td class="sub--list--name">${subject.subject}</td>
-								<td>${subject.teacher}</td>
-								<td>${subject.grade}</td>
-								<td>${subject.stu_Num}</td>
+								<td class="sub--list--name">${subject.name}</td>
+								<td>${subject.professorName}</td>
+								<td>${subject.grades}</td>
+								<td>${subject.numOfStudent}</td>
 								<td>${subject.capacity}</td>
 								<td>
 									<ul class="d-flex justify-content-center sub--plan--view" style="margin: 0;">
-										<li style="height: 24px;"><a href="${pageContext.request.contextPath}/subject/syllabus?subjectId=${subject.subjectNum}"
+										<li style="height: 24px;"><a href="${pageContext.request.contextPath}/subject/syllabus?subjectId=${subject.id}"
 											onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;">조회</a>
-										<li style="height: 24px;"><a href="${pageContext.request.contextPath}/subject/syllabus?subjectId=${subject.subjectNum}"
+										<li style="height: 24px;"><a href="${pageContext.request.contextPath}/subject/syllabus?subjectId=${subject.id}"
 											onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;"><span class="material-symbols-outlined">content_paste_search</span></a>
 									</ul>
 								</td>
@@ -123,8 +123,8 @@
 					<ul class="page--list">
 						<c:forEach var="i" begin="1" end="${pageCount}" step="1">
 							<c:choose>
-								<c:when test="${not empty year or not empty semester or not empty subjectNum or not empty subject}">
-									<li><a href="/subject/list/search?subYear=${year}&semester=${semester}&deptId=${subjectNum}&name=${subject}">${i}</a></li>
+								<c:when test="${not empty subYear or not empty semester or not empty deptId or not empty name}">
+									<li><a href="/subject/list/search?subYear=${subYear}&semester=${semester}&deptId=${deptId}&name=${name}">${i}</a></li>
 								</c:when>
 								<c:when test="${i == page}">
 									<li><a href="${pageContext.request.contextPath}/subject/list?page=${i}" style="font-weight: 700; color: #007bff">${i}</a>

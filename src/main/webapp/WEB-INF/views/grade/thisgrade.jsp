@@ -77,11 +77,11 @@
 									<td>${grade.grade}</td>
 									<td><c:choose>
 											<c:when test="${grade.evaluationId == 0}">
-												<a href="${pageContext.request.contextPath}/evaluation?subjectId=${grade.subjectId}"
+												<a href="${pageContext.request.contextPath}/evaluation/add?subjectId=${grade.subjectId}"
 													onclick="windowz.open(this.href, '_blank', 'width=720, height=1000'); return false;">Click</a>
 											</c:when>
 											<c:otherwise>
-												<span style="color: gray;">완료</span>
+												<span style="color: gray;">제출완료</span>
 											</c:otherwise>
 										</c:choose></td>
 								</tr>

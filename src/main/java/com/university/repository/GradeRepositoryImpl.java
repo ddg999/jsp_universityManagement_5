@@ -12,7 +12,7 @@ import com.university.util.DBUtil;
 
 public class GradeRepositoryImpl implements GradeRepository {
 
-	private static final String SELECT_GRADE_THIS_SEMESTER = " SELECT su.sub_year, su.semester, st.subject_id, su.name subject_name, pr.name professor_name, su.type,gr.grade, su.grades, RANK() OVER(ORDER BY gr.grade_value DESC) 'rank', ev.evaluation_id FROM stu_sub_tb AS st INNER JOIN subject_tb AS su ON st.subject_id = su.id INNER JOIN professor_tb AS pr ON su.professor_id = pr.id INNER JOIN grade_tb AS gr ON st.grade = gr.grade INNER JOIN student_tb AS stud on st.student_id = stud.id LEFT JOIN evaluation_tb AS ev ON st.subject_id = ev.subject_id WHERE st.student_id = ? AND su.semester = ? AND su.sub_year = ? ORDER BY st.subject_id ";
+	private static final String SELECT_GRADE_THIS_SEMESTER = " SELECT su.sub_year, su.semester, st.subject_id, su.name subject_name, pr.name professor_name, su.type, gr.grade, su.grades, ev.evaluation_id FROM stu_sub_tb st INNER JOIN subject_tb su ON st.subject_id = su.id INNER JOIN professor_tb pr ON su.professor_id = pr.id INNER JOIN grade_tb gr ON st.grade = gr.grade INNER JOIN student_tb stud on st.student_id = stud.id LEFT JOIN evaluation_tb ev ON st.subject_id = ev.subject_id AND st.student_id = ev.student_id WHERE st.student_id = ? AND su.semester = ? AND su.sub_year = ? ORDER BY st.subject_id ";
 	private static final String SELECT_GRADE_SEMESTER_SEARCH = " SELECT su.sub_year, su.semester, st.subject_id, su.name subject_name, pr.name professor_name, su.type,gr.grade, su.grades, RANK() OVER(ORDER BY gr.grade_value DESC) 'rank', ev.evaluation_id FROM stu_sub_tb AS st INNER JOIN subject_tb AS su ON st.subject_id = su.id INNER JOIN professor_tb AS pr ON su.professor_id = pr.id INNER JOIN grade_tb AS gr ON st.grade = gr.grade INNER JOIN student_tb AS stud on st.student_id = stud.id LEFT JOIN evaluation_tb AS ev ON st.subject_id = ev.subject_id WHERE st.student_id = ? AND su.sub_year = ? AND su.semester = ? AND su.type like CONCAT('%', COALESCE(NULLIF(?, ''), su.type), '%') ORDER BY st.subject_id ";
 	private static final String SELECT_GRADE_YEAR = " SELECT s.sub_year FROM stu_sub_tb ss JOIN subject_tb s ON s.id = ss.subject_id WHERE ss.student_id = ? GROUP BY sub_year ";
 	private static final String COUNT_ALL_GRADE = " SELECT count(*) count FROM stu_sub_tb st INNER JOIN subject_tb su ON st.subject_id = su.id INNER JOIN student_tb stud on st.student_id = stud.id WHERE st.student_id = ? AND su.sub_year = ? AND su.semester = ? AND su.type = ? ";
@@ -30,8 +30,7 @@ public class GradeRepositoryImpl implements GradeRepository {
 				gradeList.add(GradeSemester.builder().subYear(rs.getInt("sub_year")).semester(rs.getInt("semester"))
 						.subjectId(rs.getInt("subject_id")).subjectName(rs.getString("subject_name"))
 						.professorName(rs.getString("professor_name")).type(rs.getString("type"))
-						.grade(rs.getString("grade")).grades(rs.getInt("grades")).rank(rs.getInt("rank"))
-						.evaluationId(rs.getInt("evaluation_id")).build());
+						.grade(rs.getString("grade")).grades(rs.getInt("grades")).evaluationId(rs.getInt("evaluation_id")).build());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -84,8 +83,7 @@ public class GradeRepositoryImpl implements GradeRepository {
 				gradeList.add(GradeSemester.builder().subYear(rs.getInt("sub_year")).semester(rs.getInt("semester"))
 						.subjectId(rs.getInt("subject_id")).subjectName(rs.getString("subject_name"))
 						.professorName(rs.getString("professor_name")).type(rs.getString("type"))
-						.grade(rs.getString("grade")).grades(rs.getInt("grades")).rank(rs.getInt("rank"))
-						.evaluationId(rs.getInt("evaluation_id")).build());
+						.grade(rs.getString("grade")).grades(rs.getInt("grades")).evaluationId(rs.getInt("evaluation_id")).build());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

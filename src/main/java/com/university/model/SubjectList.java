@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @Data
@@ -13,7 +14,8 @@ import lombok.ToString;
 @ToString
 public class SubjectList {
 
-	private String year;
+	private int year;
+	private int semester;
 	private String university;
 	private String department;
 	private int subjectNum;

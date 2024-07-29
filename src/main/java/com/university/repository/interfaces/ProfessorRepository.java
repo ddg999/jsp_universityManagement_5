@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.university.model.Professor;
 import com.university.model.Subject;
+import com.university.model.SubjectList;
 import com.university.model.Syllabus;
 
 public interface ProfessorRepository {
@@ -17,5 +18,16 @@ public interface ProfessorRepository {
 	// TODO 강의 계획서 수정
 	Syllabus getsyllabus(Subject subject); // 임시코드
 
+
+	// TODO 내 강의 학기별 조회 (교수)
+	List<SubjectList> getProfessorSubjectbyYear(String professorName, int subYear);
+
+	List<SubjectList> getProfessorSubjectbyYearandSemester(String professorName, int subYear, int semester);
 	
+	List<SubjectList> getProfessorSubject(String professorName, int limit, int offset);
+
+
+	List<SubjectList> getProfessorSubjectAll();
+	
+	int getTotalProfessorSubject(int id);
 }

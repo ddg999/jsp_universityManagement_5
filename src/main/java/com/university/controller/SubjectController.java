@@ -10,8 +10,10 @@ import com.university.model.Subject;
 import com.university.model.SubjectList;
 import com.university.model.Syllabus;
 import com.university.repository.AdminRepositoryImpl;
+import com.university.repository.ProfessorRepositoryImpl;
 import com.university.repository.SubjectRepositoryImpl;
 import com.university.repository.interfaces.AdminRepository;
+import com.university.repository.interfaces.ProfessorRepository;
 import com.university.repository.interfaces.SubjectRepository;
 
 import jakarta.servlet.ServletException;
@@ -25,11 +27,13 @@ import jakarta.servlet.http.HttpSession;
 public class SubjectController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private SubjectRepository subjectRepository;
+	private ProfessorRepository professorRepository;
 	private AdminRepository adminRepository;
 
 	@Override
 	public void init() throws ServletException {
 		subjectRepository = new SubjectRepositoryImpl();
+		professorRepository = new ProfessorRepositoryImpl();
 		adminRepository = new AdminRepositoryImpl();
 	}
 
@@ -44,8 +48,8 @@ public class SubjectController extends HttpServlet {
 		switch (action) {
 		// 전체 강의 조회 페이지
 		case "/list":
+//			showListProfessor(request, response);
 			showAllSubjectList(request, response, session);
-			request.getRequestDispatcher("/WEB-INF/views/subject/allSubList.jsp").forward(request, response);
 //			showListProfessor(request, response);
 			break;
 		// 강의 검색
@@ -56,22 +60,23 @@ public class SubjectController extends HttpServlet {
 		case "/syllabus":
 			showSyllabus(request, response);
 			break;
-			// 강의 계획서 수정
+		// 강의 계획서 수정
 		case "/syllabus/update":
 			showSyllabusUpdate(request, response);
-			
+
 //			showupdateSyllabus(request, response, session);
 			break;
 		case "/student":
 			break;
+
 		default:
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			break;
 		}
 	}
 
-
-	private void showSyllabusUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void showSyllabusUpdate(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 			int subjectId = Integer.parseInt(request.getParameter("subjectId"));
 			Syllabus syllabus = subjectRepository.getSyllabusById(subjectId);
@@ -85,8 +90,9 @@ public class SubjectController extends HttpServlet {
 		}
 	}
 
-	private void subjectSearch(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
-		
+	private void subjectSearch(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException {
+
 		try {
 			int year = Integer.parseInt(request.getParameter("subYear"));
 			String name = request.getParameter("name");
@@ -104,7 +110,7 @@ public class SubjectController extends HttpServlet {
 				page = 1;
 				e.printStackTrace();
 			}
-			
+
 			int offset = (page - 1) * pageSize; // 시작 위치 계산 (offset 값 계산)
 			try {
 				List<Subject> subjectList = subjectRepository.getSubjectBySearch(year, semester, name, deptId, pageSize,
@@ -160,7 +166,8 @@ public class SubjectController extends HttpServlet {
 
 		System.out.println(departmentList);
 		System.out.println(subjectList);
-		
+		request.getRequestDispatcher("/WEB-INF/views/subject/allSubList2.jsp").forward(request, response);
+
 	}
 
 	private void showSyllabus(HttpServletRequest request, HttpServletResponse response)
@@ -178,28 +185,10 @@ public class SubjectController extends HttpServlet {
 		}
 	}
 
-	private void showListProfessor(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		int page = 1;
-		int pageSize = 20;
-
-		try {
-			String pageStr = request.getParameter("page");
-			if (pageStr != null) {
-				page = Integer.parseInt(pageStr);
-			}
-		} catch (Exception e) {
-			page = 1;
-		}
-		int offset = (page - 1) * pageSize;
-		List<SubjectList> subjectList = subjectRepository.getProfessorSubjectAll(pageSize, offset);
-		request.setAttribute("subjectList", subjectList);
-		request.getRequestDispatcher("/WEB-INF/views/professor/professorsublist.jsp");
-	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		HttpSession session = request.getSession(false);
 		if (session == null || session.getAttribute("principal") == null) {
 			response.sendRedirect(request.getContextPath() + "/login.jsp");
@@ -215,17 +204,18 @@ public class SubjectController extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			break;
 		}
-		
+
 	}
 
-	private void updateSyllabus(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+	private void updateSyllabus(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
 		Principal principal = (Principal) session.getAttribute("principal");
 		if (!principal.getUserRole().equals("professor")) {
 			request.setAttribute("errorMessage", "권한이 없습니다");
 			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
 			return;
 		}
-		
+
 		try {
 			String overview = request.getParameter("overview");
 			String objective = request.getParameter("objective");
@@ -241,8 +231,7 @@ public class SubjectController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
 }
