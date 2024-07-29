@@ -45,8 +45,8 @@
 			<form action="/professor/subject" method="post">
 				<div>
 					<select name="period">
-						<c:forEach items="${semesterList}" var="yearSemester">
-							<option value="${yearSemester.subYear}year${yearSemester.semester}">${yearSemester.subYear}년도&nbsp;${yearSemester.semester}학기</option>
+						<c:forEach items="${subjectList}" var="subjectList">
+							<option value="${subjectList.year}year${subjectList.semester}">${subjectList.year}년도&nbsp;${subjectList.semester}학기</option>
 						</c:forEach>
 					</select>
 					<!-- 검색 버튼 -->
@@ -72,7 +72,7 @@
 					<th>학생 목록</th>
 				</tr>
 			</thead>
-			<c:forEach items="${subjectList}" var="subject">
+			<c:forEach items="${subjectList}" var="subjectList">
 				<tbody>
 					<tr>
 						<td>${subject.id}</td>

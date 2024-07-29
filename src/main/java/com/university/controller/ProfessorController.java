@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import com.university.model.SubjectList;
-import com.university.repository.interfaces.SubjectRepository;
+import com.university.repository.ProfessorRepositoryImpl;
+import com.university.repository.interfaces.ProfessorRepository;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,10 +17,11 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/professor/*")
 public class ProfessorController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private SubjectRepository subjectRepository;
-	
-	public ProfessorController() {
-		super();
+	private ProfessorRepository professorRepository;
+
+	@Override
+	public void init() throws ServletException {
+		professorRepository = new ProfessorRepositoryImpl();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -41,19 +43,9 @@ public class ProfessorController extends HttpServlet {
 	}
 	
 	private void showListProfessor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int page = 1;
-		int pageSize = 20;
+
+		List<SubjectList> subjectList = professorRepository.getProfessorSubjectbyYearandSemester(10001, 2023, 1);
 		
-		try {
-			String pageStr = request.getParameter("page");
-			if(pageStr != null) {
-				page = Integer.parseInt(pageStr);
-			}
-		} catch (Exception e) {
-			page = 1;
-		}
-		int offset = (page -1) * pageSize;
-		List<SubjectList> subjectList = subjectRepository.getProfessorSubjectAll(pageSize, offset);
 		request.setAttribute("subjectList", subjectList);
 		request.getRequestDispatcher("/WEB-INF/views/professor/professorsublist.jsp");
 	}

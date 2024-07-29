@@ -4,7 +4,8 @@
 <link rel="stylesheet" href="../../resources/css/subject.css">
 
 <!-- 세부 메뉴 + 메인 -->
-<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+<div class="d-flex justify-content-center align-items-start"
+	style="min-width: 100em;">
 	<!-- 세부 메뉴 div-->
 	<div class="sub--menu">
 		<div class="sub--menu--top">
@@ -15,16 +16,23 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/sugang/subjectList" class="selected--menu">강의 시간표 조회</a></td>
+					<td><a
+						href="${pageContext.request.contextPath}/sugang/subject"
+						class="selected--menu">강의 시간표 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/sugang/preRegist">예비 수강 신청</a></td>
+					<td><a
+						href="${pageContext.request.contextPath}/sugang/preRegist">예비
+							수강 신청</a></td>
 				</tr>
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/sugang/regist">수강 신청</a></td>
+					<td><a href="${pageContext.request.contextPath}/sugang/regist">수강
+							신청</a></td>
 				</tr>
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/sugang/registResult">수강 신청 내역 조회</a></td>
+					<td><a
+						href="${pageContext.request.contextPath}/sugang/registResult">수강
+							신청 내역</a></td>
 				</tr>
 			</table>
 		</div>
@@ -36,33 +44,34 @@
 		<div class="split--div"></div>
 		<!-- 필터 및 검색 -->
 		<div class="sub--filter">
-			<form action="/sugang/subjectList/search" method="get">
+			<form action="/sugang/subject/search" method="get">
 				<div>
 					<!-- 강의구분 콤보박스 -->
 					<label for="type">강의구분</label> <select name="type" id="type">
-						<option value="전체">전체</option>
-						<option value="전공">전공</option>
-						<option value="교양">교양</option>
+						<option value="">전체</option>
+						<option value="전공" ${selectedType eq '전공' ? 'selected' : ''}>전공</option>
+						<option value="교양" ${selectedType eq '교양' ? 'selected' : ''}>교양</option>
 					</select>
 					<!-- 대상학과 콤보박스 -->
-					<label for="deptId">개설학과</label> <select name="deptId" id="deptId">
-						<option value="-1">전체</option>
+					<label for="deptName">개설학과</label> <select name="deptName"
+						id="deptName">
+						<option value="">전체</option>
 						<c:forEach var="dept" items="${deptList}">
-							<option value="${dept.id}">${dept.name}</option>
+							<option value="${dept.name}"
+								${selectedDeptName eq dept.name ? 'selected' : ''}>${dept.name}</option>
 						</c:forEach>
 					</select>
 					<!-- 강의 검색 -->
-					<label for="subName">강의명</label> <input type="text" name="name" list="subName">
-					<datalist id="subName">
-						<c:forEach var="subName" items="${subNameList}">
-							<option value="${subName}">
-						</c:forEach>
-					</datalist>
+					<label for="subName">강의명</label> <input type="text" name="name"
+						list="subName"
+						value="${not empty selectedName ? selectedName : ''}">
 					<!-- 검색 버튼 -->
 					<button type="submit">
 						<ul class="d-flex justify-content-center" style="margin: 0;">
 							<li style="height: 24px; margin-right: 2px;">조회
-							<li style="height: 24px;"><span class="material-symbols-outlined" style="font-size: 18px; padding-top: 4px;">search</span>
+							<li style="height: 24px;"><span
+								class="material-symbols-outlined"
+								style="font-size: 18px; padding-top: 4px;">search</span>
 						</ul>
 					</button>
 				</div>
@@ -71,7 +80,8 @@
 		<c:choose>
 			<c:when test="${subjectList.isEmpty() == false}">
 				<h4>
-					<span style="font-weight: 600;">강의 목록</span>&nbsp; <span style="color: gray; font-size: 18px;">[총 ${subjectCount}건]</span>
+					<span style="font-weight: 600;">강의 목록</span>&nbsp; <span
+						style="color: gray; font-size: 18px;">[총 ${subjectCount}건]</span>
 				</h4>
 				<table border="1" class="sub--list--table">
 					<thead>
@@ -111,9 +121,14 @@
 								<td>${subject.numOfStudent}</td>
 								<td>${subject.capacity}</td>
 								<td>
-									<ul class="d-flex justify-content-center sub--plan--view" style="margin: 0;">
-										<li style="height: 24px;"><a href="/subject/syllabus/${subject.id}" onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;">조회</a>
-										<li style="height: 24px;"><a href="/subject/syllabus/${subject.id}" onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;"><span
+									<ul class="d-flex justify-content-center sub--plan--view"
+										style="margin: 0;">
+										<li style="height: 24px;"><a
+											href="/subject/syllabus?subjectId=${subject.id}"
+											onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;">조회</a>
+										<li style="height: 24px;"><a
+											href="/subject/syllabus?subjectId=${subject.id}"
+											onclick="window.open(this.href, '_blank', 'width=1000, height=1000'); return false;"><span
 												class="material-symbols-outlined">content_paste_search</span></a>
 									</ul>
 								</td>
@@ -121,20 +136,36 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				<c:if test="${pageCount != null}">
-					<ul class="page--list">
-						<c:forEach var="i" begin="1" end="${pageCount}" step="1">
-							<c:choose>
-								<c:when test="${i == page}">
-									<li><a href="/sugang/subjectList/${i}" style="font-weight: 700; color: #007bff">${i}</a>
-								</c:when>
-								<c:otherwise>
-									<li><a href="/sugang/subjectList/${i}">${i}</a>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</ul>
-				</c:if>
+				<div class="pagination">
+					<c:forEach begin="1" end="${totalPages}" var="i">
+						<c:choose>
+							<c:when test="${i == currentPage}">
+								<span class="current-page">${i}</span>
+							</c:when>
+							<c:otherwise>
+								<c:choose>
+									<c:when test="${not empty keyword}">
+										<c:if test="${type eq 'title'}">
+											<a
+												href="${pageContext.request.contextPath}/sugang/search?type=title&keyword=${keyword}&page=${i}">${i}</a>
+										</c:if>
+										<c:if test="${type eq 'keyword'}">
+											<a
+												href="${pageContext.request.contextPath}/sugang/search?type=keyword&keyword=${keyword}&page=${i}">${i}</a>
+										</c:if>
+									</c:when>
+									<c:otherwise>
+										<a
+											href="${pageContext.request.contextPath}/sugang/subject?page=${i}">${i}
+										</a>
+									</c:otherwise>
+								</c:choose>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+
+				</div>
+
 			</c:when>
 			<c:otherwise>
 				<p class="no--list--p">검색 결과가 없습니다.</p>

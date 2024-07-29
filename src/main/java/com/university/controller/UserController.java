@@ -12,8 +12,10 @@ import com.university.model.Professor;
 import com.university.model.Staff;
 import com.university.model.Student;
 import com.university.model.User;
+import com.university.repository.ProfessorRepositoryImpl;
 import com.university.repository.StudentRepositoryImpl;
 import com.university.repository.UserRepositoryImpl;
+import com.university.repository.interfaces.ProfessorRepository;
 import com.university.repository.interfaces.StudentRepository;
 import com.university.repository.interfaces.UserRepository;
 
@@ -30,11 +32,13 @@ public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserRepository userRepository;
 	private StudentRepository studentRepository;
+	private ProfessorRepository professorRepository;
 
 	@Override
 	public void init() throws ServletException {
 		userRepository = new UserRepositoryImpl();
 		studentRepository = new StudentRepositoryImpl();
+		professorRepository = new ProfessorRepositoryImpl();
 	}
 
 	public UserController() {
@@ -52,6 +56,7 @@ public class UserController extends HttpServlet {
 //		}
 		
 		String action = request.getPathInfo();
+		System.out.println(action);
 		switch (action) {
 		case "/findId":
 			request.getRequestDispatcher("/WEB-INF/views/find/findid.jsp").forward(request, response);
@@ -74,9 +79,11 @@ public class UserController extends HttpServlet {
 		case "/studentList/search":
 			studentSearch(request, response);
 			break;
-			
 		case "/professor":
 			request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
+			break;
+		case "/professorList/search":
+			professorSearch(request, response);
 			break;
 
 		case "/staff":
@@ -127,7 +134,52 @@ public class UserController extends HttpServlet {
 	}
 	
 	/**
-	 * 학생 학과 번호 조회
+	 * 교수 이름 검색 조회
+	 * @param request
+	 * @param response
+	 * @throws IOException 
+	 * @throws ServletException 
+	 */
+	private void professorSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("됨요?????");
+		List<Professor> professorList = null;
+		//int totalStudent = 0;
+		String professorName = null;
+
+		int page = 1; // 기본 페이지 번호
+		int pageSize = 20; // 한 페이지당 보여질 게시글 수
+		try {
+			String pageStr = request.getParameter("page");
+			if (pageStr != null) {
+				page = Integer.parseInt(pageStr);
+			}
+		} catch (Exception e) {
+			page = 1;
+		}
+		int offset = (page - 1) * pageSize; // 시작 위치 계산( offset 값 계산)
+
+		try {
+			professorName = request.getParameter("professorName");
+		
+			professorList = professorRepository.getProfessorName(professorName, pageSize, offset);
+			int totalProfessor = professorRepository.getTotalgetProfessorNameCount(professorName);
+			System.out.println("totalStudent1 : " + totalProfessor);
+			int totalPages = (int) Math.ceil((double) totalProfessor / pageSize);
+			
+			request.setAttribute("keyword", professorName);
+			request.setAttribute("professorList", professorList);
+			request.setAttribute("listCount", totalPages);
+			request.setAttribute("totalStudent", totalProfessor);
+			request.setAttribute("index", page);
+			
+			request.getRequestDispatcher("/WEB-INF/views/user/professorlist.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 학생 이름 검색 조회
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -136,7 +188,7 @@ public class UserController extends HttpServlet {
 	private void studentSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		List<Student> studentList = null;
-		int totalStudent = 0;
+		//int totalStudent = 0;
 		String studentName = null;
 
 		int page = 1; // 기본 페이지 번호
@@ -153,28 +205,18 @@ public class UserController extends HttpServlet {
 
 		try {
 			studentName = request.getParameter("studentName");
-			System.out.println(studentName);
-//			if (type.equals("dept")) {
-//				studentList = studentRepository.getStudentId(keyword, pageSize, offset);
-//				totalStudent = studentRepository.getTotalStudentCountByTitle(keyword);
-//			} else if (type.equals("keyword")) {
-//				studentList = studentRepository.getStudentIdDeptId(keyword, pageSize, offset);
-//				totalStudent = studentRepository.getTotalStudentCountByTitleOrContent(keyword);
-//			}
-			
+
 			studentList = studentRepository.getStudentId(studentName, pageSize, offset);
+			int totalStudent1 = studentRepository.getTotalStudentNameCount(studentName);
+			System.out.println("totalStudent1 : " + totalStudent1);
+			int totalPages = (int) Math.ceil((double) totalStudent1 / pageSize);
 			
-			int totalPages = (int) Math.ceil((double) totalStudent / pageSize);
-//			request.setAttribute("type", studentName);
-//			request.setAttribute("keyword", studentName);
-//			request.setAttribute("totalPages", totalPages);
-//			request.setAttribute("currentPage", page);
-//			request.setAttribute("noticeList", studentList);
-			
+			request.setAttribute("keyword", studentName);
 			request.setAttribute("studentList", studentList);
 			request.setAttribute("listCount", totalPages);
+			request.setAttribute("totalStudent", totalStudent1);
 			request.setAttribute("index", page);
-			System.out.println("studentList : " + studentList);
+			
 			request.getRequestDispatcher("/WEB-INF/views/user/studentlist.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -205,12 +247,12 @@ public class UserController extends HttpServlet {
 		}
 		
 		int offset = (page -1) * pageSize;
-		List<Professor> professor = userRepository.getAllProfessor(pageSize, offset);
+		List<Professor> professorList = userRepository.getAllProfessor(pageSize, offset);
 		
 		int totalBoards = userRepository.getTotalProfessorCount();
 		int totalPage = (int)Math.ceil((double)totalBoards / pageSize);
 
-		request.setAttribute("professorList", professor);
+		request.setAttribute("professorList", professorList);
 		request.setAttribute("listCount", totalPage);
 		request.setAttribute("index", page);
 		

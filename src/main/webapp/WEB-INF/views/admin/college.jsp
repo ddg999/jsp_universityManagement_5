@@ -26,13 +26,13 @@
 						<td><a href="${pageContext.request.contextPath}/admin/department?crud=select">학과</a></td>
 					</tr>
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/admin/room">강의실</a></td>
+						<td><a href="${pageContext.request.contextPath}/admin/room?crud=select">강의실</a></td>
 					</tr>
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/admin/subject">강의</a></td>
+						<td><a href="${pageContext.request.contextPath}/admin/subject?crud=select">강의</a></td>
 					</tr>
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/admin/tuition">단대별 등록금</a></td>
+						<td><a href="${pageContext.request.contextPath}/admin/tuition?crud=select">단대별 등록금</a></td>
 					</tr>
 				</tbody>
 			</table>

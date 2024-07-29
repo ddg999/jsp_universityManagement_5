@@ -17,7 +17,7 @@ public interface AdminRepository {
 
 	void updateCollege(College college, int collegeId);
 
-	void deleteCollege(String collegeName);
+	void deleteCollege(int collegeId);
 
 	// 학과 CRUD
 	void addDepartment(Department department);

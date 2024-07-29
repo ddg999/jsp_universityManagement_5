@@ -15,7 +15,7 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/sugang/subjectList">강의 시간표 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/sugang/subject">강의 시간표 조회</a></td>
 				</tr>
 				<tr>
 					<td><a href="${pageContext.request.contextPath}/sugang/preRegist">예비 수강 신청</a></td>
@@ -24,7 +24,7 @@
 					<td><a href="${pageContext.request.contextPath}/sugang/regist" class="selected--menu">수강 신청</a></td>
 				</tr>
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/sugang/registResult">수강 신청 내역 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/sugang/registResult">수강 신청 내역</a></td>
 				</tr>
 			</table>
 		</div>
@@ -35,7 +35,7 @@
 		<h1>수강 신청</h1>
 		<div class="split--div"></div>
 
-		<div class="d-flex justify-content-between align-items-start" style="margin-bottom: 50px;">
+		<div class="d-flex justify-content-between align-items-start">
 			<!-- 필터 및 검색 -->
 			<div class="sub--filter">
 				<form action="/sugang/application/search" method="get">

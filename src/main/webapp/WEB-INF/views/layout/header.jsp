@@ -1,7 +1,5 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,8 +10,6 @@
 <link rel="stylesheet" href="../../resources/css/notice.css">
 <link rel="stylesheet" href="../../resources/css/schedule.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-<style>
-</style>
 </head>
 <body>
 	<header class="d-flex flex-column">
@@ -36,7 +32,7 @@
 						<li><a href="${pageContext.request.contextPath}/home.jsp">홈</a>
 						<li><a href="${pageContext.request.contextPath}/info/student">MY</a>
 						<li><a href="${pageContext.request.contextPath}/subject/list">수업</a>
-						<li><a href="${pageContext.request.contextPath}/sugang/subjectList">수강신청</a>
+						<li><a href="${pageContext.request.contextPath}/sugang/subject">수강신청</a>
 						<li><a href="${pageContext.request.contextPath}/grade/thisSemester">성적</a>
 						<li><a href="${pageContext.request.contextPath}/notice/list">학사정보</a>
 					</ul>
@@ -46,7 +42,7 @@
 					<ul>
 						<li><a href="${pageContext.request.contextPath}/home.jsp">홈</a>
 						<li><a href="${pageContext.request.contextPath}/info/professor">MY</a>
-						<li><a href="${pageContext.request.contextPath}/subject/list/1">수업</a>
+						<li><a href="${pageContext.request.contextPath}/subject/list">수업</a>
 						<li><a href="${pageContext.request.contextPath}/notice/list">학사정보</a>
 					</ul>
 				</c:when>
