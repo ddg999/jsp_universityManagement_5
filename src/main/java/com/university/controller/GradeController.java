@@ -5,7 +5,9 @@ import java.util.List;
 
 import com.university.model.GradeSemester;
 import com.university.model.Principal;
+import com.university.repository.EvaluationRepositoryImpl;
 import com.university.repository.GradeRepositoryImpl;
+import com.university.repository.interfaces.EvaluationRepository;
 import com.university.repository.interfaces.GradeRepository;
 
 import jakarta.servlet.ServletException;
@@ -19,10 +21,12 @@ import jakarta.servlet.http.HttpSession;
 public class GradeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private GradeRepository gradeRepository;
+	private EvaluationRepository evaluationRepository;
 
 	@Override
 	public void init() throws ServletException {
 		gradeRepository = new GradeRepositoryImpl();
+		evaluationRepository = new EvaluationRepositoryImpl();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -63,7 +67,7 @@ public class GradeController extends HttpServlet {
 			return;
 		}
 		List<GradeSemester> gradeList = gradeRepository.getGradeThisSemester(principal.getId(), 1, 2023);
-
+		
 		request.setAttribute("gradeList", gradeList);
 		request.getRequestDispatcher("/WEB-INF/views/grade/thisgrade.jsp").forward(request, response);
 	}

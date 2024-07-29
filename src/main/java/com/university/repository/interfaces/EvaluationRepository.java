@@ -8,11 +8,11 @@ public interface EvaluationRepository {
 
 	// 학생 강의 평가 제출
 	void insertEvaluation(Evaluation evaluation);
+
+	// 학생 강의 평가 여부
+	int isEvaluation(int subjectId, int studentId);
 	
-	// 학생 강의평가 여부 조회
-	Evaluation selectEvaluation(int subjectId);
-	
-	// 교수 강의 평가 조회
-	List<Evaluation> selectMyEvaluationByProfessorId(int professorId);
+	// 교수 강의평가 조회
+	List<Evaluation> getEvaluationByProfessorId(int professorId);
 	
 }
