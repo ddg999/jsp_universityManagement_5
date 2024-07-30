@@ -198,3 +198,56 @@ footer {
 	text-align: center;
 	border-top: 1px solid #ddd;
 }
+#imgslide {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 548px;
+  margin-bottom: 50px;
+}
+
+.main--page--img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+
+  animation: slider 7.5s infinite linear;
+}
+
+.main--page--img1 {
+  background-image: url(/resources/images/imgslide1.jpg);
+  animation-delay: 0;
+}
+.main--page--img2 {
+  background-image: url(/resources/images/imgslide2.jpg);
+  animation-delay: -2.5s;
+}
+.main--page--img3 {
+  background-image: url(/resources/images/imgslide3.jpg);
+  animation-delay: -5s;
+}
+
+@keyframes slider {
+  0% {
+    transform: translateX(0);
+  }
+
+  26% {
+    transform: translateX(0);
+  }
+  33% {
+    transform: translateX(-100%);
+    animation-timing-function: step-end;
+  }
+  93% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}

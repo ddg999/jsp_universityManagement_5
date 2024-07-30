@@ -278,6 +278,7 @@ main h1:first-of-type {
 	text-align: center;
 	margin-top: 20px;
 	margin-bottom: 40px;
+	justify-content: center !important;
 }
 
 .pagination a {
@@ -311,6 +312,3 @@ main h1:first-of-type {
 	margin: 20px 0 50px;
 }
 
-.notice--write {
-	
-}

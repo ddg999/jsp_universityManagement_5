@@ -5,7 +5,11 @@
 <div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
 
 	<div>
-		<img alt="" src="/resources/images/main_photo.jpg" class="main--page--img">
+		<div id="imgslide">
+			<img alt="" src="/resources/images/imgslide1.jpg" class="main--page--img main--page--img1">
+			<img alt="" src="/resources/images/imgslide2.jpg" class="main--page--img main--page--img2">
+			<img alt="" src="/resources/images/imgslide3.jpg" class="main--page--img main--page--img3">
+		</div>
 		<div class="d-flex justify-content-center align-items-start">
 			<div class="main--page--div">
 				<div class="d-flex">

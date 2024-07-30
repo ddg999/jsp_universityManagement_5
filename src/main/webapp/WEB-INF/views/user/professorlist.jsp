@@ -192,9 +192,9 @@
 								</c:when>
 								<c:otherwise>
 									<c:choose>
-										<c:when test="${index == page}">
-											<li><a href="/user/professorList?page=${index}" class="current-page">${index}</a></li>
-										</c:when>
+							<c:when test="${index == currentPage}">
+								<span class="current-page">${index}</span>
+							</c:when>
 										<c:otherwise>
 											<li><a href="/user/professorList?page=${index}">${index}</a></li>
 										</c:otherwise>
