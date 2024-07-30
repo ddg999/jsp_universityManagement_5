@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../layout/header.jsp"%>
-<link rel="stylesheet" href="/css/admin.css">
+<link rel="stylesheet" href="../../resources/css/admin.css">
 <style>
 .room--table {
 	width: 100%;

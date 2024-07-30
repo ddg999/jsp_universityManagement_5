@@ -52,6 +52,15 @@
 	text-decoration: none;
 	margin-left: 770px;
 }
+.button {
+    border: 1px solid gray;
+    border-radius: 3px;
+    background-color: gray;
+    color: #fff;
+    text-decoration: none;
+    padding: 3px;
+    height: 31px;
+}
 </style>
 <div class="d-flex justify-content-center align-items-start"
 	style="min-width: 100em;">
