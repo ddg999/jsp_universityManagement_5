@@ -125,100 +125,113 @@ public class InfoController extends HttpServlet {
 		}
 	}
 
-	// 내정보 수정하기 - 직원
+	// 내정보 수정하기
 	private void handleUpdateStaffInfo(HttpServletRequest request, HttpServletResponse response, int principalId)
 			throws ServletException, IOException {
+		try {
+			HttpSession session = request.getSession();
+			Principal principal = (Principal) session.getAttribute("principal");
+			String userRole = principal.getUserRole();
+			request.setAttribute("principal", principal);
 
-		HttpSession session = request.getSession();
-		Principal principal = (Principal) session.getAttribute("principal");
-		String userRole = principal.getUserRole();
-		request.setAttribute("principal", principal);
+			String address = request.getParameter("address");
+			String tel = request.getParameter("tel");
+			String email = request.getParameter("email");
+			String checkPassword = request.getParameter("password");
 
-		String address = request.getParameter("address");
-		String tel = request.getParameter("tel");
-		String email = request.getParameter("email");
-		String checkPassword = request.getParameter("password");
-
-		if (address == null || address.trim().isEmpty()) {
-			request.setAttribute("message", "주소 입력해주세요.");
-			request.getRequestDispatcher("/WEB-INF/views/info/updateInfo.jsp").forward(request, response);
-			return;
-		} else if (tel == null || tel.trim().isEmpty()) {
-			request.setAttribute("message", "전화번호를 입력해주세요.");
-			request.getRequestDispatcher("/WEB-INF/views/info/updateInfo.jsp").forward(request, response);
-			return;
-		} else if (email == null || email.trim().isEmpty()) {
-			request.setAttribute("message", "이메일을 입력해주세요.");
-			request.getRequestDispatcher("/WEB-INF/views/info/updateInfo.jsp").forward(request, response);
-			return;
-		} else if (checkPassword == null || tel.trim().isEmpty()) {
-			request.setAttribute("message", "비밀번호를 입력해주세요.");
-			request.getRequestDispatcher("/WEB-INF/views/info/updateInfo.jsp").forward(request, response);
-			return;
-		}
-
-		if (PasswordHashing.checkPassword(checkPassword, principal.getPassword())) {
-			if (userRole.equals("student")) {
-				Student student = Student.builder().address(address).tel(tel).email(email).build();
-				infoRepository.updateStudentInfo(student, principalId);
-				response.sendRedirect("/info/student");
-
-			} else if (userRole.equals("staff")) {
-				Staff staff = Staff.builder().address(address).tel(tel).email(email).build();
-				infoRepository.updateStaffInfo(staff, principalId);
-				response.sendRedirect("/info/staff");
-
-			} else if (userRole.equals("professor")) {
-				Professor professor = Professor.builder().address(address).tel(tel).email(email).build();
-				infoRepository.updateProfessorInfo(professor, principalId);
-				response.sendRedirect("/info/professor");
+			if (address == null || address.trim().isEmpty()) {
+				request.setAttribute("message", "주소 입력해주세요.");
+				request.getRequestDispatcher("/WEB-INF/views/info/updateInfo.jsp").forward(request, response);
+				return;
+			} else if (tel == null || tel.trim().isEmpty()) {
+				request.setAttribute("message", "전화번호를 입력해주세요.");
+				request.getRequestDispatcher("/WEB-INF/views/info/updateInfo.jsp").forward(request, response);
+				return;
+			} else if (email == null || email.trim().isEmpty()) {
+				request.setAttribute("message", "이메일을 입력해주세요.");
+				request.getRequestDispatcher("/WEB-INF/views/info/updateInfo.jsp").forward(request, response);
+				return;
+			} else if (checkPassword == null || tel.trim().isEmpty()) {
+				request.setAttribute("message", "비밀번호를 입력해주세요.");
+				request.getRequestDispatcher("/WEB-INF/views/info/updateInfo.jsp").forward(request, response);
+				return;
 			}
-		} else {
-			request.setAttribute("message", "비밀번호가 일치하지 않습니다.");
-			request.getRequestDispatcher("/WEB-INF/views/info/updateInfo.jsp").forward(request, response);
-		}
 
+			if (PasswordHashing.checkPassword(checkPassword, principal.getPassword())) {
+				if (userRole.equals("student")) {
+					Student student = Student.builder().address(address).tel(tel).email(email).build();
+					infoRepository.updateStudentInfo(student, principalId);
+					response.sendRedirect("/info/student");
+
+				} else if (userRole.equals("staff")) {
+					Staff staff = Staff.builder().address(address).tel(tel).email(email).build();
+					infoRepository.updateStaffInfo(staff, principalId);
+					response.sendRedirect("/info/staff");
+
+				} else if (userRole.equals("professor")) {
+					Professor professor = Professor.builder().address(address).tel(tel).email(email).build();
+					infoRepository.updateProfessorInfo(professor, principalId);
+					response.sendRedirect("/info/professor");
+				}
+			} else {
+				request.setAttribute("message", "비밀번호가 일치하지 않습니다.");
+				request.getRequestDispatcher("/WEB-INF/views/info/updateInfo.jsp").forward(request, response);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "잘못된 입력입니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
+		}
 	}
 
 	// 비밀번호 수정
 	private void handleUpdatePassword(HttpServletRequest request, HttpServletResponse response, int principalId)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		Principal principal = (Principal) session.getAttribute("principal");
-
-		String beforePassword = request.getParameter("beforePassword");
-		String afterPassword = request.getParameter("afterPassword");
-		String passwordCheck = request.getParameter("passwordCheck");
-		String hashPassword = PasswordHashing.hashPassword(afterPassword);
-
-		// 방어적 코드 및 예외처리
-		if (beforePassword == null || afterPassword == null || passwordCheck == null || beforePassword.trim().isEmpty()
-				|| afterPassword.trim().isEmpty() || passwordCheck.trim().isEmpty()) {
-			request.setAttribute("message", "비밀번호를 입력해주세요.");
-			request.getRequestDispatcher("/WEB-INF/views/password/updatepassword.jsp").forward(request, response);
-			return;
-		}
-
-		if (!PasswordHashing.checkPassword(beforePassword, principal.getPassword())) {
-			request.setAttribute("message", "현재 비밀번호가 일치하지 않습니다.");
-			request.getRequestDispatcher("/WEB-INF/views/password/updatepassword.jsp").forward(request, response);
-			return;
-		}
-
-		if (!afterPassword.equals(passwordCheck)) {
-			request.setAttribute("message", "변경할 비밀번호가 일치하지 않습니다.");
-			request.getRequestDispatcher("/WEB-INF/views/password/updatepassword.jsp").forward(request, response);
-			return;
-		}
-
 		try {
-			principal.setPassword(hashPassword);
-			infoRepository.updateUserPassword(hashPassword, principalId);
-			request.setAttribute("message", "비밀번호가 성공적으로 변경되었습니다!");
-			request.getRequestDispatcher("/WEB-INF/views/password/updatepassword.jsp").forward(request, response);
+			HttpSession session = request.getSession();
+			Principal principal = (Principal) session.getAttribute("principal");
+
+			String beforePassword = request.getParameter("beforePassword");
+			String afterPassword = request.getParameter("afterPassword");
+			String passwordCheck = request.getParameter("passwordCheck");
+			String hashPassword = PasswordHashing.hashPassword(afterPassword);
+
+			// 방어적 코드 및 예외처리
+			if (beforePassword == null || afterPassword == null || passwordCheck == null
+					|| beforePassword.trim().isEmpty() || afterPassword.trim().isEmpty()
+					|| passwordCheck.trim().isEmpty()) {
+				request.setAttribute("message", "비밀번호를 입력해주세요.");
+				request.getRequestDispatcher("/WEB-INF/views/password/updatepassword.jsp").forward(request, response);
+				return;
+			}
+
+			if (!PasswordHashing.checkPassword(beforePassword, principal.getPassword())) {
+				request.setAttribute("message", "현재 비밀번호가 일치하지 않습니다.");
+				request.getRequestDispatcher("/WEB-INF/views/password/updatepassword.jsp").forward(request, response);
+				return;
+			}
+
+			if (!afterPassword.equals(passwordCheck)) {
+				request.setAttribute("message", "변경할 비밀번호가 일치하지 않습니다.");
+				request.getRequestDispatcher("/WEB-INF/views/password/updatepassword.jsp").forward(request, response);
+				return;
+			}
+
+			try {
+				principal.setPassword(hashPassword);
+				infoRepository.updateUserPassword(hashPassword, principalId);
+				request.setAttribute("message", "비밀번호가 성공적으로 변경되었습니다!");
+				request.getRequestDispatcher("/WEB-INF/views/password/updatepassword.jsp").forward(request, response);
+			} catch (Exception e) {
+				request.setAttribute("message", "ERROR");
+				request.getRequestDispatcher("/WEB-INF/views/password/updatepassword.jsp").forward(request, response);
+			}
 		} catch (Exception e) {
-			request.setAttribute("message", "ERROR");
-			request.getRequestDispatcher("/WEB-INF/views/password/updatepassword.jsp").forward(request, response);
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "잘못된 입력입니다");
+			request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
+			return;
 		}
 	}
 }
