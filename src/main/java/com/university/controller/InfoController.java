@@ -2,6 +2,7 @@ package com.university.controller;
 
 import java.io.IOException;
 
+import com.university.filter.PasswordHashing;
 import com.university.model.Principal;
 import com.university.model.Professor;
 import com.university.model.ProfessorInfo;
@@ -35,11 +36,10 @@ public class InfoController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		Principal principal = (Principal) session.getAttribute("principal");
-
-		if (principal == null) {
-			response.sendRedirect("/login.jsp");
+		if (session == null || session.getAttribute("principal") == null) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
 		}
 
@@ -179,6 +179,7 @@ public class InfoController extends HttpServlet {
 
 	}
 
+	// 비밀번호 수정
 	private void handleUpdatePassword(HttpServletRequest request, HttpServletResponse response, int principalId)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
@@ -187,6 +188,7 @@ public class InfoController extends HttpServlet {
 		String beforePassword = request.getParameter("beforePassword");
 		String afterPassword = request.getParameter("afterPassword");
 		String passwordCheck = request.getParameter("passwordCheck");
+		String hashPassword = PasswordHashing.hashPassword(afterPassword);
 
 		// 방어적 코드 및 예외처리
 		if (beforePassword == null || afterPassword == null || passwordCheck == null || beforePassword.trim().isEmpty()
@@ -196,7 +198,7 @@ public class InfoController extends HttpServlet {
 			return;
 		}
 
-		if (!principal.getPassword().equals(beforePassword)) {
+		if (!PasswordHashing.checkPassword(beforePassword, principal.getPassword())) {
 			request.setAttribute("message", "현재 비밀번호가 일치하지 않습니다.");
 			request.getRequestDispatcher("/WEB-INF/views/password/updatepassword.jsp").forward(request, response);
 			return;
@@ -209,8 +211,8 @@ public class InfoController extends HttpServlet {
 		}
 
 		try {
-			principal.setPassword(afterPassword);
-			infoRepository.updateUserPassword(afterPassword, principalId);
+			principal.setPassword(hashPassword);
+			infoRepository.updateUserPassword(hashPassword, principalId);
 			request.setAttribute("message", "비밀번호가 성공적으로 변경되었습니다!");
 			request.getRequestDispatcher("/WEB-INF/views/password/updatepassword.jsp").forward(request, response);
 		} catch (Exception e) {

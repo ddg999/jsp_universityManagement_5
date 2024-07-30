@@ -9,7 +9,6 @@ import com.university.model.Department;
 import com.university.model.Principal;
 import com.university.model.Room;
 import com.university.model.Subject;
-import com.university.model.Tuition;
 import com.university.repository.AdminRepositoryImpl;
 import com.university.repository.interfaces.AdminRepository;
 

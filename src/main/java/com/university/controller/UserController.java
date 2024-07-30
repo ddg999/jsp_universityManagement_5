@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Random;
 
+import com.university.filter.PasswordHashing;
 import com.university.model.Principal;
 import com.university.model.Professor;
 import com.university.model.Staff;
@@ -46,14 +47,7 @@ public class UserController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-//		Principal principal = (Principal) session.getAttribute("principal");
-//		System.out.println(principal + "됐나???");
-//		if (principal == null) {
-//			response.sendRedirect("/login.jsp");
-//			return;
-//		}
-
+		HttpSession session = request.getSession(false);
 		String action = request.getPathInfo();
 		System.out.println(action);
 		switch (action) {
@@ -64,7 +58,9 @@ public class UserController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/find/findpassword.jsp").forward(request, response);
 			break;
 		case "/login":
-			session.invalidate();
+			if (session != null) {
+				session.invalidate();
+			}
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 			break;
 		case "/studentList":
@@ -109,8 +105,8 @@ public class UserController extends HttpServlet {
 		String action = request.getPathInfo();
 
 		switch (action) {
+		// 로그인 기능 처리
 		case "/login":
-			// 로그인 기능 처리
 			handleSignin(request, response);
 			break;
 		case "/home":
@@ -369,7 +365,7 @@ public class UserController extends HttpServlet {
 			int id = userRepository.getStaffIdByNameAndEmailForUser(name, email);
 			String password = request.getParameter("birthDate").replaceAll("-", "");
 			userRepository.addUser(User.builder().id(id).password(password).userRole("staff").build());
-			request.setAttribute("message", "등록 완료 ㅡ 아이디 : " + id);
+			request.setAttribute("message", "등록 완료 ㅡ 아이디 : " + id + ", 초기비밀번호 : 생년월일 8자리");
 			request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -437,7 +433,7 @@ public class UserController extends HttpServlet {
 			int id = userRepository.getProfessorIdByNameAndEmailForUser(name, email);
 			String password = request.getParameter("birthDate").replaceAll("-", "");
 			userRepository.addUser(User.builder().id(id).password(password).userRole("professor").build());
-			request.setAttribute("message", "등록 완료 ㅡ 아이디 : " + id);
+			request.setAttribute("message", "등록 완료 ㅡ 아이디 : " + id + ", 초기비밀번호 : 생년월일 8자리");
 			request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
 
 		} catch (Exception e) {
@@ -510,7 +506,7 @@ public class UserController extends HttpServlet {
 			int id = userRepository.getStudentIdByNameAndEmailForUser(name, email);
 			String password = request.getParameter("birthDate").replaceAll("-", "");
 			userRepository.addUser(User.builder().id(id).password(password).userRole("student").build());
-			request.setAttribute("message", "등록 완료 ㅡ 아이디 : " + id);
+			request.setAttribute("message", "등록 완료 ㅡ 아이디 : " + id + ", 초기비밀번호 : 생년월일 8자리");
 			request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -536,6 +532,7 @@ public class UserController extends HttpServlet {
 		return password.toString();
 	}
 
+	// 비밀번호 찾기
 	private void handleFindPassword(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String name = request.getParameter("name");
@@ -572,7 +569,8 @@ public class UserController extends HttpServlet {
 				userPassword = userRepository.getProfessorPasswordByNameAndIdAndEmail(name, id, email);
 			}
 			userPassword = randomPassword(6);
-			userRepository.updateUserPassword(userPassword, id);
+			String hashedPassword = PasswordHashing.hashPassword(userPassword);
+			userRepository.updateUserPassword(hashedPassword, id);
 			request.setAttribute("userPassword", userPassword);
 			request.setAttribute("name", name);
 			request.getRequestDispatcher("/WEB-INF/views/find/findpasswordresult.jsp").forward(request, response);
@@ -582,6 +580,7 @@ public class UserController extends HttpServlet {
 		}
 	}
 
+	// 아이디 찾기
 	private void handleFindId(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String name = request.getParameter("name");
@@ -621,13 +620,13 @@ public class UserController extends HttpServlet {
 
 	}
 
+	// 로그인
 	private void handleSignin(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
+		try {
 
-		String password = request.getParameter("password");
-
-		// 방어적 코드 및 예외 처리
-		// JSP에 required 때문에 필요없을지도? (일단 대기)
+			// 방어적 코드 및 예외 처리
+			// JSP에 required 때문에 필요없을지도? (일단 대기)
 //		String idStr = request.getParameter("id");
 //		if(password == null || password.trim().isEmpty()) {
 //			request.setAttribute("errorMessage", "비밀번호을 입력해주세요.");
@@ -639,59 +638,81 @@ public class UserController extends HttpServlet {
 //			return;
 //		}
 
-		int id = Integer.parseInt(request.getParameter("id"));
-		User user = userRepository.getUserByIdAndPassword(id, password);
-
-		Principal principal = null;
-
-		if (user != null) {
-			if (user.getUserRole().equals("student")) {
-				principal = userRepository.getStudent(user);
-			} else if (user.getUserRole().equals("staff")) {
-				principal = userRepository.getStaff(user);
-			} else if (user.getUserRole().equals("professor")) {
-				principal = userRepository.getProfessor(user);
-			}
-			if (principal != null && principal.getPassword().equals(password)) {
-				String checkbox = request.getParameter("rememberId");
-				System.out.println("checkbox : " + checkbox);
+			int id = Integer.parseInt(request.getParameter("id"));
+			String password = request.getParameter("password");
+			String getHashedPassword = userRepository.getPasswordById(id);
+			if (PasswordHashing.checkPassword(password, getHashedPassword)) {
+				User user = userRepository.getUserByIdAndPassword(id, getHashedPassword);
+				System.out.println("user : " + user);
+				Principal principal = null;
+				if (user != null) {
+					if (user.getUserRole().equals("student")) {
+						principal = userRepository.getStudent(user);
+					} else if (user.getUserRole().equals("staff")) {
+						principal = userRepository.getStaff(user);
+					} else if (user.getUserRole().equals("professor")) {
+						principal = userRepository.getProfessor(user);
+					}
+					System.out.println("principal : " + principal);
+					if (principal != null && principal.getPassword().equals(getHashedPassword)) {
+						String checkbox = request.getParameter("rememberId");
+						System.out.println("checkbox : " + checkbox);
 //				String id1 = request.getParameter("userId");
 //				System.out.println("id1 : " + id1);
-				response.setCharacterEncoding("UTF-8");
-				PrintWriter out = response.getWriter();
-				Cookie cookie = new Cookie("userId", request.getParameter("id"));
-				System.out.println(checkbox);
-				System.out.println(cookie.getName());
-				if (checkbox != null) {
-					cookie.setMaxAge(86400);
-					response.addCookie(cookie);
-					System.out.println("실행" + cookie);
-				} else {
-					cookie.setMaxAge(0);
-					response.addCookie(cookie);
-				}
-				HttpSession session = request.getSession();
-				session.setAttribute("principal", principal);
-				System.out.println(principal.toString());
-				response.sendRedirect("/home");
-				// List<Schedule> scheduleList = scheduleRepository.getAllSchedules();
-				// List<Notice> noticeList = noticeRepository.getAllNotices(5 , 1);
+						response.setCharacterEncoding("UTF-8");
+						PrintWriter out = response.getWriter();
+						Cookie cookie = new Cookie("userId", request.getParameter("id"));
+						System.out.println(checkbox);
+						System.out.println(cookie.getName());
+						if (checkbox != null) {
+							cookie.setMaxAge(86400);
+							response.addCookie(cookie);
+							System.out.println("실행" + cookie);
+						} else {
+							cookie.setMaxAge(0);
+							response.addCookie(cookie);
+						}
+						HttpSession session = request.getSession();
+						session.setAttribute("principal", principal);
+						System.out.println(principal.toString());
+						response.sendRedirect("/home");
+						// List<Schedule> scheduleList = scheduleRepository.getAllSchedules();
+						// List<Notice> noticeList = noticeRepository.getAllNotices(5 , 1);
 
 //				request.setAttribute("breakAppSize", 2);
 //				request.setAttribute("scheduleList", scheduleList);
 //				request.setAttribute("noticeList", noticeList);
 
-				// request.getRequestDispatcher("/home.jsp").forward(request, response);
-				// request.getRequestDispatcher("/login.jsp").forward(request, response);
+						// request.getRequestDispatcher("/home.jsp").forward(request, response);
+						// request.getRequestDispatcher("/login.jsp").forward(request, response);
+					}
+				} else {
+					String id1 = request.getParameter("id");
+					Cookie cookie = new Cookie("userId", id1);
+					cookie.setMaxAge(0);
+					response.addCookie(cookie);
+					System.out.println(cookie.getName() + "dsasdasadsda");
+					request.setAttribute("errorMessage", "아이디 혹은 비밀번호가 틀렸습니다.");
+					request.getRequestDispatcher(request.getContextPath() + "/login.jsp").forward(request, response);
+				}
+			} else {
+				String id1 = request.getParameter("id");
+				Cookie cookie = new Cookie("userId", id1);
+				cookie.setMaxAge(0);
+				response.addCookie(cookie);
+				System.out.println(cookie.getName() + "dsasdasadsda");
+				request.setAttribute("errorMessage", "아이디 혹은 비밀번호가 틀렸습니다.");
+				request.getRequestDispatcher(request.getContextPath() + "/login.jsp").forward(request, response);
 			}
-		} else {
+		} catch (Exception e) {
+			e.printStackTrace();
 			String id1 = request.getParameter("id");
 			Cookie cookie = new Cookie("userId", id1);
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
 			System.out.println(cookie.getName() + "dsasdasadsda");
-			request.setAttribute("errorMessage", "아이디 비밀번호가 틀렸습니다.");
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}
 	}
+
 }

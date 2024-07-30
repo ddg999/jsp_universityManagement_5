@@ -323,7 +323,7 @@ public class SugangController extends HttpServlet {
 		}
 	}
 
-	// 예비 수강 신청 추가
+	// 수강 신청 추가
 	private void addPreStuSub(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
 		try {
@@ -360,7 +360,7 @@ public class SugangController extends HttpServlet {
 		}
 	}
 
-	// 예비 수강 신청 삭제
+	// 수강 신청 삭제
 	private void deletePreStuSub(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
 		try {

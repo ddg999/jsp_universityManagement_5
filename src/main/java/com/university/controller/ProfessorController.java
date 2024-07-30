@@ -18,13 +18,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-
 @WebServlet("/professor/*")
 public class ProfessorController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ProfessorRepository professorRepository;
 	private AdminRepository adminRepository;
-	
+
 	@Override
 	public void init() throws ServletException {
 		professorRepository = new ProfessorRepositoryImpl();
@@ -33,13 +32,12 @@ public class ProfessorController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String action = request.getPathInfo();
 		HttpSession session = request.getSession(false);
-		
 		if (session == null || session.getAttribute("principal") == null) {
 			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
 		}
+		String action = request.getPathInfo();
 		switch (action) {
 		// 내 강의 조회 페이지
 		case "/subject":
@@ -53,11 +51,12 @@ public class ProfessorController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 	}
-	
-	private void showListProfessor(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
-		
+
+	private void showListProfessor(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
+
 		Principal principal = (Principal) session.getAttribute("principal");
-		
+
 		int page = 1;
 		int pageSize = 20; // 한 페이지당 보여질 게시글 수
 		try {
@@ -69,24 +68,22 @@ public class ProfessorController extends HttpServlet {
 			page = 1;
 		}
 		int offset = (page - 1) * pageSize;
-		
+
 		List<Department> departmentList = adminRepository.getAllDepartments();
-		List<SubjectList> subjectList = professorRepository.getProfessorSubject(principal.getName(),pageSize, offset);
-		
-		
-		
+		List<SubjectList> subjectList = professorRepository.getProfessorSubject(principal.getName(), pageSize, offset);
+
 		int totalSubject = professorRepository.getTotalProfessorSubject(principal.getId());
 		int totalPage = (int) Math.ceil((double) totalSubject / pageSize);
-		
+
 		request.setAttribute("departmentList", departmentList);
 		request.setAttribute("subjectList", subjectList);
 		request.setAttribute("pageCount", totalPage);
 		request.setAttribute("subjectCount", totalSubject);
 		request.setAttribute("currentPage", page);
-		
+
 		System.out.println("현재 로그인 된 교수님 : " + principal.getName());
 		request.getRequestDispatcher("/WEB-INF/views/professor/professorsublist.jsp").forward(request, response);
-		
+
 	}
 
 }

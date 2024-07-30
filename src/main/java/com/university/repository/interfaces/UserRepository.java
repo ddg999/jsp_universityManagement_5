@@ -44,6 +44,9 @@ public interface UserRepository {
 
 	Principal getStaff(User user);
 	
+	String getPasswordById(int id);
+	
+	
 	void addStudent(Student student);
 	void addProfessor(Professor professor);
 	void addStaff(Staff staff);
