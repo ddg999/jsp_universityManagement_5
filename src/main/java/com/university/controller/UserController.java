@@ -65,7 +65,7 @@ public class UserController extends HttpServlet {
 			break;
 		case "/login":
 			session.invalidate();
-			request.getRequestDispatcher("/WEB-INF/views/layout/login.jsp").forward(request, response);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
 			break;
 		case "/studentList":
 			studentAllView(request, response, session);

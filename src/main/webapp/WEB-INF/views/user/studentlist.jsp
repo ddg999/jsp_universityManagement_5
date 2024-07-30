@@ -81,25 +81,25 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tr>
-					<td><a href="/user/studentList" class="selected--menu">학생 명단 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/user/studentList" class="selected--menu">학생 명단 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/user/professorList">교수 명단 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/user/professorList">교수 명단 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/user/student">학생 등록</a></td>
+					<td><a href="${pageContext.request.contextPath}/user/student">학생 등록</a></td>
 				</tr>
 				<tr>
-					<td><a href="/user/professor">교수 등록</a></td>
+					<td><a href="${pageContext.request.contextPath}/user/professor">교수 등록</a></td>
 				</tr>
 				<tr>
-					<td><a href="/user/staff">직원 등록</a></td>
+					<td><a href="${pageContext.request.contextPath}/user/staff">직원 등록</a></td>
 				</tr>
 				<tr>
-					<td><a href="/tuition/bill">등록금 고지서 발송</a></td>
+					<td><a href="${pageContext.request.contextPath}/tuition/bill">등록금 고지서 발송</a></td>
 				</tr>
 				<tr>
-					<td><a href="/break/list/staff">휴학 처리</a></td>
+					<td><a href="${pageContext.request.contextPath}/break/list/staff">휴학 처리</a></td>
 				</tr>
 				<!--<tr>
 					<td><a href="/sugang/period">수강 신청 기간 설정</a></td>

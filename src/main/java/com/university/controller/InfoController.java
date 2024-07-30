@@ -72,7 +72,7 @@ public class InfoController extends HttpServlet {
 		case "/password":
 			request.getRequestDispatcher("/WEB-INF/views/password/updatepassword.jsp").forward(request, response);
 			break;
-			
+
 		default:
 			break;
 		}
@@ -115,7 +115,7 @@ public class InfoController extends HttpServlet {
 		case "/password":
 			handleUpdatePassword(request, response, principal.getId());
 			break;
-			
+
 		case "/update":
 			handleUpdateStaffInfo(request, response, principal.getId());
 			break;
@@ -155,18 +155,18 @@ public class InfoController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/info/updateInfo.jsp").forward(request, response);
 			return;
 		}
-		
+
 		if (checkPassword.equals(principal.getPassword())) {
 			if (userRole.equals("student")) {
 				Student student = Student.builder().address(address).tel(tel).email(email).build();
 				infoRepository.updateStudentInfo(student, principalId);
 				response.sendRedirect("/info/student");
-				
+
 			} else if (userRole.equals("staff")) {
 				Staff staff = Staff.builder().address(address).tel(tel).email(email).build();
 				infoRepository.updateStaffInfo(staff, principalId);
 				response.sendRedirect("/info/staff");
-				
+
 			} else if (userRole.equals("professor")) {
 				Professor professor = Professor.builder().address(address).tel(tel).email(email).build();
 				infoRepository.updateProfessorInfo(professor, principalId);
@@ -209,6 +209,7 @@ public class InfoController extends HttpServlet {
 		}
 
 		try {
+			principal.setPassword(afterPassword);
 			infoRepository.updateUserPassword(afterPassword, principalId);
 			request.setAttribute("message", "비밀번호가 성공적으로 변경되었습니다!");
 			request.getRequestDispatcher("/WEB-INF/views/password/updatepassword.jsp").forward(request, response);

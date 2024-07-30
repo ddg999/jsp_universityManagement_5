@@ -19,7 +19,7 @@
 			<table class="sub--menu--table" border="1">
 				<c:choose>
 					<c:when test="${principal.userRole.equals(\"student\")}">
-						<tr>
+						<tr>	
 					<td><a href="${pageContext.request.contextPath}/info/student" >내 정보 조회</a></td>
 				</tr>
 				<tr>

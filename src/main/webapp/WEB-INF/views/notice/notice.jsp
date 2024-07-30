@@ -28,6 +28,7 @@
 	</div>
 	<main>
 		<h1>공지사항</h1>
+		<div class="split--div"></div>
 		<!-- 공지검색기능 -->
 		<form action="/notice/search" method="get" class="form--container">
 			<select class="input--box" name="type">
@@ -37,7 +38,6 @@
 			<input type="text" name="keyword" class="input--box" placeholder="검색어를 입력하세요" value="${keyword}">
 			<input type="submit" class="button" value="검색">
 		</form>
-		<div class="split--div"></div>
 		<table class="table">
 			<tbody>
 				<tr class="first--tr">

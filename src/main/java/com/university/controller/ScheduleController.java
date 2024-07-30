@@ -30,6 +30,10 @@ public class ScheduleController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
+		if (session == null || session.getAttribute("principal") == null) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
 		String action = request.getPathInfo();
 		switch (action) {
 		case "/show":
@@ -59,10 +63,6 @@ public class ScheduleController extends HttpServlet {
 	// 학사 일정 등록 페이지
 	private void showCreateSchedule(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
-		if (session == null || session.getAttribute("principal") == null) {
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
-			return;
-		}
 		Principal principal = (Principal) session.getAttribute("principal");
 		if (!principal.getUserRole().equals("staff")) {
 			request.setAttribute("errorMessage", "권한이 없습니다");
@@ -74,10 +74,6 @@ public class ScheduleController extends HttpServlet {
 
 	private void deleteSchedule(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
-		if (session == null || session.getAttribute("principal") == null) {
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
-			return;
-		}
 		Principal principal = (Principal) session.getAttribute("principal");
 		if (!principal.getUserRole().equals("staff")) {
 			request.setAttribute("errorMessage", "권한이 없습니다");
