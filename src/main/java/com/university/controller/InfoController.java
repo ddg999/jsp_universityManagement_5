@@ -125,6 +125,7 @@ public class InfoController extends HttpServlet {
 		}
 	}
 
+	// 내정보 수정하기 - 직원
 	private void handleUpdateStaffInfo(HttpServletRequest request, HttpServletResponse response, int principalId)
 			throws ServletException, IOException {
 
@@ -156,7 +157,7 @@ public class InfoController extends HttpServlet {
 			return;
 		}
 
-		if (checkPassword.equals(principal.getPassword())) {
+		if (PasswordHashing.checkPassword(checkPassword, principal.getPassword())) {
 			if (userRole.equals("student")) {
 				Student student = Student.builder().address(address).tel(tel).email(email).build();
 				infoRepository.updateStudentInfo(student, principalId);
