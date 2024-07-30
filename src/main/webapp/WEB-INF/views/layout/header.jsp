@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>그린대학교 학사관리시스템</title>
+<title>Oh University 학사관리시스템</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="../../resources/css/main.css">
 <link rel="stylesheet" href="../../resources/css/notice.css">
