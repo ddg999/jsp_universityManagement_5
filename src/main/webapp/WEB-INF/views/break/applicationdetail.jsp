@@ -20,23 +20,23 @@
 				<c:choose>
 					<c:when test="${principal.userRole.equals(\"student\")}">
 						<tr>
-							<td><a href="/info/student">내 정보 조회</a></td>
-						</tr>
-						<tr>
-							<td><a href="/password">비밀번호 변경</a></td>
-						</tr>
-						<tr>
-							<td><a href="/break/application">휴학 신청</a></td>
-						</tr>
-						<tr>
-							<td><a href="/break/list" class="selected--menu">휴학 내역 조회</a></td>
-						</tr>
-						<tr>
-							<td><a href="/tuition/list">등록금 내역 조회</a></td>
-						</tr>
-						<tr>
-							<td><a href="/tuition/payment">등록금 납부 고지서</a></td>
-						</tr>
+					<td><a href="${pageContext.request.contextPath}/info/student" >내 정보 조회</a></td>
+				</tr>
+				<tr>
+					<td><a href="${pageContext.request.contextPath}/info/password">비밀번호 변경</a></td>
+				</tr>
+				<tr>
+					<td><a href="${pageContext.request.contextPath}/break/application">휴학 신청</a></td>
+				</tr>
+				<tr>
+					<td><a href="${pageContext.request.contextPath}/break/list" class="selected--menu">휴학 내역 조회</a></td>
+				</tr>
+				<tr>
+					<td><a href="${pageContext.request.contextPath}/tuition/payment">등록금 납부 고지서</a></td>
+				</tr>
+				<tr>
+					<td><a href="${pageContext.request.contextPath}/tuition/list">등록금 납부 내역</a></td>
+				</tr>
 					</c:when>
 					<c:when test="${principal.userRole.equals(\"staff\")}">
 						<tr>

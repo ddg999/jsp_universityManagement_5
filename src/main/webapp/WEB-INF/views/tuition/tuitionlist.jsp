@@ -26,22 +26,22 @@
 		<div class="sub--menu--mid">
 			<table class="sub--menu--table" border="1">
 				<tr>
-					<td><a href="/info/student" >내 정보 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/info/student" >내 정보 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/info/password">비밀번호 변경</a></td>
+					<td><a href="${pageContext.request.contextPath}/info/password">비밀번호 변경</a></td>
 				</tr>
 				<tr>
-					<td><a href="/break/application">휴학 신청</a></td>
+					<td><a href="${pageContext.request.contextPath}/break/application">휴학 신청</a></td>
 				</tr>
 				<tr>
-					<td><a href="/break/list">휴학 내역 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/break/list">휴학 내역 조회</a></td>
 				</tr>
 				<tr>
-					<td><a href="/tuition/list" class="selected--menu">등록금 내역 조회</a></td>
+					<td><a href="${pageContext.request.contextPath}/tuition/payment">등록금 납부 고지서</a></td>
 				</tr>
 				<tr>
-					<td><a href="/tuition/payment">등록금 납부 고지서</a></td>
+					<td><a href="${pageContext.request.contextPath}/tuition/list" class="selected--menu">등록금 납부 내역</a></td>
 				</tr>
 			</table>
 		</div>

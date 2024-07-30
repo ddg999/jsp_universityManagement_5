@@ -18,17 +18,17 @@
 				<c:choose>
 					<c:when test="${principal.userRole.equals(\"student\")}">
 						<tr>
-							<td><a href="/info/student">내 정보 조회</a></td>
+							<td><a href="${pageContext.request.contextPath}/info/student" class="selected--menu">내 정보 조회</a></td>
 						</tr>
 					</c:when>
 					<c:when test="${principal.userRole.equals(\"professor\")}">
 						<tr>
-							<td><a href="${pageContext.request.contextPath}/info/professor">내 정보 조회</a></td>
+							<td><a href="${pageContext.request.contextPath}/info/professor" class="selected--menu">내 정보 조회</a></td>
 						</tr>
 					</c:when>
 					<c:otherwise>
 						<tr>
-							<td><a href="${pageContext.request.contextPath}/info/staff">내 정보 조회</a></td>
+							<td><a href="${pageContext.request.contextPath}/info/staff" class="selected--menu">내 정보 조회</a></td>
 						</tr>
 					</c:otherwise>
 				</c:choose>
@@ -43,10 +43,10 @@
 						<td><a href="${pageContext.request.contextPath}/break/list">휴학 내역 조회</a></td>
 					</tr>
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/tuition/list">등록금 내역 조회</a></td>
+						<td><a href="${pageContext.request.contextPath}/tuition/payment">등록금 납부 고지서</a></td>
 					</tr>
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/tuition/payment">등록금 납부 고지서</a></td>
+						<td><a href="${pageContext.request.contextPath}/tuition/list">등록금 납부 내역</a></td>
 					</tr>
 				</c:if>
 			</table>
