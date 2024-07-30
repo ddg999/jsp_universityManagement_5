@@ -119,6 +119,7 @@
 						</c:forEach>
 					</tbody>
 				</table>
+				<div class="pagination">
 				<c:if test="${pageCount != null}">
 					<ul class="page--list">
 						<c:forEach var="i" begin="1" end="${pageCount}" step="1">
@@ -136,6 +137,7 @@
 						</c:forEach>
 					</ul>
 				</c:if>
+				</div>
 			</c:when>
 			<c:otherwise>
 				<p class="no--list--p">검색 결과가 없습니다.</p>
