@@ -27,5 +27,5 @@ public class HomeFilter implements Filter {
 		}
 		httpResponse.sendRedirect(httpRequest.getContextPath() + "/home");
 	}
-
+ 
 }

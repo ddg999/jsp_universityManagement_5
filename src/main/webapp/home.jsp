@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/layout/header.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!-- 세부 메뉴 + 메인 -->
 <div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
 
@@ -30,25 +31,25 @@
 							<a href="${pageContext.request.contextPath}/notice/schedule">학사일정</a>
 						</h3>
 						<div class="main--page--split"></div>
+						<!-- 학사일정 -->
 						<table>
 							<tbody>
 								<c:forEach items="${scheduleList}" var="schedule" varStatus="loop">
 									<c:if test="${loop.index < 5}">
 										<!-- 5개 항목까지만 출력 -->
 										<tr>
-											<td>${schedule.startDay}</td>
-											<td>${schedule.endDay}</td>
+											<td><fmt:formatDate value="${schedule.startDay}" pattern="MM-dd"/> ~&nbsp;</td>
+											<td><fmt:formatDate value="${schedule.endDay}" pattern="MM-dd"/>&nbsp;&nbsp;&nbsp;</td>
 											<td>${schedule.information}</td>
 										</tr>
 									</c:if>
 								</c:forEach>
 						</table>
-
 					</div>
 				</div>
 			</div>
 			<div>
-				<!-- 사용자 간단한 프로필 -->
+				<!-- 사용자 정보 -->
 				<div class="main--page--profile">
 					<ul class="d-flex align-items-start" style="margin: 0;">
 						<li><span class="material-symbols-rounded" style="margin-top: 2px;"><img src="/resources/images/user.png" alt="user"></span>&nbsp;&nbsp;

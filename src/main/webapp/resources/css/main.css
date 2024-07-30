@@ -157,7 +157,7 @@ header {
 }
 
 .main--page--calander tr td {
-	padding-right: 20px;
+	padding-right: 0px;
 	text-align: right;
 }
 

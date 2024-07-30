@@ -21,10 +21,6 @@ import jakarta.servlet.http.HttpSession;
 public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public HomeController() {
-		super();
-	}
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
