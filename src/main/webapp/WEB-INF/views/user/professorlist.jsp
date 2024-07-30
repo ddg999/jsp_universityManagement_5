@@ -3,9 +3,13 @@
 <%@ include file="../layout/header.jsp"%>
 
 <style>
+.sub--list--table{
+	width: 100%;
+}
 .sub--list--table th {
 	padding: 3px 9px;
 	text-align: center;
+	background-color :#fff5f5;
 }
 
 .sub--list--table td {
