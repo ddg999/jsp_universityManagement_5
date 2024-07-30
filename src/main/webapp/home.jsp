@@ -32,7 +32,7 @@
 					</div>
 					<div class="main--page--calander">
 						<h3>
-							<a href="${pageContext.request.contextPath}/notice/schedule">학사일정</a>
+							<a href="${pageContext.request.contextPath}/schedule/show">학사일정</a>
 						</h3>
 						<div class="main--page--split"></div>
 						<!-- 학사일정 -->

@@ -3,16 +3,12 @@
 .sub--list--table th {
 	padding: 3px 9px;
 	text-align: center;
-	background-color: #ffe9e9;
+	background-color: #fff5f5;
 }
 
 .sub--list--table td {
 	padding: 1px 9px;
 	text-align: center;
-}
-
-.sub--list--name {
-	text-align: left !important;
 }
 
 .sub--filter {

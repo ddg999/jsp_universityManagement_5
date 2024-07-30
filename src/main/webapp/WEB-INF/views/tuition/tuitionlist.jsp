@@ -11,6 +11,9 @@
 .list--table tbody tr td:nth-of-type(4), .list--table tbody tr td:nth-of-type(5), .list--table tbody tr td:nth-of-type(6) {
 	text-align: right;
 }
+.list--table{
+	width: 100%;
+}
 </style>
 
 <!-- 등록금 내역 조회 -->

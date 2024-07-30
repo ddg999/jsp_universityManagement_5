@@ -12,12 +12,15 @@ public interface UserRepository {
 
 	// 학생 아이디 조회
 	int getStudentIdByNameAndEmail(String name, String email);
+	int getStudentIdByNameAndEmailForUser(String name, String email);
 
 	// 교수 아이디 조회
 	int getProfessorIdByNameAndEmail(String name, String email);
+	int getProfessorIdByNameAndEmailForUser(String name, String email);
 
 	// 직원 아이디 조회
 	int getStaffIdByNameAndEmail(String name, String email);
+	int getStaffIdByNameAndEmailForUser(String name, String email);
 
 	// 학생 비밀번호 조회
 	String getStudentPasswordByNameAndIdAndEmail(String name, int id, String email);
@@ -44,6 +47,8 @@ public interface UserRepository {
 	void addStudent(Student student);
 	void addProfessor(Professor professor);
 	void addStaff(Staff staff);
+	void addUser(User user);
+	
 	
 	void selectAllStudent(Student student);
 	void selectAllProfessor(Professor professor);

@@ -19,6 +19,7 @@ public class UserRepositoryImpl implements UserRepository {
 	private static final String SELECT_STUDENT_ID_SQL = " select u.id from user_tb as u join student_tb as s on u.id = s.id where s.name = ? and s.email = ? ";
 	private static final String SELECT_STAFF_ID_SQL = " select u.id from user_tb as u join staff_tb as sf on u.id = sf.id where sf.name = ? and sf.email = ? ";
 	private static final String SELECT_PROFESSOR_ID_SQL = " select u.id from user_tb as u join professor_tb as p on u.id = p.id where p.name = ? and p.email = ? ";
+
 	private static final String SELECT_STUDENT_PASSWORD_SQL = " select u.password from user_tb as u join student_tb as s on u.id = s.id where s.name = ? and s.id = ? and s.email = ? ";
 	private static final String SELECT_PROFESSOR_PASSWORD_SQL = " select u.password from user_tb as u join professor_tb as p on u.id = p.id where p.name = ? and p.id = ? and p.email = ? ";
 	private static final String SELECT_STAFF_PASSWORD_SQL = " select u.password from user_tb as u join staff_tb as sf on u.id = sf.id where sf.name = ? and sf.id = ? and sf.email = ? ";
@@ -33,6 +34,10 @@ public class UserRepositoryImpl implements UserRepository {
 	private static final String INSERT_STUDENT_SQL = " insert into student_tb (name, birth_date, gender, address, tel, email, dept_id, entrance_date) values (?, ?, ?, ?, ?, ?, ?, ?) ";
 	private static final String INSERT_PROFESSOR_SQL = " insert into professor_tb (name, birth_date, gender, address, tel, email, dept_id) values (?, ?, ?, ?, ?, ?, ?) ";
 	private static final String INSERT_STAFF_SQL = " insert into staff_tb (name, birth_date, gender, address, tel, email) values(?, ?, ?, ?, ?, ?) ";
+	private static final String INSERT_USER_SQL = " INSERT INTO user_tb (id, password, user_role) VALUES (?, ?, ?) ";
+	private static final String SELECT_STUDENT_ID_FOR_USER = " SELECT * FROM student_tb WHERE name = ? AND email = ? ";
+	private static final String SELECT_PROFESSOR_ID_FOR_USER = " SELECT * FROM professor_tb WHERE name = ? AND email = ? ";
+	private static final String SELECT_STAFF_ID_FOR_USER = " SELECT * FROM staff_tb WHERE name = ? AND email = ? ";
 
 	private static final String SELECT_ALL_STUDENT = " SELECT * FROM student_tb ORDER BY id ASC LIMIT ? OFFSET ? ";
 	private static final String SELECT_ALL_PROFESSOR = " SELECT * FROM professor_tb ORDER BY id ASC LIMIT ? OFFSET ? ";
@@ -192,7 +197,8 @@ public class UserRepositoryImpl implements UserRepository {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				principal = Principal.builder().id(rs.getInt("id")).password(rs.getString("password"))
-						.userRole(rs.getString("user_role")).name(rs.getString("name")).email(rs.getString("email")).build();
+						.userRole(rs.getString("user_role")).name(rs.getString("name")).email(rs.getString("email"))
+						.build();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -210,7 +216,8 @@ public class UserRepositoryImpl implements UserRepository {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				principal = Principal.builder().id(rs.getInt("id")).password(rs.getString("password"))
-						.userRole(rs.getString("user_role")).name(rs.getString("name")).email(rs.getString("email")).build();
+						.userRole(rs.getString("user_role")).name(rs.getString("name")).email(rs.getString("email"))
+						.build();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -227,7 +234,8 @@ public class UserRepositoryImpl implements UserRepository {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				principal = Principal.builder().id(rs.getInt("id")).password(rs.getString("password"))
-						.userRole(rs.getString("user_role")).name(rs.getString("name")).email(rs.getString("email")).build();
+						.userRole(rs.getString("user_role")).name(rs.getString("name")).email(rs.getString("email"))
+						.build();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -276,7 +284,6 @@ public class UserRepositoryImpl implements UserRepository {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -313,6 +320,25 @@ public class UserRepositoryImpl implements UserRepository {
 				pstmt.setString(4, staff.getAddress()); // 주소
 				pstmt.setString(5, staff.getTel()); // 전화번호
 				pstmt.setString(6, staff.getEmail()); // 이메일
+				pstmt.executeUpdate();
+				conn.commit();
+			} catch (Exception e) {
+				e.printStackTrace();
+				conn.rollback();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void addUser(User user) {
+		try (Connection conn = DBUtil.getConnection()) {
+			conn.setAutoCommit(false);
+			try (PreparedStatement pstmt = conn.prepareStatement(INSERT_USER_SQL)) {
+				pstmt.setInt(1, user.getId());
+				pstmt.setString(2, user.getPassword());
+				pstmt.setString(3, user.getUserRole());
 				pstmt.executeUpdate();
 				conn.commit();
 			} catch (Exception e) {
@@ -431,8 +457,7 @@ public class UserRepositoryImpl implements UserRepository {
 				boardlist.add(Professor.builder().id(rs.getInt("id")).name(rs.getString("name"))
 						.birthDate(rs.getDate("birth_date")).gender(rs.getString("gender"))
 						.address(rs.getString("address")).tel(rs.getString("tel")).email(rs.getString("email"))
-						.deptId(rs.getInt("dept_id")).hireDate(rs.getDate("hire_date"))
-						.build());
+						.deptId(rs.getInt("dept_id")).hireDate(rs.getDate("hire_date")).build());
 
 			}
 			System.out.println("교수목록 - 로깅 : count " + boardlist.size());
@@ -459,6 +484,66 @@ public class UserRepositoryImpl implements UserRepository {
 		}
 		System.out.println("professor totalCount : " + count);
 		return count;
+	}
+
+	@Override
+	public int getStudentIdByNameAndEmailForUser(String name, String email) {
+		User user = null;
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_STUDENT_ID_FOR_USER)) {
+			pstmt.setString(1, name);
+			pstmt.setString(2, email);
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					user = User.builder().id(rs.getInt("id")).build();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user.getId();
+	}
+
+	@Override
+	public int getProfessorIdByNameAndEmailForUser(String name, String email) {
+		User user = null;
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_PROFESSOR_ID_FOR_USER)) {
+			pstmt.setString(1, name);
+			pstmt.setString(2, email);
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					user = User.builder().id(rs.getInt("id")).build();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user.getId();
+	}
+
+	@Override
+	public int getStaffIdByNameAndEmailForUser(String name, String email) {
+		User user = null;
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(SELECT_STAFF_ID_FOR_USER)) {
+			pstmt.setString(1, name);
+			pstmt.setString(2, email);
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					user = User.builder().id(rs.getInt("id")).build();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user.getId();
 	}
 
 }

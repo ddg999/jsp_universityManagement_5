@@ -214,10 +214,11 @@ main h1:first-of-type {
 .table {
 	width: 1000px;
 	margin-bottom: 20px;
+	text-align: center;
 }
 
 .first--tr {
-	background-color: #ffe9e9;
+	background-color: #fff5f5;
 	font-weight: bolder;
 	overflow: hidden;
 	text-overflow: ellipsis;

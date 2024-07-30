@@ -7,6 +7,9 @@
 
 <!-- 금학기 -->
 <style>
+.sub--list--table{
+	width: 100%;
+}
 .sub--list--table th {
 	padding: 1px 25px;
 }

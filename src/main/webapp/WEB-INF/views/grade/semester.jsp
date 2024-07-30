@@ -16,6 +16,9 @@
 .sub--list--table th {
 	padding: 1px 25px;
 }
+.sub--list--table{
+	width: 100%
+}
 </style>
 <!-- 학기별 성적 조회 -->
 

@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="../../resources/css/subject.css">
 
 <style>
+.sub--list--table{
+width: 100%;}
 .sub--filter form div {
 	background-color: buttonshadow;
 	padding: 13px 10px;

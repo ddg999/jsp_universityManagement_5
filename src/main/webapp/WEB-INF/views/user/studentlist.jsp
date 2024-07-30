@@ -6,6 +6,7 @@
 .sub--list--table th {
 	padding: 3px 9px;
 	text-align: center;
+	background-color: #fff5f5;
 }
 
 .sub--list--table td {
