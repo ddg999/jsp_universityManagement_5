@@ -127,9 +127,9 @@
 								<c:when test="${not empty year or not empty semester or not empty subjectNum or not empty subject}">
 									<li><a href="/subject/list/search?subYear=${year}&semester=${semester}&deptId=${subjectNum}&name=${subject}">${i}</a></li>
 								</c:when>
-								<c:when test="${i == page}">
-									<li><a href="${pageContext.request.contextPath}/subject/list?page=${i}" style="font-weight: 700; color: #007bff">${i}</a>
-								</c:when>
+							<c:when test="${i == currentPage}">
+								<span class="current-page">${i}</span>
+							</c:when>
 								<c:otherwise>
 									<li><a href="${pageContext.request.contextPath}/subject/list?page=${i}">${i}</a>
 								</c:otherwise>
