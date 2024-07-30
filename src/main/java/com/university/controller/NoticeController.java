@@ -196,22 +196,22 @@ public class NoticeController extends HttpServlet {
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (int i = 0; i < cookies.length; i++) {
-				if (cookies[i].getValue().equals("notice:" + noticeId)) {
+				if (cookies[i].getName().equals("notice" + noticeId)) {
 					viewCookie = cookies[i];
+					break;
 				}
 			}
 		}
 		if (viewCookie == null) {
 			try {
-				Cookie newCookie = new Cookie("viewCookie", "notice:" + noticeId);
-				newCookie.setMaxAge(1800);
+				Cookie newCookie = new Cookie("notice" + noticeId, "viewed");
+				newCookie.setMaxAge(300);
 				response.addCookie(newCookie);
-
 				noticeRepository.updateNoticeView(noticeId);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else if (!viewCookie.getValue().equals("notice:" + noticeId)) {
+		} else if (!viewCookie.getName().equals("notice" + noticeId)) {
 			noticeRepository.updateNoticeView(noticeId);
 		}
 
