@@ -268,7 +268,7 @@ public class UserController extends HttpServlet {
 
 		request.setAttribute("professorList", professorList);
 		request.setAttribute("listCount", totalPage);
-		request.setAttribute("index", page);
+		request.setAttribute("currentPage", page);
 
 		request.getRequestDispatcher("/WEB-INF/views/user/professorlist.jsp").forward(request, response);
 	}
@@ -305,7 +305,7 @@ public class UserController extends HttpServlet {
 
 		request.setAttribute("studentList", studentList);
 		request.setAttribute("listCount", totalPage);
-		request.setAttribute("index", page);
+		request.setAttribute("currentPage", page);
 
 //		if(session != null) {
 //			Principal principal = (Principal)session.getAttribute("principal");
