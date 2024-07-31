@@ -710,7 +710,7 @@ public class UserController extends HttpServlet {
 			Cookie cookie = new Cookie("userId", id1);
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
-			System.out.println(cookie.getName() + "dsasdasadsda");
+			request.setAttribute("errorMessage", "아이디 혹은 비밀번호가 틀렸습니다.");
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}
 	}
