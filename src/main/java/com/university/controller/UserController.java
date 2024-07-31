@@ -364,7 +364,8 @@ public class UserController extends HttpServlet {
 			userRepository.addStaff(staff);
 			int id = userRepository.getStaffIdByNameAndEmailForUser(name, email);
 			String password = request.getParameter("birthDate").replaceAll("-", "");
-			userRepository.addUser(User.builder().id(id).password(password).userRole("staff").build());
+			String hashedPassword = PasswordHashing.hashPassword(password);
+			userRepository.addUser(User.builder().id(id).password(hashedPassword).userRole("staff").build());
 			request.setAttribute("message", "등록 완료 ㅡ 아이디 : " + id + ", 초기비밀번호 : 생년월일 8자리");
 			request.getRequestDispatcher("/WEB-INF/views/user/createstaff.jsp").forward(request, response);
 		} catch (Exception e) {
@@ -432,7 +433,8 @@ public class UserController extends HttpServlet {
 			userRepository.addProfessor(professor);
 			int id = userRepository.getProfessorIdByNameAndEmailForUser(name, email);
 			String password = request.getParameter("birthDate").replaceAll("-", "");
-			userRepository.addUser(User.builder().id(id).password(password).userRole("professor").build());
+			String hashedPassword = PasswordHashing.hashPassword(password);
+			userRepository.addUser(User.builder().id(id).password(hashedPassword).userRole("professor").build());
 			request.setAttribute("message", "등록 완료 ㅡ 아이디 : " + id + ", 초기비밀번호 : 생년월일 8자리");
 			request.getRequestDispatcher("/WEB-INF/views/user/createprofessor.jsp").forward(request, response);
 
@@ -505,7 +507,8 @@ public class UserController extends HttpServlet {
 			userRepository.addStudent(student);
 			int id = userRepository.getStudentIdByNameAndEmailForUser(name, email);
 			String password = request.getParameter("birthDate").replaceAll("-", "");
-			userRepository.addUser(User.builder().id(id).password(password).userRole("student").build());
+			String hashedPassword = PasswordHashing.hashPassword(password);
+			userRepository.addUser(User.builder().id(id).password(hashedPassword).userRole("student").build());
 			request.setAttribute("message", "등록 완료 ㅡ 아이디 : " + id + ", 초기비밀번호 : 생년월일 8자리");
 			request.getRequestDispatcher("/WEB-INF/views/user/createstudent.jsp").forward(request, response);
 		} catch (Exception e) {
